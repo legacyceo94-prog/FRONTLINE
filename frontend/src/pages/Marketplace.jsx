@@ -25,7 +25,7 @@ export default function Marketplace() {
         if (filters.category) params.append('category', filters.category);
         if (filters.level) params.append('level', filters.level);
 
-        const res = await axios.get(`http://localhost:5000/api/courses?${params.toString()}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/courses?${params.toString()}`);
         setCourses(res.data);
       } catch (err) {
         console.error("Failed to fetch courses", err);

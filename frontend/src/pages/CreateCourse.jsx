@@ -54,7 +54,7 @@ export default function CreateCourse() {
         curriculum: formData.curriculum.split('\n').filter(item => item.trim() !== '') // Convert text area to array
       };
 
-      await axios.post('http://localhost:5000/api/courses', payload, config);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/courses`, payload, config);
       navigate('/marketplace');
     } catch (err) {
        console.error(err);

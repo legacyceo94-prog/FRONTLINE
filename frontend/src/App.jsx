@@ -49,7 +49,7 @@ function Home() {
   const fetchGlobalFeed = async () => {
     try {
       // Fetch latest posts across all communities
-      const res = await axios.get('http://localhost:5000/api/courses'); // Using courses as a global catalog for now
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/courses`); // Using courses as a global catalog for now
       setFeed(res.data.slice(0, 6));
     } catch (e) { console.error(e) }
     finally { setLoading(false) }

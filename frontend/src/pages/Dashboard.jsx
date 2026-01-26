@@ -52,11 +52,11 @@ export default function Dashboard() {
         
         // Execute all studio data fetches in parallel (Parallel Pulse)
         const [userRes, hubsRes, postsRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/users/${userId}`),
-          axios.get('http://localhost:5000/api/communities/me', {
+          axios.get(`${import.meta.env.VITE_API_URL}/api/users/${userId}`),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/communities/me`, {
             headers: { 'Authorization': `Bearer ${token}` }
           }),
-          axios.get(`http://localhost:5000/api/users/${userId}/posts`)
+          axios.get(`${import.meta.env.VITE_API_URL}/api/users/${userId}/posts`)
         ]);
 
         setUser(userRes.data);
@@ -86,7 +86,7 @@ export default function Dashboard() {
   const fetchMyHubs = async () => {
     try {
       const token = localStorage.getItem('token');
-      const hubsRes = await axios.get('http://localhost:5000/api/communities/me', {
+      const hubsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/communities/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       setMyHubs(hubsRes.data);
@@ -100,7 +100,7 @@ export default function Dashboard() {
     setCreating(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:5000/api/communities', newHub, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/communities`, newHub, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       

@@ -21,7 +21,7 @@ export default function CommunityFeed() {
       try {
         const token = localStorage.getItem('token');
         try {
-          const res = await axios.get(`http://localhost:5000/api/communities/${id}`);
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/communities/${id}`);
           setCommunity(res.data);
         } catch (err) {
           console.error("Failed to fetch community info", err);
@@ -31,7 +31,7 @@ export default function CommunityFeed() {
         // check membership
         if (token && id !== '1' && id !== '4') { // Avoid check if using old mock IDs from landing
           try {
-            const memRes = await axios.get(`http://localhost:5000/api/communities/${id}/membership`, {
+            const memRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/communities/${id}/membership`, {
               headers: { 'Authorization': `Bearer ${token}` }
             });
             setIsMember(memRes.data.isMember);
@@ -41,7 +41,7 @@ export default function CommunityFeed() {
         }
 
         // 2. Get Posts
-        const postsRes = await axios.get(`http://localhost:5000/api/communities/${id}/posts`);
+        const postsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/communities/${id}/posts`);
         setPosts(postsRes.data);
       } catch (err) {
         console.error(err);
@@ -59,7 +59,7 @@ export default function CommunityFeed() {
     if (!token) return navigate('/login');
     
     try {
-      await axios.post(`http://localhost:5000/api/communities/${id}/join`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/communities/${id}/join`, {}, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       setIsMember(true);
@@ -84,7 +84,7 @@ export default function CommunityFeed() {
         media: newPost.mediaUrl ? [newPost.mediaUrl] : []
       };
 
-      const res = await axios.post(`http://localhost:5000/api/communities/${id}/posts`, payload, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/communities/${id}/posts`, payload, {
         headers: { 'x-auth-token': token } 
       });
 
@@ -141,7 +141,7 @@ export default function CommunityFeed() {
                       reader.onloadend = async () => {
                         try {
                           const token = localStorage.getItem('token');
-                          await axios.patch(`http://localhost:5000/api/communities/${id}`, { image: reader.result }, {
+                          await axios.patch(`${import.meta.env.VITE_API_URL}/api/communities/${id}`, { image: reader.result }, {
                             headers: { 'Authorization': `Bearer ${token}` }
                           });
                           localStorage.setItem(`community_image_${id}`, reader.result);

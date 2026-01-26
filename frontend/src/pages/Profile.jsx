@@ -21,7 +21,7 @@ export default function Profile() {
       if (!token) return alert('Please sign in to rate this expert.');
       
       setIsRating(true);
-      const res = await axios.post(`http://localhost:5000/api/users/${id}/rate`, { stars }, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/${id}/rate`, { stars }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -43,10 +43,10 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const userRes = await axios.get(`http://localhost:5000/api/users/${id}`);
+        const userRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/${id}`);
         setProfile(userRes.data);
 
-        const postsRes = await axios.get(`http://localhost:5000/api/users/${id}/posts`);
+        const postsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/${id}/posts`);
         setPosts(postsRes.data);
       } catch (err) {
         console.error("Failed to load profile", err);
@@ -333,7 +333,7 @@ export default function Profile() {
                   e.preventDefault();
                   try {
                     const token = localStorage.getItem('token');
-                    await axios.post(`http://localhost:5000/api/users/${id}/portfolio`, newPortfolioItem, {
+                    await axios.post(`${import.meta.env.VITE_API_URL}/api/users/${id}/portfolio`, newPortfolioItem, {
                       headers: { 'Authorization': `Bearer ${token}` }
                     });
                     alert('Project added to portfolio!');
