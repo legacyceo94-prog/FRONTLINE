@@ -428,12 +428,12 @@ export default function Dashboard() {
                        )
                     ) : (
                        /* Comments Signal Logic */
-                       myPosts.filter(p => p.comments?.length > 0).length === 0 ? (
+                       (!myPosts || myPosts.length === 0 || myPosts.filter(p => p.comments?.length > 0).length === 0) ? (
                           <div className="py-12 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
                              <p className="text-sm text-slate-400 italic font-medium">No discussion pulses on your assets yet.</p>
                           </div>
                        ) : (
-                          myPosts.flatMap(post => {
+                          (myPosts || []).flatMap(post => {
                             if (!post.comments) return [];
                             return post.comments.map(c => ({
                               ...c,
