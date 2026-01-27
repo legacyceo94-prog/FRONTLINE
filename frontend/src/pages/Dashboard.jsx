@@ -542,7 +542,7 @@ export default function Dashboard() {
                      Live Assets on Network
                   </h5>
                   
-                  {myPosts.length === 0 ? (
+                  {(!Array.isArray(myPosts) || myPosts.length === 0) ? (
                     <div className="py-20 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-[2rem]">
                        <DocumentDuplicateIcon className="w-12 h-12 text-slate-200 dark:text-slate-800 mx-auto mb-4" />
                        <p className="text-sm text-slate-300 dark:text-slate-600 font-bold italic tracking-tight">Stage is set. Awaiting your first proof.</p>
