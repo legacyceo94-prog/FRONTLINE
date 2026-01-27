@@ -8,11 +8,11 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-        origin: ['https://vercel.com/legacyceo94-progs-projects/frontline-2coh'],
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"]
-    }));
+  origin: ["http://localhost:5173", "https://frontline-2coh.vercel.app"], 
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
