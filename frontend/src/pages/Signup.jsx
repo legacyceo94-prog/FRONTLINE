@@ -111,8 +111,8 @@ export default function Signup() {
                 onClick={() => setFormData({...formData, role: 'user'})}
                 className={`py-3 rounded-xl text-sm font-bold transition-all ${
                   formData.role === 'user' 
-                  ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
+                    ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
                 }`}
               >
                 I want to Buy
@@ -122,8 +122,8 @@ export default function Signup() {
                 onClick={() => setFormData({...formData, role: 'seller'})}
                 className={`py-3 rounded-xl text-sm font-bold transition-all ${
                   formData.role === 'seller' 
-                  ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
+                    ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
                 }`}
               >
                 I want to Sell
