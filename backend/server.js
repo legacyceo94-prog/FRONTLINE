@@ -30,8 +30,24 @@ app.use('/api/courses', require('./routes/courses'));
 app.use('/api/communities', require('./routes/communities'));
 app.use('/api/users', require('./routes/users'));
 
+console.log('✅ All routes mounted successfully');
+
 app.get('/', (req, res) => {
-  res.send('Frontline API is running...');
+  res.json({ 
+    message: 'Frontline API is running...',
+    version: '2.0.0',
+    timestamp: new Date().toISOString(),
+    routes: ['auth', 'courses', 'communities', 'users']
+  });
+});
+
+// Test endpoint to verify deployment
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    version: '2.0.0',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
 });
 
 // Start Server
