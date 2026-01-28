@@ -420,9 +420,8 @@ export default function Dashboard() {
                             </div>
                           ))
                        )
-                    ) : (
-                       {/* Safe Comment Rendering Logic */}
-                       {(() => {
+                    ) : 
+                       (() => {
                           const allComments = (myPosts || []).reduce((acc, post) => {
                              if (post && Array.isArray(post.comments)) {
                                 return [...acc, ...post.comments.map(c => ({ 
@@ -469,8 +468,8 @@ export default function Dashboard() {
                                    </div>
                                 </div>
                              ));
-                       })()}
-                    )}
+                       })()
+                    }
                  </div>
              </div>
 
