@@ -162,7 +162,7 @@ const Communities = () => {
 
         {activeTab === 'hubs' ? (
           <>
-            {communities.filter(c => 
+            {(communities || []).filter(c => 
               c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
               c.description.toLowerCase().includes(searchQuery.toLowerCase())
             ).length === 0 ? (
