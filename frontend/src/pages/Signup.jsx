@@ -44,6 +44,18 @@ export default function Signup() {
     }
   };
 
+  const userBtnClass = `py-3 rounded-xl text-sm font-bold transition-all ${
+    formData.role === 'user' 
+      ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
+      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
+  }`;
+
+  const sellerBtnClass = `py-3 rounded-xl text-sm font-bold transition-all ${
+    formData.role === 'seller' 
+      ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
+      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
+  }`;
+
   return (
     <div className="min-h-screen flex items-center justify-center relative bg-slate-50 dark:bg-slate-900 transition-colors duration-500 overflow-hidden py-12">
       
@@ -109,22 +121,14 @@ export default function Signup() {
               <button
                 type="button"
                 onClick={() => setFormData({...formData, role: 'user'})}
-                className={`py-3 rounded-xl text-sm font-bold transition-all ${
-                  formData.role === 'user' 
-                    ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
-                }`}
+                className={userBtnClass}
               >
                 I want to Buy
               </button>
               <button
                 type="button"
                 onClick={() => setFormData({...formData, role: 'seller'})}
-                className={`py-3 rounded-xl text-sm font-bold transition-all ${
-                  formData.role === 'seller' 
-                    ? 'bg-white dark:bg-slate-700 text-primary-600 shadow-sm' 
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
-                }`}
+                className={sellerBtnClass}
               >
                 I want to Sell
               </button>
