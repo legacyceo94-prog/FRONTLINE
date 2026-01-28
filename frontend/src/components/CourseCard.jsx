@@ -30,6 +30,8 @@ export default function CourseCard({ course }) {
         </div>
 
         {/* Seller Info */}
+Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
+
         <Link to={`/profile/${course.seller?._id}`} className="flex items-center gap-1 mb-4 hover:opacity-80 transition-opacity">
           <UserIcon className="w-4 h-4 text-slate-400" />
           <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">
