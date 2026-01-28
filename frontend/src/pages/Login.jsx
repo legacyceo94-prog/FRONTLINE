@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import { EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/react/24/outline'; // Need v2 icons
 
 export default function Login() {
@@ -27,7 +27,7 @@ export default function Login() {
     setError('');
     
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
+      const res = await api.post('/api/auth/login', { email, password });
       
       const storage = rememberMe ? localStorage : sessionStorage;
       

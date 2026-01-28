@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { UserGroupIcon, PlusCircleIcon, XMarkIcon, PhotoIcon, RocketLaunchIcon, FireIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import PostCard from '../components/PostCard';
@@ -22,7 +22,7 @@ const Communities = () => {
 
   const fetchGlobalPulse = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/communities/global/posts`);
+      const res = await api.get(""/api/communities/global/posts`);
       setGlobalPosts(res.data);
     } catch (err) {
       console.error("Failed to fetch global pulse", err);
@@ -31,7 +31,7 @@ const Communities = () => {
 
   const fetchCommunities = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/communities`);
+      const res = await api.get(""/api/communities`);
       setCommunities(res.data);
     } catch (err) {
       console.error("Failed to fetch communities", err);
@@ -47,7 +47,7 @@ const Communities = () => {
       const token = localStorage.getItem('token');
       if (!token) return navigate('/login');
 
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/communities`, newCommunity, {
+      const res = await api.post(""/api/communities`, newCommunity, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       

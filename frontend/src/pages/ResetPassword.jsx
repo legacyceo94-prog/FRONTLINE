@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import { LockClosedIcon, EyeIcon, EyeSlashIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 export default function ResetPassword() {
@@ -23,7 +23,7 @@ export default function ResetPassword() {
     setError('');
 
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/reset-password/${token}`, { password });
+      await api.put(""/api/auth/reset-password/${token}`, { password });
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');

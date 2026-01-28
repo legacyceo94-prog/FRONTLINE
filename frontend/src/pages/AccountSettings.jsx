@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserCircleIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
@@ -22,7 +22,7 @@ export default function AccountSettings() {
           return;
         }
 
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/${userId}`);
+        const res = await api.get(""/api/users/${userId}`);
         setUser(res.data);
         setBio(res.data.sellerProfile?.bio || '');
         setPhone(res.data.sellerProfile?.phone || '');
@@ -54,7 +54,7 @@ export default function AccountSettings() {
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
         
-        await axios.patch(`${import.meta.env.VITE_API_URL}/api/users/${userId}/upgrade-seller`, {}, {
+        await api.patch(""/api/users/${userId}/upgrade-seller`, {}, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -78,7 +78,7 @@ export default function AccountSettings() {
     try {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
-      await axios.patch(`${import.meta.env.VITE_API_URL}/api/users/${userId}`, { bio, phone }, {
+      await api.patch(""/api/users/${userId}`, { bio, phone }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       alert('✅ Profile updated successfully!');
@@ -110,7 +110,7 @@ export default function AccountSettings() {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/users/${userId}`, {
+      await api.delete(""/api/users/${userId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 

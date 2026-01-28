@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { MagnifyingGlassIcon, FunnelIcon } from '@heroicons/react/24/outline';
 import CourseCard from '../components/CourseCard';
 
@@ -25,7 +25,7 @@ export default function Marketplace() {
         if (filters.category) params.append('category', filters.category);
         if (filters.level) params.append('level', filters.level);
 
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/courses?${params.toString()}`);
+        const res = await api.get(""/api/courses?${params.toString()}`);
         setCourses(res.data);
       } catch (err) {
         console.error("Failed to fetch courses", err);

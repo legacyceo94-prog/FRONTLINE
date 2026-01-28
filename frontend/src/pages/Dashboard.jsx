@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api'; // The new centralized link
 import { 
   RocketLaunchIcon, 
   PlusCircleIcon, 
@@ -48,15 +48,13 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const token = localStorage.getItem('token');
         
         // Execute all studio data fetches in parallel (Parallel Pulse)
+        // Using centralized API: URLs are clean, Auth is automatic.
         const [userRes, hubsRes, postsRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_URL}/api/users/${userId}`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/communities/me`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/users/${userId}/posts`)
+          api.get(`/api/users/${userId}`),
+          api.get('/api/communities/me'),
+          api.get(`/api/users/${userId}/posts`)
         ]);
 
         setUser(userRes.data);
@@ -85,10 +83,7 @@ export default function Dashboard() {
   */
   const fetchMyHubs = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const hubsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/communities/me`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const hubsRes = await api.get('/api/communities/me');
       setMyHubs(hubsRes.data);
     } catch (err) {
       console.error("Failed to fetch hubs", err);
@@ -99,10 +94,7 @@ export default function Dashboard() {
     e.preventDefault();
     setCreating(true);
     try {
-      const token = localStorage.getItem('token');
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/communities`, newHub, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await api.post('/api/communities', newHub);
       
       if (newHub.image) {
         localStorage.setItem(`community_image_${res.data._id}`, newHub.image);

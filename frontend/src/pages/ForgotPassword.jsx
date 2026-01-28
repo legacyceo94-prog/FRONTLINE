@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import { ArrowLeftIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 
 export default function ForgotPassword() {
@@ -16,7 +16,7 @@ export default function ForgotPassword() {
     setError('');
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, { email });
+      const res = await api.post(""/api/auth/forgot-password`, { email });
       setMessage(res.data.msg);
     } catch (err) {
       setError(err.response?.data?.msg || 'Something went wrong. Please try again.');
