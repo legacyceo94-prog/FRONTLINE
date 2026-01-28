@@ -3,9 +3,15 @@ import axios from 'axios';
 // The centralized Neural Link for Frontline
 // This file determines the definitive backend URL once, eliminating component-level errors.
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+let rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-console.log('Frontline Signal Uplink:', API_URL); // Debug log to see exactly what Vercel is using
+// URL Hardening Protocol: Ensure protocol exists and remove trailing slash
+if (!rawUrl.startsWith('http')) {
+  rawUrl = `https://${rawUrl}`;
+}
+const API_URL = rawUrl.replace(/\/$/, '');
+
+console.log('Frontline Signal Uplink (Final):', API_URL);
 
 const api = axios.create({
   baseURL: API_URL,

@@ -21,7 +21,7 @@ import AccountSettings from './pages/AccountSettings'
 import Dashboard from './pages/Dashboard'
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
-import axios from 'axios'
+import api from './utils/api';
 import CourseCard from './components/CourseCard' // Added CourseCard import
 
 // Landing Page Component
@@ -49,9 +49,12 @@ function Home() {
   const fetchGlobalFeed = async () => {
     try {
       // Fetch latest posts across all communities
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/courses`); // Using courses as a global catalog for now
-      setFeed(res.data.slice(0, 6));
-    } catch (e) { console.error(e) }
+      const res = await api.get('/api/courses'); // Using courses as a global catalog for now
+      setFeed(Array.isArray(res.data) ? res.data.slice(0, 6) : []);
+    } catch (e) { 
+      console.error(e);
+      setFeed([]); 
+    }
     finally { setLoading(false) }
   }
 

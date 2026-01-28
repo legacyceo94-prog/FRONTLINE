@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import { UserIcon, ChatBubbleLeftIcon, ShareIcon, StarIcon as StarOutlineIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarSolidIcon } from '@heroicons/react/24/solid';
 
@@ -12,7 +12,7 @@ export default function PostCard({ post }) {
   const [ratingCount, setRatingCount] = useState(post.author?.ratings?.length || 0);
   const [showComments, setShowComments] = useState(false);
   const [commentText, setCommentText] = useState('');
-  const [comments, setComments] = useState(post.comments || []);
+  const [comments, setComments] = useState(Array.isArray(post.comments) ? post.comments : []);
   const [isCommenting, setIsCommenting] = useState(false);
 
   const handleRateAuthor = async (stars) => {
@@ -24,9 +24,7 @@ export default function PostCard({ post }) {
       if (userId === post.author?._id) return alert('You cannot rate your own work.');
 
       setIsRating(true);
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/${post.author._id}/rate`, { stars }, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await api.post(`/api/users/${post.author._id}/rate`, { stars });
       
       setAvgRating(res.data.averageRating);
       setRatingCount(res.data.count);
@@ -47,12 +45,9 @@ export default function PostCard({ post }) {
       if (!token) return alert('Please sign in to participate in the pulse.');
 
       setIsCommenting(true);
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/communities/posts/${post._id}/comment`, 
-        { text: commentText },
-        { headers: { 'Authorization': `Bearer ${token}` } }
-      );
+      const res = await api.post(`/api/communities/posts/${post._id}/comment`, { text: commentText });
       
-      setComments(res.data);
+      setComments(Array.isArray(res.data) ? res.data : []);
       setCommentText('');
     } catch (err) {
       alert(err.response?.data?.msg || 'Failed to post comment');
