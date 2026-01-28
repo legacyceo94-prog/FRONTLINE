@@ -26,7 +26,7 @@ export default function Marketplace() {
         if (filters.level) params.append('level', filters.level);
 
         const res = await api.get(`/api/courses?${params.toString()}`);
-        setCourses(res.data);
+        setCourses(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Failed to fetch courses", err);
       } finally {

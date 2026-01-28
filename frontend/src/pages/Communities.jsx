@@ -20,10 +20,11 @@ const Communities = () => {
     fetchGlobalPulse();
   }, []);
 
+
   const fetchGlobalPulse = async () => {
     try {
       const res = await api.get(`/api/communities/global/posts`);
-      setGlobalPosts(res.data);
+      setGlobalPosts(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Failed to fetch global pulse", err);
     }
@@ -32,7 +33,7 @@ const Communities = () => {
   const fetchCommunities = async () => {
     try {
       const res = await api.get(`/api/communities`);
-      setCommunities(res.data);
+      setCommunities(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Failed to fetch communities", err);
     } finally {
