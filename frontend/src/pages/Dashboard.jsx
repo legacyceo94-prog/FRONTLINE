@@ -57,9 +57,11 @@ export default function Dashboard() {
           api.get(`/api/users/${userId}/posts`)
         ]);
 
+        console.log("DASHBOARD DATA DEBUG:", { user: userRes.data, hubs: hubsRes.data, posts: postsRes.data });
+
         setUser(userRes.data);
-        setMyHubs(hubsRes.data);
-        setMyPosts(postsRes.data || []);
+        setMyHubs(Array.isArray(hubsRes.data) ? hubsRes.data : []);
+        setMyPosts(Array.isArray(postsRes.data) ? postsRes.data : []);
       } catch (err) {
         console.error("Dashboard data load error:", err);
         if (err.response?.status === 401 || err.response?.status === 404) {
@@ -419,47 +421,55 @@ export default function Dashboard() {
                           ))
                        )
                     ) : (
-                       /* Comments Signal Logic */
-                       (!Array.isArray(myPosts) || myPosts.length === 0 || myPosts.filter(p => p.comments?.length > 0).length === 0) ? (
-                          <div className="py-12 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
-                             <p className="text-sm text-slate-400 italic font-medium">No discussion pulses on your assets yet.</p>
-                          </div>
-                       ) : (
-                          (Array.isArray(myPosts) ? myPosts : []).flatMap(post => {
-                            if (!post.comments) return [];
-                            return post.comments.map(c => ({
-                              ...c,
-                              postTitle: post.title,
-                              postId: post._id
-                            }));
-                          })
-                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                            .slice(0, 5)
-                            .map((comment, idx) => (
-                               <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-primary-500 group">
-                                  <div className="flex items-center justify-between mb-2">
-                                     <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-black text-slate-500 overflow-hidden">
-                                           {comment.author?.profileImage ? <img src={comment.author.profileImage} className="w-full h-full object-cover" /> : <div className="p-1 text-[10px]">💬</div>}
-                                        </div>
-                                        <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tighter">
-                                           {comment.author?.username || 'Anonymous'}
-                                        </span>
-                                        {comment.author?.isVerified && <span className="text-[8px] font-bold text-primary-500 border border-primary-500/20 px-1 rounded uppercase">Verified</span>}
-                                     </div>
-                                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{new Date(comment.createdAt).toLocaleDateString()}</span>
-                                  </div>
-                                  <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mb-3 line-clamp-2 italic">
-                                     "{comment.text}"
-                                  </p>
-                                  <div className="flex items-center gap-2">
-                                     <div className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[8px] font-black text-slate-400 uppercase tracking-widest border border-slate-100 dark:border-slate-700 italic">
-                                        Asset: {comment.postTitle}
-                                     </div>
-                                  </div>
-                               </div>
-                            ))
-                       )
+                       {/* Safe Comment Rendering Logic */}
+                       {(() => {
+                          const allComments = (myPosts || []).reduce((acc, post) => {
+                             if (post && Array.isArray(post.comments)) {
+                                return [...acc, ...post.comments.map(c => ({ 
+                                   ...c, 
+                                   postTitle: post.title, 
+                                   postId: post._id 
+                                }))];
+                             }
+                             return acc;
+                          }, []);
+
+                          if (allComments.length === 0) {
+                             return (
+                                <div className="py-12 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
+                                   <p className="text-sm text-slate-400 italic font-medium">No discussion pulses on your assets yet.</p>
+                                </div>
+                             );
+                          }
+
+                          return allComments
+                             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                             .slice(0, 5)
+                             .map((comment, idx) => (
+                                <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-primary-500 group">
+                                   <div className="flex items-center justify-between mb-2">
+                                      <div className="flex items-center gap-2">
+                                         <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-black text-slate-500 overflow-hidden">
+                                            {comment.author?.profileImage ? <img src={comment.author.profileImage} className="w-full h-full object-cover" /> : <div className="p-1 text-[10px]">💬</div>}
+                                         </div>
+                                         <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+                                            {comment.author?.username || 'Anonymous'}
+                                         </span>
+                                         {comment.author?.isVerified && <span className="text-[8px] font-bold text-primary-500 border border-primary-500/20 px-1 rounded uppercase">Verified</span>}
+                                      </div>
+                                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{new Date(comment.createdAt).toLocaleDateString()}</span>
+                                   </div>
+                                   <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mb-3 line-clamp-2 italic">
+                                      "{comment.text}"
+                                   </p>
+                                   <div className="flex items-center gap-2">
+                                      <div className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[8px] font-black text-slate-400 uppercase tracking-widest border border-slate-100 dark:border-slate-700 italic">
+                                         Asset: {comment.postTitle}
+                                      </div>
+                                   </div>
+                                </div>
+                             ));
+                       })()}
                     )}
                  </div>
              </div>
