@@ -54,7 +54,7 @@ export default function CreateCourse() {
         curriculum: formData.curriculum.split('\n').filter(item => item.trim() !== '') // Convert text area to array
       };
 
-      await api.post(""/api/courses`, payload, config);
+      await api.post(`/api/courses`, payload, config);
       navigate('/marketplace');
     } catch (err) {
        console.error(err);

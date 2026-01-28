@@ -22,7 +22,7 @@ const Communities = () => {
 
   const fetchGlobalPulse = async () => {
     try {
-      const res = await api.get(""/api/communities/global/posts`);
+      const res = await api.get(`/api/communities/global/posts`);
       setGlobalPosts(res.data);
     } catch (err) {
       console.error("Failed to fetch global pulse", err);
@@ -31,7 +31,7 @@ const Communities = () => {
 
   const fetchCommunities = async () => {
     try {
-      const res = await api.get(""/api/communities`);
+      const res = await api.get(`/api/communities`);
       setCommunities(res.data);
     } catch (err) {
       console.error("Failed to fetch communities", err);
@@ -47,7 +47,7 @@ const Communities = () => {
       const token = localStorage.getItem('token');
       if (!token) return navigate('/login');
 
-      const res = await api.post(""/api/communities`, newCommunity, {
+      const res = await api.post(`/api/communities`, newCommunity, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
