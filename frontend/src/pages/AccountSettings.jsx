@@ -8,6 +8,7 @@ export default function AccountSettings() {
   const [loading, setLoading] = useState(true);
   const [bio, setBio] = useState('');
   const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ export default function AccountSettings() {
         setUser(res.data);
         setBio(res.data.sellerProfile?.bio || '');
         setPhone(res.data.sellerProfile?.phone || '');
+        setLocation(res.data.location || '');
       } catch (err) {
         console.error("Failed to fetch user data", err);
       } finally {
@@ -78,7 +80,7 @@ export default function AccountSettings() {
     try {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
-      await api.patch(`/api/users/${userId}`, { bio, phone }, {
+      await api.patch(`/api/users/${userId}`, { bio, phone, location }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       alert('✅ Profile updated successfully!');
@@ -258,19 +260,37 @@ export default function AccountSettings() {
                   </div>
                   <div className="mb-6">
                     <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                      {user.businessType === 'product' ? 'Store Hub / Origin' : 'WhatsApp Phone Number'}
+                       WhatsApp Phone Number
                     </label>
                     <input 
                       type="text" 
-                      placeholder={user.businessType === 'product' ? "e.g. Nairobi Hub, Kenya" : "e.g. +254 700 000000"}
+                      placeholder="e.g. +254 700 000000"
                       className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                       value={phone}
                       onChange={e => setPhone(e.target.value)}
                     />
                     <p className="text-xs text-slate-500 mt-2">
-                      {user.businessType === 'product' ? 'Helps buyers know where you ship from.' : 'Crucial for buyers to reach you instantly on WhatsApp.'}
+                      Crucial for buyers to reach you instantly on WhatsApp.
                     </p>
                   </div>
+
+                  {user.businessType === 'product' && (
+                    <div className="mb-6">
+                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                        Store Hub / Origin
+                      </label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. Nairobi Hub, Kenya"
+                        className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                        value={location}
+                        onChange={e => setLocation(e.target.value)}
+                      />
+                      <p className="text-xs text-slate-500 mt-2">
+                        Helps buyers know where you ship from.
+                      </p>
+                    </div>
+                  )}
                   
                   <button 
                     onClick={handleUpdateProfile}

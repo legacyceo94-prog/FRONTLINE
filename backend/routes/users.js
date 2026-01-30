@@ -124,12 +124,13 @@ router.patch('/:id', auth, async (req, res) => {
        return res.status(403).json({ msg: 'Not authorized' });
     }
 
-    const { bio, phone } = req.body;
+    const { bio, phone, location } = req.body;
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ msg: 'User not found' });
 
     if (bio !== undefined) user.sellerProfile.bio = bio;
     if (phone !== undefined) user.sellerProfile.phone = phone;
+    if (location !== undefined) user.location = location;
 
     await user.save();
     res.json(user);

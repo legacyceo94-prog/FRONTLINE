@@ -177,6 +177,11 @@ export default function Dashboard() {
                         📲 {user.sellerProfile.phone}
                      </span>
                    )}
+                   {user?.location && (
+                     <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1 flex items-center gap-1">
+                        📍 {user.location}
+                     </span>
+                   )}
                    {myHubs.length > 0 && (
                      <span className="text-[9px] font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest italic">
                         📍 {myHubs[0].name}

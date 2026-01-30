@@ -140,9 +140,13 @@ export default function Profile() {
                       {profile.averageRating?.toFixed(1) || '0.0'} ({profile.ratings?.length || 0})
                     </span>
                   </div>
+                  {profile.location && (
+                    <span className="flex items-center gap-1 bg-white/50 dark:bg-slate-800/50 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-xs font-bold">
+                      <MapPinIcon className="w-3.5 h-3.5 text-primary-500"/>
+                      {profile.location}
+                    </span>
+                  )}
                 </div>  
-                  {/* Add location if enabled later */}
-                  {/* <span className="flex items-center gap-1"><MapPinIcon className="w-4 h-4"/> Nairobi</span> */}
                 
                 {profile.sellerProfile?.bio && (
                    <p className="mt-3 text-slate-500 max-w-lg mx-auto md:mx-0">{profile.sellerProfile.bio}</p>
@@ -216,6 +220,9 @@ export default function Profile() {
                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2">Orientation</h3>
                <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                  <p>🛰️ <span className="font-semibold">Network Role:</span> {profile.role === 'seller' ? 'Member / Admin' : 'Community Member'}</p>
+                  {profile.location && (
+                    <p>📍 <span className="font-semibold">{profile.businessType === 'product' ? 'Store Hub:' : 'Base Location:'}</span> {profile.location}</p>
+                  )}
                  {profile.sellerProfile?.website && <p>🕸️ <a href={profile.sellerProfile.website} target="_blank" rel="noreferrer" className="text-primary-500 hover:underline">Website</a></p>}
                  <p>📅 Joined January 2026</p>
                </div>

@@ -21,6 +21,15 @@ const UserSchema = new mongoose.Schema({
     enum: ['user', 'seller', 'admin'],
     default: 'user'
   },
+  businessType: {
+    type: String,
+    enum: ['service', 'product', 'none'],
+    default: 'none'
+  },
+  location: {
+    type: String,
+    default: ''
+  },
   // TRUST & COMPETENCE LAYER
   isVerified: {
     type: Boolean,
