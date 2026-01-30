@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 
 export default function CreateCourse() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -18,11 +19,20 @@ export default function CreateCourse() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useState(() => {
-    const role = localStorage.getItem('role');
-    if (role !== 'seller') {
-      navigate('/marketplace');
-    }
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        const res = await api.get(`/api/users/${userId}`);
+        setUser(res.data);
+        if (res.data.role !== 'seller') {
+          navigate('/marketplace');
+        }
+      } catch {
+        navigate('/login');
+      }
+    };
+    fetchUser();
   }, [navigate]);
 
   const handleChange = (e) => {
@@ -51,6 +61,7 @@ export default function CreateCourse() {
 
       const payload = {
         ...formData,
+        type: user?.businessType || 'service',
         curriculum: formData.curriculum.split('\n').filter(item => item.trim() !== '') // Convert text area to array
       };
 
@@ -69,8 +80,14 @@ export default function CreateCourse() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
           <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Create a New Listing</h1>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Share your competence with the community.</p>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+              {user?.businessType === 'product' ? 'List New Product' : 'Create New Service'}
+            </h1>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              {user?.businessType === 'product' 
+                ? 'Add a physical or digital item to your warehouse.'
+                : 'Share your competence and services with the community.'}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="px-8 py-8 space-y-6">
@@ -83,13 +100,15 @@ export default function CreateCourse() {
             {/* Basic Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Course Title</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  {user?.businessType === 'product' ? 'Product Name' : 'Service Title'}
+                </label>
                 <input
                   type="text"
                   name="title"
                   required
                   className="block w-full rounded-md border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm py-2 px-3"
-                  placeholder="e.g. Master AutoCAD 2024: From Zero to Hero"
+                  placeholder={user?.businessType === 'product' ? "e.g. High-Torque Electric Motor" : "e.g. Architectural Visualization Masterclass"}
                   value={formData.title}
                   onChange={handleChange}
                 />
@@ -142,13 +161,15 @@ export default function CreateCourse() {
                 />
               </div>
                <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Duration</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  {user?.businessType === 'product' ? 'Lead Time / Stock' : 'Duration'}
+                </label>
                 <input
                   type="text"
                   name="duration"
                   required
                   className="block w-full rounded-md border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm py-2 px-3"
-                  placeholder="e.g. 4 Weeks"
+                  placeholder={user?.businessType === 'product' ? "e.g. In Stock / 3 Days" : "e.g. 4 Weeks"}
                   value={formData.duration}
                   onChange={handleChange}
                 />
@@ -171,12 +192,14 @@ export default function CreateCourse() {
 
             {/* Curriculum */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Curriculum (One topic per line)</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                {user?.businessType === 'product' ? 'Specifications' : 'Curriculum'} (One per line)
+              </label>
               <textarea
                 name="curriculum"
                 rows={4}
                 className="block w-full rounded-md border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm py-2 px-3"
-                placeholder="Introduction to Interface&#10;Drawing Basic Shapes&#10;3D Modeling"
+                placeholder={user?.businessType === 'product' ? "Material: Titanium&#10;Weight: 200g&#10;Color: Matte Black" : "Introduction to Interface&#10;Drawing Basic Shapes&#10;3D Modeling"}
                 value={formData.curriculum}
                 onChange={handleChange}
               />

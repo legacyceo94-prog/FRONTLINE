@@ -128,9 +128,13 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 mb-2">
                <span className="px-3 py-1 bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-md">Chapter One: The Foundation</span>
             </div>
-            <h1 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Seller Cockpit</h1>
+            <h1 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
+              {user?.businessType === 'product' ? 'Store Warehouse' : 'Seller Cockpit'}
+            </h1>
             <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-2xl text-lg">
-              Build trust within your network. Create your work environment and scale your brand.
+              {user?.businessType === 'product' 
+                ? 'Manage your inventory, track shipping, and scale your product reach.'
+                : 'Build trust within your network. Create your work environment and scale your brand.'}
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -164,7 +168,9 @@ export default function Dashboard() {
                 <div className="mt-2 flex flex-col items-center gap-1">
                    <div className="flex items-center gap-2 px-4 py-1.5 bg-slate-100 dark:bg-slate-900/50 rounded-full border border-slate-200 dark:border-slate-700">
                       <div className="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
-                      <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Member / Admin</span>
+                      <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                        {user?.businessType === 'product' ? 'Verified Merchant' : 'Professional Expert'}
+                      </span>
                    </div>
                    {user?.sellerProfile?.phone && (
                      <span className="text-[10px] font-bold text-green-600 dark:text-green-400 uppercase tracking-widest mt-2 flex items-center gap-1">
@@ -247,7 +253,7 @@ export default function Dashboard() {
                </div>
                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8 flex items-center gap-2">
                  <div className="w-5 h-[1px] bg-slate-700"></div>
-                 Workshop Metrics
+                 {user?.businessType === 'product' ? 'Store Velocity' : 'Workshop Metrics'}
                </h3>
                <div className="grid grid-cols-2 gap-6 relative z-10">
                    <div className="flex flex-col">
@@ -259,25 +265,31 @@ export default function Dashboard() {
                    </div>
                    <div className="flex flex-col">
                      <p className="text-3xl font-black tracking-tighter text-emerald-400">{user?.ratings?.length || 0}</p>
-                     <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">Total Handshakes</p>
+                     <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">
+                       {user?.businessType === 'product' ? 'Total Orders' : 'Total Handshakes'}
+                     </p>
                    </div>
                    <div className="col-span-2 pt-6 border-t border-white/5 mt-2">
                      <div className="flex items-center justify-between">
                         <div className="flex gap-4">
-                          <div>
-                            <p className="text-3xl font-black tracking-tighter text-white">{myPosts.length}</p>
-                            <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">Expert Assets</p>
-                          </div>
-                          <div>
-                            <p className="text-3xl font-black tracking-tighter text-primary-500">{myHubs.length}</p>
-                            <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">Live Hubs</p>
-                          </div>
+                           <div>
+                             <p className="text-3xl font-black tracking-tighter text-white">{myPosts.length}</p>
+                             <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">
+                               {user?.businessType === 'product' ? 'Product SKUs' : 'Expert Assets'}
+                             </p>
+                           </div>
+                           <div>
+                             <p className="text-3xl font-black tracking-tighter text-primary-500">{myHubs.length}</p>
+                             <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">
+                               {user?.businessType === 'product' ? 'Live Stores' : 'Live Hubs'}
+                             </p>
+                           </div>
                         </div>
                        <button 
                          onClick={() => setIsPortfolioOpen(true)}
                          className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10 transition-colors"
                        >
-                         Manage Assets
+                         {user?.businessType === 'product' ? 'Inventory' : 'Assets'}
                        </button>
                     </div>
                   </div>
@@ -308,9 +320,19 @@ export default function Dashboard() {
                   onClick={() => setIsPortfolioOpen(true)}
                   className="group p-10 rounded-[2.5rem] bg-white dark:bg-slate-800 border-4 border-slate-50 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 transition-all hover:-translate-y-1 text-left shadow-sm hover:shadow-xl"
                >
-                  <PhotoIcon className="w-12 h-12 mb-6 text-primary-600 dark:text-primary-400" />
-                  <h3 className="text-2xl font-black uppercase tracking-tighter text-slate-900 dark:text-white mb-2">Build Assets</h3>
-                  <p className="text-slate-400 dark:text-slate-500 text-xs italic leading-relaxed">Construct proofs of competence to secure Trust points.</p>
+                  {user?.businessType === 'product' ? (
+                    <BuildingStorefrontIcon className="w-12 h-12 mb-6 text-indigo-600 dark:text-indigo-400" />
+                  ) : (
+                    <PhotoIcon className="w-12 h-12 mb-6 text-primary-600 dark:text-primary-400" />
+                  )}
+                  <h3 className="text-2xl font-black uppercase tracking-tighter text-slate-900 dark:text-white mb-2">
+                    {user?.businessType === 'product' ? 'List Product' : 'Build Assets'}
+                  </h3>
+                  <p className="text-slate-400 dark:text-slate-500 text-xs italic leading-relaxed">
+                    {user?.businessType === 'product' 
+                      ? 'Add new items to your warehouse and reach the network.'
+                      : 'Construct proofs of competence to secure Trust points.'}
+                  </p>
                </button>
             </div>
 
@@ -318,7 +340,9 @@ export default function Dashboard() {
             <div>
               <div className="flex items-center justify-between mb-8">
                 <div className="flex flex-col">
-                   <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Your Territories</h3>
+                   <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
+                     {user?.businessType === 'product' ? 'Your Stores' : 'Your Territories'}
+                   </h3>
                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Admin Access Only</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -505,9 +529,13 @@ export default function Dashboard() {
                <div>
                   <div className="flex items-center gap-2 mb-1">
                      <div className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></div>
-                     <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Asset Management</span>
+                     <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                       {user?.businessType === 'product' ? 'Inventory Control' : 'Asset Management'}
+                     </span>
                   </div>
-                  <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Competence Studio</h3>
+                  <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
+                    {user?.businessType === 'product' ? 'Warehouse Manager' : 'Competence Studio'}
+                  </h3>
                </div>
                <button 
                   onClick={() => setIsPortfolioOpen(false)}

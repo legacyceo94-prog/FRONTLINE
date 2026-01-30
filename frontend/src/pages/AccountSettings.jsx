@@ -48,18 +48,18 @@ export default function AccountSettings() {
     }
   };
 
-  const handleBecomeSeller = async () => {
-    if (window.confirm("Upgrade to seller account? You'll be able to create courses and listings.")) {
+  const handleBecomeSeller = async (type) => {
+    const typeLabel = type === 'service' ? 'Service Studio' : 'Product Store';
+    if (window.confirm(`Launch your ${typeLabel}? You'll get access to tailored cockpit tools.`)) {
       try {
         const token = localStorage.getItem('token');
-        const userId = localStorage.getItem('userId');
         
-        await api.patch(`/api/users/${userId}/upgrade-seller`, {}, {
+        await api.post(`/api/auth/upgrade`, { businessType: type }, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
         localStorage.setItem('role', 'seller');
-        alert('✅ Account upgraded to Seller! Entering your private cockpit...');
+        alert(`✅ ${typeLabel} Launched! Entering your private cockpit...`);
         window.location.reload();
       } catch (err) {
         alert('Failed to upgrade account. Please try again.');
@@ -199,11 +199,16 @@ export default function AccountSettings() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Role</label>
-                    <div className="px-4 py-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 capitalize">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Role & Identity</label>
+                    <div className="px-4 py-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col space-y-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 capitalize w-fit">
                         {user.role}
                       </span>
+                      {user.role === 'seller' && (
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                          {user.businessType === 'product' ? '📦 Product Store Owner' : '🚀 Professional Studio'}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -237,26 +242,34 @@ export default function AccountSettings() {
               {user.role === 'seller' && (
                 <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
                   <div className="mb-4">
-                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Professional Bio</label>
-                    <div className="text-xs text-slate-500 mb-2 italic">This bio will be shown on your public pulse posts.</div>
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                      {user.businessType === 'product' ? 'Store Mission' : 'Professional Bio'}
+                    </label>
+                    <div className="text-xs text-slate-500 mb-2 italic">
+                      {user.businessType === 'product' ? 'What your store stands for and what you sell.' : 'This bio will be shown on your public pulse posts.'}
+                    </div>
                     <textarea 
                       rows={3}
-                      placeholder="Describe your skills and what you offer..."
+                      placeholder={user.businessType === 'product' ? "e.g. Bringing high-quality digital assets to creators..." : "Describe your skills and what you offer..."}
                       className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                       value={bio}
                       onChange={e => setBio(e.target.value)}
                     />
                   </div>
                   <div className="mb-6">
-                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">WhatsApp Phone Number</label>
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                      {user.businessType === 'product' ? 'Store Hub / Origin' : 'WhatsApp Phone Number'}
+                    </label>
                     <input 
                       type="text" 
-                      placeholder="e.g. +254 700 000000"
+                      placeholder={user.businessType === 'product' ? "e.g. Nairobi Hub, Kenya" : "e.g. +254 700 000000"}
                       className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                       value={phone}
                       onChange={e => setPhone(e.target.value)}
                     />
-                    <p className="text-xs text-slate-500 mt-2">Crucial for buyers to reach you instantly on WhatsApp.</p>
+                    <p className="text-xs text-slate-500 mt-2">
+                      {user.businessType === 'product' ? 'Helps buyers know where you ship from.' : 'Crucial for buyers to reach you instantly on WhatsApp.'}
+                    </p>
                   </div>
                   
                   <button 
@@ -302,18 +315,36 @@ export default function AccountSettings() {
           </div>
 
           {/* Seller Upgrade (Only for users) */}
-          {user.role === 'user' && (
+          {(user.role === 'user' || user.role === 'buyer') && (
             <div className="glass-card rounded-2xl p-6 shadow-sm bg-gradient-to-r from-primary-50 to-indigo-50 dark:from-primary-900/20 dark:to-indigo-900/20 border-2 border-primary-200 dark:border-primary-800">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">🚀 Become a Seller</h2>
-              <p className="text-slate-600 dark:text-slate-400 mb-4 text-sm">
-                Upgrade your account to create course listings, showcase your portfolio, and start earning!
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">🚀 Launch Your Engine</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
+                Choose how you want to scale on Frontline. Access expert tools and build your trust score.
               </p>
-              <button 
-                onClick={handleBecomeSeller}
-                className="w-full px-6 py-3 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary-500/30"
-              >
-                Upgrade to Seller Account
-              </button>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button 
+                  onClick={() => handleBecomeSeller('service')}
+                  className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-primary-500 transition-all text-left group"
+                >
+                  <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 text-primary-600 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                  </div>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Service Studio</h3>
+                  <p className="text-xs text-slate-500 mt-1 uppercase font-semibold">Expertise & Time</p>
+                </button>
+
+                <button 
+                  onClick={() => handleBecomeSeller('product')}
+                  className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-primary-500 transition-all text-left group"
+                >
+                  <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 rounded-lg flex items-center justify-center mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                  </div>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Product Store</h3>
+                  <p className="text-xs text-slate-500 mt-1 uppercase font-semibold">Physical & Digital</p>
+                </button>
+              </div>
             </div>
           )}
 

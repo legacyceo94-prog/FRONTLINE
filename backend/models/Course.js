@@ -14,6 +14,11 @@ const CourseSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  type: {
+    type: String,
+    enum: ['service', 'product'],
+    default: 'service'
+  },
   category: {
     type: String,
     enum: ['Engineering', 'Design', 'Technology', 'Business', 'Other'], // As requested

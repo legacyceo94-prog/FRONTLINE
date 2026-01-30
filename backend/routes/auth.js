@@ -200,4 +200,33 @@ router.put('/reset-password/:token', async (req, res) => {
   }
 });
 
+// @route   POST api/auth/upgrade
+// @desc    Upgrade user to seller role with business type
+// @access  Private
+const auth = require('../middleware/auth');
+router.post('/upgrade', auth, async (req, res) => {
+  try {
+    const { businessType } = req.body;
+    
+    if (!['service', 'product'].includes(businessType)) {
+      return res.status(400).json({ message: 'Invalid business type. Must be service or product.' });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.role = 'seller';
+    user.businessType = businessType;
+    await user.save();
+
+    // Return updated user (excluding password)
+    const userResponse = user.toObject();
+    delete userResponse.password;
+    res.json(userResponse);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

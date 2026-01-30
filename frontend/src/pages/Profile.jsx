@@ -104,9 +104,12 @@ export default function Profile() {
                 {/* Stats / Bio Line */}
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-2 text-slate-600 dark:text-slate-400 text-sm font-medium">
                   {profile.role === 'seller' && (
-                    <span className="flex items-center gap-1">
-                      <BriefcaseIcon className="w-4 h-4" />
-                      Member / Admin
+                    <span className="flex items-center gap-1 font-bold text-slate-900 dark:text-white">
+                      {profile.businessType === 'product' ? (
+                        <>📦 Verified Merchant</>
+                      ) : (
+                        <>🚀 Professional Expert</>
+                      )}
                     </span>
                   )}
                   {/* Trust Score Reflecting Real Competence */}
@@ -148,33 +151,33 @@ export default function Profile() {
 
               {/* Actions */}
               <div className="flex gap-3 mb-4 md:mb-6">
-                 {localStorage.getItem('userId') === id && localStorage.getItem('role') === 'seller' ? (
-                   <Link 
-                    to="/dashboard"
-                    className="px-6 py-2 bg-slate-900 dark:bg-primary-600 text-white font-bold rounded-full transition-all shadow-lg shadow-slate-900/10"
-                   >
-                     Go to Dashboard
-                   </Link>
-                 ) : localStorage.getItem('userId') !== id && (
-                   <>
-                     <button className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg shadow-sm transition-colors">
-                       Connect
-                     </button>
-                     <button 
-                        onClick={() => {
-                          if (profile?.sellerProfile?.phone) {
-                            const cleanPhone = profile.sellerProfile.phone.replace(/\+/g, '').replace(/\s/g, '');
-                            window.open(`https://wa.me/${cleanPhone}`, '_blank');
-                          } else {
-                            alert("This user hasn't provided a contact number yet.");
-                          }
-                        }}
-                        className="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold rounded-lg transition-colors"
-                      >
-                        Message
+                  {localStorage.getItem('userId') === id && localStorage.getItem('role') === 'seller' ? (
+                    <Link 
+                     to="/dashboard"
+                     className="px-6 py-2 bg-slate-900 dark:bg-primary-600 text-white font-bold rounded-full transition-all shadow-lg shadow-slate-900/10"
+                    >
+                      Go to Cockpit
+                    </Link>
+                  ) : localStorage.getItem('userId') !== id && (
+                    <>
+                      <button className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg shadow-sm transition-colors">
+                        Connect
                       </button>
-                   </>
-                 )}
+                      <button 
+                         onClick={() => {
+                           if (profile?.sellerProfile?.phone) {
+                             const cleanPhone = profile.sellerProfile.phone.replace(/\+/g, '').replace(/\s/g, '');
+                             window.open(`https://wa.me/${cleanPhone}`, '_blank');
+                           } else {
+                             alert("This user hasn't provided a contact number yet.");
+                           }
+                         }}
+                         className={`px-4 py-2 ${profile.businessType === 'product' ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white'} font-semibold rounded-lg transition-colors`}
+                       >
+                         {profile.businessType === 'product' ? 'Visit Hub' : 'Contact Expert'}
+                       </button>
+                    </>
+                  )}
               </div>
             </div>
 
@@ -196,7 +199,7 @@ export default function Profile() {
                 onClick={() => setActiveTab('portfolio')}
                 className={`py-3 text-sm font-semibold border-b-2 transition-colors ${activeTab === 'portfolio' ? 'border-primary-500 text-primary-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
               >
-                Competence Assets
+                {profile.businessType === 'product' ? 'Inventory' : 'Competence Assets'}
               </button>
             </div>
           </div>
@@ -290,7 +293,9 @@ export default function Profile() {
                             </div>
                           )}
                           <div className="absolute top-4 right-4 px-3 py-1 bg-slate-900/60 backdrop-blur-md rounded-full">
-                             <span className="text-[10px] font-black text-white uppercase tracking-widest">Expert Asset</span>
+                             <span className="text-[10px] font-black text-white uppercase tracking-widest">
+                               {profile.businessType === 'product' ? 'Store Item' : 'Expert Asset'}
+                             </span>
                           </div>
                         </div>
                         <div className="p-6">
