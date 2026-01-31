@@ -9,11 +9,14 @@ const User = require('../models/User');
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const { category, search, minPrice, maxPrice, level } = req.query;
+    const { category, search, minPrice, maxPrice, level, type } = req.query;
     let query = {};
 
     // Filter by Category
     if (category) query.category = category;
+
+    // Filter by Type (Product / Service)
+    if (type) query.type = type;
 
     // Search (Title or Description)
     if (search) {

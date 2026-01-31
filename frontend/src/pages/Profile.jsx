@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { useParams, Link } from 'react-router-dom';
-import { UserCircleIcon, CheckBadgeIcon, MapPinIcon, BriefcaseIcon, UserGroupIcon, PhotoIcon } from '@heroicons/react/24/solid';
+import { UserCircleIcon, CheckBadgeIcon, MapPinIcon, BriefcaseIcon, PhotoIcon, InformationCircleIcon } from '@heroicons/react/24/solid';
 import PostCard from '../components/PostCard';
 
 export default function Profile() {
@@ -10,8 +10,6 @@ export default function Profile() {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState('timeline');
   const [loading, setLoading] = useState(true);
-  const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
-  const [newPortfolioItem, setNewPortfolioItem] = useState({ title: '', description: '', imageUrl: '', link: '' });
   const [hoverRating, setHoverRating] = useState(0);
   const [isRating, setIsRating] = useState(false);
 
@@ -25,11 +23,10 @@ export default function Profile() {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
-      // Update local profile state
       const updatedProfile = { ...profile };
       updatedProfile.averageRating = res.data.averageRating;
       if (!updatedProfile.ratings) updatedProfile.ratings = [];
-      updatedProfile.ratings.push({}); // Dummy to update length
+      updatedProfile.ratings.push({ author: localStorage.getItem('userId') }); 
       setProfile(updatedProfile);
       
       alert('✅ Your rating has been added to the trust network.');
@@ -57,355 +54,275 @@ export default function Profile() {
     fetchProfile();
   }, [id]);
 
-  if (loading) return <div className="min-h-screen pt-24 text-center">Loading Profile...</div>;
-  if (!profile) return <div className="min-h-screen pt-24 text-center">User not found.</div>;
+  if (loading) return <div className="min-h-screen pt-24 flex flex-col items-center justify-center bg-white dark:bg-slate-950">
+    <div className="w-12 h-12 border-b-2 border-emerald-500 rounded-full animate-spin mb-4"></div>
+    <span className="font-black uppercase text-[10px] tracking-widest text-slate-400">Synchronizing Identity...</span>
+  </div>;
+
+  if (!profile) return <div className="min-h-screen pt-24 text-center bg-white dark:bg-slate-950 font-black uppercase text-xs tracking-widest text-slate-400">Protocol Error: Identity Not Found.</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-16 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-slate-950 pt-16 transition-colors duration-500 selection:bg-emerald-500 selection:text-white pb-24">
       
-      {/* Meta-Style Header */}
-      <div className="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700">
+      {/* Premium Header */}
+      <div className="bg-white dark:bg-slate-900 shadow-sm border-b border-slate-100 dark:border-white/5">
         <div className="max-w-5xl mx-auto">
           
-          {/* Cover Photo */}
-          <div 
-            className="h-48 md:h-64 bg-gradient-to-r from-slate-300 to-slate-400 dark:from-slate-700 dark:to-slate-600 relative rounded-b-lg mx-4 md:mx-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(/default-profile-cover.png)`
-            }}
-          >
-             {/* Optional: Add actual cover photo upload functionality here */}
+          {/* Cover Area */}
+          <div className="h-48 md:h-64 bg-slate-50 dark:bg-slate-950 relative rounded-b-[3rem] mx-4 md:mx-0 overflow-hidden group">
+             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-slate-200 dark:to-slate-900 animate-pulse"></div>
+             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+             <div className="absolute bottom-6 right-8 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
+                <span className="text-[10px] font-black text-white uppercase tracking-widest italic">Identity Hub</span>
+             </div>
           </div>
 
-          <div className="px-4 pb-6 md:px-8 relative">
-            <div className="flex flex-col md:flex-row items-center md:items-end -mt-12 md:-mt-16 gap-6">
+          <div className="px-6 pb-8 md:px-12 relative">
+            <div className="flex flex-col md:flex-row items-center md:items-end -mt-16 md:-mt-24 gap-8">
               
-              {/* Profile Picture */}
-              <div className="relative">
-                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white dark:bg-slate-800 p-1.5 shadow-lg overflow-hidden">
+              {/* Profile Avatar */}
+              <div className="relative group">
+                <div className="w-40 h-40 md:w-48 md:h-48 rounded-[2.5rem] bg-white dark:bg-slate-900 p-2 shadow-2xl overflow-hidden border border-slate-100 dark:border-white/10 group-hover:scale-105 transition-transform duration-500">
                    {(profile.profileImage || (localStorage.getItem('userId') === id && localStorage.getItem('profileImage'))) ? (
                      <img 
                        src={profile.profileImage || localStorage.getItem('profileImage')} 
                        alt={profile.username} 
-                       className="w-full h-full rounded-full object-cover bg-slate-200" 
+                       className="w-full h-full rounded-[2rem] object-cover bg-slate-50" 
                      />
                    ) : (
-                     <UserCircleIcon className="w-full h-full text-slate-300 dark:text-slate-600" />
+                     <div className="w-full h-full flex items-center justify-center bg-slate-50 dark:bg-slate-950 rounded-[2rem]">
+                        <UserCircleIcon className="w-24 h-24 text-slate-200 dark:text-slate-800" />
+                     </div>
                    )}
                 </div>
-              </div>
-
-              {/* Info */}
-              <div className="flex-1 text-center md:text-left mb-2 md:mb-4">
-                <h1 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center justify-center md:justify-start gap-2">
-                  {profile.username}
-                </h1>
-                
-                {/* Stats / Bio Line */}
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-2 text-slate-600 dark:text-slate-400 text-sm font-medium">
-                  {profile.role === 'seller' && (
-                    <span className="flex items-center gap-1 font-bold text-slate-900 dark:text-white">
-                      {profile.businessType === 'product' ? (
-                        <>📦 Verified Merchant</>
-                      ) : (
-                         <>🚀 Professional Seller</>
-                      )}
-                    </span>
-                  )}
-                  {/* Trust Score Reflecting Real Competence */}
-                  <span className="text-slate-900 dark:text-white font-black bg-slate-200 dark:bg-slate-700 px-3 py-1 rounded-full text-xs uppercase tracking-tighter">
-                    {profile.trustScore || 0}% Trust
-                  </span>
-
-                  {/* The Rating Stripe (Systematic Feedback) */}
-                  <div className="flex items-center gap-1 bg-white/50 dark:bg-slate-800/50 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700">
-                    <div className="flex items-center gap-0.5" onMouseLeave={() => setHoverRating(0)}>
-                      {[1, 2, 3, 4, 5].map((s) => {
-                        const hasAlreadyRated = profile.ratings?.some(r => r.author === localStorage.getItem('userId') || r.author?._id === localStorage.getItem('userId'));
-                        return (
-                          <button
-                            key={s}
-                            disabled={isRating || localStorage.getItem('userId') === id || hasAlreadyRated}
-                            onClick={() => handleRate(s)}
-                            onMouseEnter={() => setHoverRating(s)}
-                            className={`transition-transform hover:scale-125 disabled:cursor-not-allowed`}
-                            title={hasAlreadyRated ? "Trust has already been established." : ""}
-                          >
-                            <CheckBadgeIcon className={`w-4 h-4 ${s <= (hoverRating || profile.averageRating || 0) ? 'text-amber-500' : 'text-slate-200 dark:text-slate-700'}`} />
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <span className="text-[10px] font-black text-slate-500 ml-1">
-                      {profile.averageRating?.toFixed(1) || '0.0'} ({profile.ratings?.length || 0})
-                    </span>
+                {profile.isVerified && (
+                  <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-emerald-500/30 border-4 border-white dark:border-slate-900">
+                     <CheckBadgeIcon className="w-5 h-5" />
                   </div>
-                  {profile.location && (
-                    <span className="flex items-center gap-1 bg-white/50 dark:bg-slate-800/50 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-xs font-bold">
-                      <MapPinIcon className="w-3.5 h-3.5 text-primary-500"/>
-                      {profile.location}
-                    </span>
-                  )}
-                </div>  
-                
-                {profile.sellerProfile?.bio && (
-                   <p className="mt-3 text-slate-500 max-w-lg mx-auto md:mx-0">{profile.sellerProfile.bio}</p>
                 )}
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-3 mb-4 md:mb-6">
-                  {localStorage.getItem('userId') === id && localStorage.getItem('role') === 'seller' ? (
+              {/* Info Block */}
+              <div className="flex-1 text-center md:text-left mb-2 md:mb-6">
+                <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-4 leading-none">
+                  {profile.username}<span className="text-emerald-600">.</span>
+                </h1>
+                
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-black uppercase tracking-widest text-slate-400">
+                  {profile.role === 'seller' && (
+                    <span className="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 px-3 py-1.5 rounded-full border border-emerald-500/20">
+                      {profile.businessType === 'product' ? 'Merchant Pilot' : 'Service Architect'}
+                    </span>
+                  )}
+                  
+                  <span className="bg-slate-950 text-white dark:bg-white dark:text-slate-950 px-3 py-1.5 rounded-full shadow-lg">
+                    {profile.trustScore || 0}% Trust
+                  </span>
+
+                  <div className="flex items-center gap-2 bg-white dark:bg-slate-950 px-3 py-1.5 rounded-full border border-slate-100 dark:border-white/5 shadow-sm">
+                     <div className="flex items-center gap-0.5" onMouseLeave={() => setHoverRating(0)}>
+                       {[1, 2, 3, 4, 5].map((s) => {
+                         const hasAlreadyRated = profile.ratings?.some(r => r.author === localStorage.getItem('userId') || r.author?._id === localStorage.getItem('userId'));
+                         return (
+                           <button
+                             key={s}
+                             disabled={isRating || localStorage.getItem('userId') === id || hasAlreadyRated}
+                             onClick={() => handleRate(s)}
+                             onMouseEnter={() => setHoverRating(s)}
+                             className="transition-transform hover:scale-150 disabled:cursor-not-allowed group/star"
+                           >
+                             <CheckBadgeIcon className={`w-4 h-4 transition-colors ${s <= (hoverRating || profile.averageRating || 0) ? 'text-emerald-500' : 'text-slate-200 dark:text-slate-800 group-hover/star:text-emerald-300'}`} />
+                           </button>
+                         );
+                       })}
+                     </div>
+                     <span className="text-[10px] text-slate-400 font-black ml-1">
+                       <span className="text-slate-900 dark:text-white">{profile.averageRating?.toFixed(1) || '0.0'}</span> ({profile.ratings?.length || 0})
+                     </span>
+                  </div>
+                </div>  
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4 mb-6 md:mb-8">
+                  {localStorage.getItem('userId') === id ? (
                     <Link 
                      to="/dashboard"
-                     className="px-6 py-2 bg-slate-900 dark:bg-primary-600 text-white font-bold rounded-full transition-all shadow-lg shadow-slate-900/10"
+                     className="px-8 py-3.5 bg-slate-900 dark:bg-emerald-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-emerald-500/10 active:scale-95 hover:bg-emerald-700"
                     >
-                      Go to Cockpit
+                      Access Cockpit
                     </Link>
-                  ) : localStorage.getItem('userId') !== id && (
+                  ) : (
                     <>
-                      <button className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg shadow-sm transition-colors">
+                      <button className="px-8 py-3.5 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-emerald-500/20 hover:bg-emerald-700 active:scale-95">
                         Connect
                       </button>
                       <button 
                          onClick={() => {
                            if (profile?.sellerProfile?.phone) {
                              const cleanPhone = profile.sellerProfile.phone.replace(/\+/g, '').replace(/\s/g, '');
-                             window.open(`https://wa.me/${cleanPhone}`, '_blank');
+                             window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Protocol Sync: interested in your professional signals on Frontline.`)}`, '_blank');
                            } else {
-                             alert("This user hasn't provided a contact number yet.");
+                             alert("Contact protocol not initialized.");
                            }
                          }}
-                         className={`px-4 py-2 ${profile.businessType === 'product' ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white'} font-semibold rounded-lg transition-colors`}
+                         className="px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl active:scale-95"
                        >
-                          {profile.businessType === 'product' ? 'Visit Hub' : 'Contact Seller'}
+                          Pulse Sync
                        </button>
                     </>
                   )}
               </div>
             </div>
 
-            {/* Tabs */}
-            <div className="flex gap-8 border-t border-slate-200 dark:border-slate-700 mt-6 pt-1 justify-center md:justify-start">
-              <button 
-                onClick={() => setActiveTab('timeline')}
-                className={`py-3 text-sm font-semibold border-b-2 transition-colors ${activeTab === 'timeline' ? 'border-primary-500 text-primary-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
-              >
-                Timeline
-              </button>
-              <button 
-                onClick={() => setActiveTab('about')}
-                className={`py-3 text-sm font-semibold border-b-2 transition-colors ${activeTab === 'about' ? 'border-primary-500 text-primary-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
-              >
-                About & Competence
-              </button>
-               <button 
-                onClick={() => setActiveTab('portfolio')}
-                className={`py-3 text-sm font-semibold border-b-2 transition-colors ${activeTab === 'portfolio' ? 'border-primary-500 text-primary-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
-              >
-                 {profile.businessType === 'product' ? 'Inventory' : 'Seller Assets'}
-              </button>
+            {/* Tab Navigation */}
+            <div className="flex gap-10 border-t border-slate-50 dark:border-white/5 mt-10 overflow-x-auto no-scrollbar justify-center md:justify-start">
+              {[
+                { id: 'timeline', label: 'Timeline' },
+                { id: 'portfolio', label: profile.businessType === 'product' ? 'Inventory' : 'Assets' },
+                { id: 'about', label: 'Competence' }
+              ].map(tab => (
+                <button 
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`py-5 text-[10px] font-black uppercase tracking-[0.3em] border-b-2 transition-all whitespace-nowrap ${activeTab === tab.id ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Content Area */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Main Grid */}
+      <div className="max-w-5xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          {/* Sidebar (Intro) */}
-          <div className="md:col-span-1 space-y-4 hidden md:block">
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
-               <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2">Orientation</h3>
-               <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
-                  <p>🛰️ <span className="font-semibold">Network Role:</span> {profile.role === 'seller' ? 'Seller' : 'Buyer'}</p>
+          {/* Sidebar Stats */}
+          <div className="lg:col-span-4 space-y-6 hidden lg:block">
+            <div className="bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none">
+               <h3 className="font-black text-[10px] uppercase tracking-widest text-emerald-600 mb-8 italic">Personnel Data</h3>
+               <div className="space-y-6 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center gap-4">
+                     <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-emerald-600 border border-slate-100 dark:border-white/5 shadow-lg">
+                        <BriefcaseIcon className="w-5 h-5" />
+                     </div>
+                     <p><span className="text-slate-900 dark:text-white block text-xs">Network Role</span> {profile.role}</p>
+                  </div>
                   {profile.location && (
-                    <p>📍 <span className="font-semibold">{profile.businessType === 'product' ? 'Store Hub:' : 'Base Location:'}</span> {profile.location}</p>
+                    <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-emerald-600 border border-slate-100 dark:border-white/5 shadow-lg">
+                           <MapPinIcon className="w-5 h-5" />
+                        </div>
+                        <p><span className="text-slate-900 dark:text-white block text-xs">Origin Hub</span> {profile.location}</p>
+                    </div>
                   )}
-                 {profile.sellerProfile?.website && <p>🕸️ <a href={profile.sellerProfile.website} target="_blank" rel="noreferrer" className="text-primary-500 hover:underline">Website</a></p>}
-                 <p>📅 Joined January 2026</p>
                </div>
             </div>
 
-            {/* Skills Card */}
+            {/* Skills List */}
             {profile.competence?.skills?.length > 0 && (
-              <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
-                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-3">Skills</h3>
+              <div className="bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5">
+                <h3 className="font-black text-[10px] uppercase tracking-widest text-emerald-600 mb-8 italic">Signal Types</h3>
                 <div className="flex flex-wrap gap-2">
                   {profile.competence.skills.map(skill => (
-                    <span key={skill} className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-semibold">
+                    <span key={skill} className="px-4 py-2 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-white/5 shadow-sm">
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
             )}
-
-            {/* Joined Communities Card */}
-            {profile.joinedCommunities?.length > 0 && (
-              <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
-                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                  <UserGroupIcon className="w-5 h-5 text-primary-500" />
-                  Communities
-                </h3>
-                <div className="space-y-3">
-                  {profile.joinedCommunities.map(comm => (
-                    <Link 
-                      key={comm._id} 
-                      to={`/communities/${comm._id}`}
-                      className="flex items-center gap-3 group"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 shrink-0 overflow-hidden">
-                        {comm.image && <img src={comm.image} alt={comm.name} className="w-full h-full object-cover" />}
-                      </div>
-                      <span className="text-sm text-slate-600 dark:text-slate-400 font-medium group-hover:text-primary-500 transition-colors truncate">
-                        {comm.name}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Main Feed */}
-          <div className="md:col-span-2">
+          {/* Main Feed Content */}
+          <div className="lg:col-span-8">
             {activeTab === 'timeline' && (
-              <div className="space-y-4">
+              <div className="space-y-8">
                 {posts.length === 0 ? (
-                  <div className="text-center py-10 text-slate-500 bg-white dark:bg-slate-800 rounded-xl">No posts yet</div>
+                  <div className="text-center py-24 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-900 rounded-[3rem] border border-dashed border-slate-200 dark:border-white/5 italic">
+                    Static Silence: No Broadcasts Detected.
+                  </div>
                 ) : (
                   posts.map(post => {
-                    // Inject full author object since API might just return ID or partial
-                    const postWithAuthor = { ...post, author: profile }; // We are on profile page, so author is this user
+                    const postWithAuthor = { ...post, author: profile };
                     return <PostCard key={post._id} post={postWithAuthor} />;
                   })
                 )}
               </div>
             )}
-            
+
             {activeTab === 'portfolio' && (
-               <div className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {posts.length > 0 ? (
-                    posts.map((post) => (
-                      <Link key={post._id} to={`/communities/${post.community?._id || 'global'}`} className="bg-white dark:bg-slate-800 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all group">
-                        <div className="h-48 bg-slate-100 dark:bg-slate-900 overflow-hidden relative">
-                          {post.media?.[0] ? (
-                            <img src={post.media[0]} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-300">
-                               <PhotoIcon className="w-12 h-12" />
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  {posts.filter(p => p.type === 'product' || p.type === 'service').length > 0 ? (
+                    posts.filter(p => p.type === 'product' || p.type === 'service').map((post) => (
+                      <Link key={post._id} to={`/communities/${post.community?._id || 'global'}`} className="block group">
+                        <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] overflow-hidden border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all hover:-translate-y-2 hover:border-emerald-500/20">
+                          <div className="h-56 overflow-hidden relative">
+                            {post.media?.[0] ? (
+                              <img src={post.media[0]} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-950 text-slate-300 dark:text-slate-800">
+                                 <PhotoIcon className="w-16 h-16" />
+                              </div>
+                            )}
+                            <div className="absolute top-6 left-6 px-4 py-1.5 bg-emerald-600 text-white rounded-full shadow-lg shadow-emerald-500/20">
+                               <span className="text-[9px] font-black uppercase tracking-widest">
+                                 {profile.businessType === 'product' ? 'Merchant Asset' : 'Expert Service'}
+                               </span>
                             </div>
-                          )}
-                          <div className="absolute top-4 right-4 px-3 py-1 bg-slate-900/60 backdrop-blur-md rounded-full">
-                             <span className="text-[10px] font-black text-white uppercase tracking-widest">
-                               {profile.businessType === 'product' ? 'Store Item' : 'Expert Asset'}
-                             </span>
                           </div>
-                        </div>
-                        <div className="p-6">
-                          <h4 className="font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tighter text-lg leading-tight truncate">{post.title}</h4>
-                          <p className="text-sm text-slate-500 line-clamp-2 mb-4 italic font-medium">"{post.content?.[0] || 'No description provided.'}"</p>
-                          <div className="flex items-center justify-between pt-4 border-t border-slate-50 dark:border-white/5">
-                             <span className="text-[10px] font-bold text-primary-500 uppercase tracking-[0.2em]">{post.category || 'Competence'}</span>
-                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
+                          <div className="p-8">
+                            <h4 className="font-black text-slate-900 dark:text-white mb-3 uppercase tracking-tighter text-xl italic leading-tight truncate">{post.title}</h4>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-6 italic font-medium leading-relaxed">"{post.content || 'No description provided.'}"</p>
+                            <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-white/5">
+                               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{post.category || 'Competence'}</span>
+                               <span className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
+                            </div>
                           </div>
                         </div>
                       </Link>
                     ))
                   ) : (
-                    <div className="col-span-full py-20 text-center text-slate-400 bg-white dark:bg-slate-800 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-700">
-                      <BriefcaseIcon className="w-16 h-16 mx-auto mb-4 opacity-20" />
-                      <p className="font-black uppercase tracking-tighter text-xl">Mirror is Empty</p>
-                       <p className="text-sm italic mt-1 font-medium">This seller hasn't broadcast any competence assets yet.</p>
+                    <div className="col-span-full py-24 text-center bg-slate-50 dark:bg-slate-900 rounded-[4rem] border-2 border-dashed border-slate-200 dark:border-white/5">
+                      <BriefcaseIcon className="w-20 h-20 mx-auto mb-6 text-slate-200 dark:text-slate-800" />
+                      <p className="font-black uppercase tracking-tighter text-2xl italic text-slate-300 dark:text-slate-700">Mirror Empty</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">Zero competence broadcasts detected.</p>
                     </div>
                   )}
-                  </div>
                </div>
+            )}
+
+            {activeTab === 'about' && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                 <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-10 md:p-12 border border-slate-100 dark:border-white/5 shadow-xl">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-full border border-emerald-500/10 text-[10px] font-black uppercase tracking-widest mb-8">
+                       <InformationCircleIcon className="w-4 h-4" />
+                       Manifesto & Mission
+                    </div>
+                    <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-6">The <span className="text-emerald-600">Competence</span> Baseline.</h2>
+                    <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-medium italic mb-10">
+                      {profile.sellerProfile?.bio || "This participant has not yet transmitted their professional mission signal. They operate within the network as a verified entity."}
+                    </p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 border-t border-slate-100 dark:border-white/5">
+                       <div>
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] block mb-2">Network Origin</span>
+                          <span className="text-sm font-black text-slate-900 dark:text-white uppercase italic">{profile.location || 'Unknown Hub'}</span>
+                       </div>
+                       <div>
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] block mb-2">Member Since</span>
+                          <span className="text-sm font-black text-slate-900 dark:text-white uppercase italic">{new Date(profile.createdAt).getFullYear()}</span>
+                       </div>
+                    </div>
+                 </div>
+              </div>
             )}
           </div>
 
         </div>
       </div>
-
-      {/* Add Portfolio Modal */}
-      {isPortfolioModalOpen && (
-        <div className="fixed inset-0 z-[60] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setIsPortfolioModalOpen(false)}></div>
-            <div className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-slate-200 dark:border-slate-700">
-              <div className="px-6 py-6 border-b border-slate-100 dark:border-slate-700">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add Portfolio Project</h3>
-              </div>
-              <form 
-                className="px-6 py-6 space-y-4"
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  try {
-                    const token = localStorage.getItem('token');
-                    await api.post(`/api/users/${id}/portfolio`, newPortfolioItem, {
-                      headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    alert('Project added to portfolio!');
-                    window.location.reload();
-                  } catch (err) {
-                    console.error('Failed to add project:', err);
-                    alert('Failed to add project');
-                  }
-                }}
-              >
-                <div>
-                  <label className="block text-sm font-semibold mb-1">Project Title</label>
-                  <input 
-                    type="text" 
-                    required
-                    className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700"
-                    value={newPortfolioItem.title}
-                    onChange={e => setNewPortfolioItem({...newPortfolioItem, title: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-1">Description</label>
-                  <textarea 
-                    rows={3}
-                    className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700"
-                    value={newPortfolioItem.description}
-                    onChange={e => setNewPortfolioItem({...newPortfolioItem, description: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-1">Project Image</label>
-                  <label className="w-full flex items-center gap-3 px-4 py-2 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer">
-                    <PhotoIcon className="w-5 h-5 text-slate-400" />
-                    <span className="text-sm">{newPortfolioItem.imageUrl ? 'Image Ready' : 'Upload Image'}</span>
-                    <input 
-                      type="file" 
-                      accept="image/*"
-                      className="hidden"
-                      onChange={e => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setNewPortfolioItem({...newPortfolioItem, imageUrl: reader.result});
-                          };
-                          reader.readAsDataURL(file);
-                        }
-                      }}
-                    />
-                  </label>
-                </div>
-                <div className="flex gap-3 pt-4">
-                  <button type="submit" className="flex-1 py-2.5 bg-primary-600 text-white font-bold rounded-xl shadow-lg shadow-primary-500/20">Add Project</button>
-                  <button type="button" onClick={() => setIsPortfolioModalOpen(false)} className="px-6 py-2.5 bg-slate-100 dark:bg-slate-700 font-bold rounded-xl">Cancel</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

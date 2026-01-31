@@ -2,20 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --eco-primary: #10b981;
+  --eco-primary-dark: #059669;
+  --eco-bg: #f8fafc;
+  --eco-surface: #ffffff;
+  --eco-text: #0f172a;
+}
+
+.dark {
+  --eco-bg: #020617;
+  --eco-surface: #0f172a;
+  --eco-text: #f8fafc;
+}
+
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200;
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 font-sans antialiased;
+    background-image:
+      radial-gradient(at 0% 0%, hsla(160, 84%, 39%, 0.05) 0, transparent 50%),
+      radial-gradient(at 50% 0%, hsla(140, 60%, 50%, 0.03) 0, transparent 50%);
   }
 }
-@layer utilities {
+
+@layer components {
   .glass-card {
-    @apply bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30;
+    @apply bg-white/70 dark:bg-slate-900/40 backdrop-blur-2xl border border-white/40 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none;
   }
 
   .glass-navbar {
-    @apply bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50;
+    @apply bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl border-b border-slate-200/50 dark:border-white/5;
   }
 
+  .eco-btn {
+    @apply px-6 py-2.5 rounded-full font-bold transition-all transform active:scale-95;
+  }
+
+  .eco-btn-primary {
+    @apply eco-btn bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20 active:shadow-inner;
+  }
+
+  .bottom-nav-item {
+    @apply flex flex-col items-center justify-center flex-1 text-slate-400 dark:text-slate-500 transition-all duration-300;
+  }
+
+  .bottom-nav-item.active {
+    @apply text-emerald-600 dark:text-emerald-400;
+  }
+}
+
+@layer utilities {
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -28,5 +64,9 @@
     50% {
       transform: translateY(-10px);
     }
+  }
+
+  .safe-padding {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

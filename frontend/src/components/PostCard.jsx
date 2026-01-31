@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
-import { UserIcon, ChatBubbleLeftIcon, ShareIcon, StarIcon as StarOutlineIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { UserIcon, ChatBubbleLeftIcon, StarIcon as StarOutlineIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarSolidIcon } from '@heroicons/react/24/solid';
 
 export default function PostCard({ post }) {
@@ -18,19 +18,18 @@ export default function PostCard({ post }) {
   const handleRateAuthor = async (stars) => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) return alert('Please sign in to rate this seller.');
+      if (!token) return alert('Please sign in to establish trust.');
       
       const userId = localStorage.getItem('userId');
-      if (userId === post.author?._id) return alert('You cannot rate your own work.');
+      if (userId === post.author?._id) return alert('Self-calibration not allowed.');
 
       setIsRating(true);
-      const res = await api.post(`/api/users/${post.author._id}/rate`, { stars });
+      const res = await api.post(`/api/users/${post.author?._id}/rate`, { stars });
       
       setAvgRating(res.data.averageRating);
       setRatingCount(res.data.count);
-      alert('✅ Rating recorded!');
     } catch (err) {
-      alert(err.response?.data?.msg || 'Failed to rate');
+      alert(err.response?.data?.msg || 'Feedback transmission failed.');
     } finally {
       setIsRating(false);
     }
@@ -50,153 +49,149 @@ export default function PostCard({ post }) {
       setComments(Array.isArray(res.data) ? res.data : []);
       setCommentText('');
     } catch (err) {
-      alert(err.response?.data?.msg || 'Failed to post comment');
+      alert(err.response?.data?.msg || 'Handshake failed.');
     } finally {
       setIsCommenting(false);
     }
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-5 mb-4 hover:shadow-md transition-shadow">
-      {/* Header: Author Info */}
-      <div className="flex items-center gap-3 mb-4">
-        <Link to={`/profile/${post.author?._id}`} className="block">
-          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 overflow-hidden">
-            {post.author?.profileImage ? (
-               <img src={post.author.profileImage} alt={post.author.username} className="w-full h-full object-cover" />
-            ) : (
-               <UserIcon className="w-6 h-6" />
-            )}
-          </div>
-        </Link>
-        <div>
-          <Link to={`/profile/${post.author?._id}`} className="hover:underline">
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-              {post.author?.username || 'Anonymous'}
-              {post.author?.isVerified && (
-                 <span className="ml-1 text-primary-500 text-xs text-[10px] border border-primary-500 rounded px-1">Verified</span>
+    <div className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 p-8 mb-8 transition-all group hover:border-emerald-500/20">
+      
+      {/* Header: Author Integrity */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-5">
+          <Link to={`/profile/${post.author?._id}`} className="block relative group">
+            <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-300 overflow-hidden ring-2 ring-transparent group-hover:ring-emerald-500 transition-all shadow-inner">
+              {post.author?.profileImage ? (
+                 <img src={post.author.profileImage} alt={post.author.username} className="w-full h-full object-cover" />
+              ) : (
+                 <UserIcon className="w-7 h-7" />
               )}
-            </h4>
+            </div>
           </Link>
-          <div className="flex items-center gap-2 mt-0.5">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">2 hours ago</span>
-            {post.community && (
-              <>
-                <div className="w-1 h-1 rounded-full bg-slate-200 dark:bg-slate-700"></div>
-                <Link to={`/communities/${post.community._id}`} className="text-[10px] text-primary-600 dark:text-primary-400 font-black uppercase tracking-widest hover:underline flex items-center gap-1">
-                   <UserGroupIcon className="w-3 h-3" />
-                   {post.community.name}
-                </Link>
-              </>
-            )}
+          <div>
+            <Link to={`/profile/${post.author?._id}`} className="hover:underline">
+              <h4 className="font-black text-slate-900 dark:text-white uppercase tracking-tighter italic text-lg leading-none">
+                {post.author?.username || 'Phantom'}
+                {post.author?.isVerified && (
+                   <span className="ml-2 text-emerald-600 text-[8px] font-black uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full border border-emerald-500/20 align-middle">Verified</span>
+                )}
+              </h4>
+            </Link>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] italic">Origin Signal</span>
+              {post.community && (
+                <>
+                  <div className="w-1 h-1 rounded-full bg-emerald-500"></div>
+                  <Link to={`/communities/${post.community?._id || 'global'}`} className="text-[10px] text-emerald-600 dark:text-emerald-400 font-black uppercase tracking-widest hover:underline flex items-center gap-1 group">
+                     {post.community.name}
+                     <RocketLaunchIcon className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Content Body */}
-      <div className="mb-4">
-        {post.author?.sellerProfile?.bio && (
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 italic mb-2 line-clamp-1 border-l-2 border-slate-100 dark:border-slate-800 pl-2">
-            {post.author.sellerProfile.bio}
-          </p>
-        )}
-        <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2 tracking-tight">{post.title}</h3>
-        <p className="text-slate-600 dark:text-slate-300 whitespace-pre-wrap text-sm leading-relaxed">{post.content}</p>
-      </div>
-
-      {/* Media / Flyer Area */}
-      {post.media && post.media.length > 0 && (
-        <div className="mb-4 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-           {/* Just showing first image for now */}
-           <img src={post.media[0]} alt="Post media" className="w-full h-auto max-h-96 object-cover" />
-        </div>
-      )}
-
-      {/* Action Footer */}
-      <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700">
-        <div className="flex gap-4">
-           {/* Systematic Star Rating replaces Generic Like */}
-           <div className="flex items-center bg-slate-50 dark:bg-slate-900/50 px-3 py-1.5 rounded-full border border-slate-100 dark:border-slate-700">
-             <div className="flex items-center gap-0.5" onMouseLeave={() => setHoverRating(0)}>
+        
+        {/* Trust Metric Dashboard */}
+        <div className="hidden sm:flex items-center bg-slate-50 dark:bg-slate-950 px-5 py-2.5 rounded-2xl border border-slate-100 dark:border-white/5 shadow-inner">
+             <div className="flex items-center gap-1" onMouseLeave={() => setHoverRating(0)}>
                {[1, 2, 3, 4, 5].map((s) => {
                  const hasAlreadyRated = post.author?.ratings?.some(r => r.author === localStorage.getItem('userId') || r.author?._id === localStorage.getItem('userId'));
+                 const isActive = s <= (hoverRating || avgRating);
                  return (
                    <button
                      key={s}
                      disabled={isRating || hasAlreadyRated}
                      onClick={() => handleRateAuthor(s)}
                      onMouseEnter={() => setHoverRating(s)}
-                     className="transition-transform hover:scale-125 disabled:cursor-not-allowed"
-                     title={hasAlreadyRated ? "Trust has already been established." : ""}
+                     className="transition-transform hover:scale-150 disabled:cursor-not-allowed group/star"
                    >
-                     {s <= (hoverRating || avgRating) ? (
-                       <StarSolidIcon className="w-4 h-4 text-amber-500" />
+                     {isActive ? (
+                       <StarSolidIcon className="w-4 h-4 text-emerald-500 transition-colors" />
                      ) : (
-                       <StarOutlineIcon className="w-4 h-4 text-slate-300 dark:text-slate-600" />
+                       <StarOutlineIcon className="w-4 h-4 text-slate-200 dark:text-slate-800 transition-colors group-hover/star:text-emerald-300" />
                      )}
                    </button>
                  );
                })}
              </div>
-             <span className="text-[10px] font-black text-slate-500 ml-2 tracking-tighter">
-               {avgRating?.toFixed(1) || '0.0'} ({ratingCount})
+             <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 ml-4 tracking-widest">
+                <span className="text-slate-900 dark:text-white">{avgRating?.toFixed(1) || '0.0'}</span> ({ratingCount})
              </span>
-           </div>
-            <button 
-              onClick={() => setShowComments(!showComments)}
-              className={`flex items-center gap-2 transition-colors ${showComments ? 'text-primary-600' : 'text-slate-500 hover:text-primary-500'}`}
-            >
-              <ChatBubbleLeftIcon className="w-5 h-5" />
-              <span className="text-sm font-bold">Comment {comments.length > 0 && `(${comments.length})`}</span>
-            </button>
         </div>
+      </div>
+
+      {/* Content Engine */}
+      <div className="mb-8">
+        <h3 className="font-black text-2xl md:text-3xl text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic leading-tight">{post.title}</h3>
+        <p className="text-slate-500 dark:text-slate-400 whitespace-pre-wrap text-lg md:text-xl leading-relaxed font-medium italic">"{post.content}"</p>
+      </div>
+
+      {/* Visual Asset Area */}
+      {post.media && post.media.length > 0 && (
+        <div className="mb-10 rounded-[2.5rem] overflow-hidden bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 shadow-2xl">
+            <img src={post.media[0]} alt="Broadcast media" className="w-full h-auto max-h-[600px] object-cover group-hover:scale-110 transition-transform duration-[2s]" />
+        </div>
+      )}
+
+      {/* Interaction Matrix */}
+      <div className="flex items-center justify-between pt-8 border-t border-slate-50 dark:border-white/5">
+        <button 
+          onClick={() => setShowComments(!showComments)}
+          className={`flex items-center gap-4 transition-all ${showComments ? 'text-emerald-600' : 'text-slate-400 hover:text-emerald-500'}`}
+        >
+          <ChatBubbleLeftIcon className={`w-7 h-7 ${showComments ? 'stroke-[2.5px]' : ''}`} />
+          <span className="text-[10px] font-black uppercase tracking-[0.3em]">{comments.length > 0 ? `${comments.length} Syncs` : 'Synchronize'}</span>
+        </button>
         
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <button 
             onClick={() => {
                if (post.author?.sellerProfile?.phone) {
                  const cleanPhone = post.author.sellerProfile.phone.replace(/\+/g, '').replace(/\s/g, '');
                  window.open(`https://wa.me/${cleanPhone}`, '_blank');
                } else {
-                 alert("This user hasn't provided a contact number yet.");
+                 alert("Contact protocol not initialized.");
                }
             }}
-            className="px-4 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[10px] font-black uppercase tracking-widest rounded-full hover:scale-105 transition-all shadow-lg"
+            className="px-8 py-3.5 bg-slate-900 dark:bg-slate-950 border border-white/10 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-600 transition-all shadow-xl active:scale-95"
           >
-            Connect
+            Negotiate
           </button>
           {isFlyer && (
             <button 
               onClick={() => {
                  const phone = post.author?.sellerProfile?.phone || '254700000000';
-                 const message = `Hi, I saw your asset "${post.title}" on Frontline. Is it still available?`;
+                 const message = `Protocol Check: interested in Asset "${post.title}" on Frontline. Confirm availability?`;
                  const url = `https://wa.me/${phone.replace(/\+/g, '').replace(/\s/g, '')}?text=${encodeURIComponent(message)}`;
                  window.open(url, '_blank');
               }}
-              className="px-4 py-1.5 bg-green-600 hover:bg-green-700 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:scale-105 transition-all shadow-lg"
+              className="px-8 py-3.5 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20 active:scale-95"
             >
-              Order Now
+              Acquire
             </button>
           )}
         </div>
       </div>
 
-      {/* Comment Section (The Systematic Discussion Floor) */}
+      {/* Handshake Matrix (Comments) */}
       {showComments && (
-        <div className="mt-4 pt-4 border-t border-slate-50 dark:border-slate-700/50 animate-in fade-in slide-in-from-top-2 duration-300">
-          <form onSubmit={handleAddComment} className="flex gap-3 mb-6">
-            <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex-shrink-0 flex items-center justify-center text-slate-500 overflow-hidden">
+        <div className="mt-10 pt-10 border-t border-slate-50 dark:border-white/10 animate-in fade-in slide-in-from-top-6 duration-700">
+          <form onSubmit={handleAddComment} className="flex gap-5 mb-10">
+            <div className="w-12 h-12 rounded-[1.25rem] bg-slate-50 dark:bg-slate-950 flex-shrink-0 flex items-center justify-center text-slate-300 overflow-hidden shadow-inner border border-slate-100 dark:border-white/5">
                {localStorage.getItem('profileImage') ? (
                  <img src={localStorage.getItem('profileImage')} alt="Self" className="w-full h-full object-cover" />
                ) : (
-                 <UserIcon className="w-4 h-4" />
+                 <UserIcon className="w-6 h-6" />
                )}
             </div>
-            <div className="flex-1 flex gap-2">
+            <div className="flex-1 flex gap-3">
               <input 
                 type="text" 
-                placeholder="Add to the handshake..."
-                className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-500 transition-all text-slate-900 dark:text-white"
+                placeholder="Broadcast your signal..."
+                className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 rounded-2xl px-6 py-4 text-sm outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-slate-900 dark:text-white font-bold italic"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 disabled={isCommenting}
@@ -204,39 +199,41 @@ export default function PostCard({ post }) {
               <button 
                 type="submit"
                 disabled={isCommenting || !commentText.trim()}
-                className="px-4 py-2 bg-slate-900 dark:bg-primary-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:scale-105 transition-all disabled:opacity-50 disabled:scale-100"
+                className="px-8 py-4 bg-emerald-600 text-white font-black uppercase tracking-widest text-[10px] rounded-2xl hover:bg-emerald-700 active:scale-95 disabled:opacity-50 transition-all shadow-xl shadow-emerald-500/20"
               >
-                Post
+                Sync
               </button>
             </div>
           </form>
 
-          <div className="space-y-4 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+          <div className="space-y-8 max-h-[500px] overflow-y-auto pr-6 custom-scrollbar">
             {comments.length === 0 ? (
-              <p className="text-center text-xs text-slate-400 italic py-4">The discussion is just beginning. Be the first to validate.</p>
+              <div className="text-center py-16 opacity-40">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 italic">No Synchronization Events Detected</p>
+              </div>
             ) : (
               comments.map((c, i) => (
-                <div key={i} className="flex gap-3 group">
-                   <div className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center text-slate-400 overflow-hidden border border-slate-100 dark:border-slate-700">
+                <div key={i} className="flex gap-5 animate-in fade-in slide-in-from-left-4 duration-500">
+                   <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-950 flex-shrink-0 flex items-center justify-center text-slate-400 overflow-hidden border border-slate-100 dark:border-white/5 shadow-sm">
                       {c.author?.profileImage ? (
-                        <img src={c.author.profileImage} alt={c.author.username} className="w-full h-full object-cover" />
+                         <img src={c.author.profileImage} alt={c.author.username} className="w-full h-full object-cover" />
                       ) : (
-                        <UserIcon className="w-3 h-3" />
+                         <UserIcon className="w-5 h-5" />
                       )}
                    </div>
-                   <div className="flex-1 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl rounded-tl-none border border-slate-100 dark:border-slate-700/50">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center gap-2">
-                           <span className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-tighter hover:underline cursor-pointer">
-                             {c.author?.username || 'Anonymous'}
-                           </span>
-                           {c.author?.isVerified && (
-                             <span className="text-[8px] font-bold text-primary-500 border border-primary-500/30 px-1 rounded uppercase">Verified</span>
-                           )}
-                        </div>
-                        <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Just now</span>
+                   <div className="flex-1 bg-slate-50 dark:bg-slate-900 p-6 rounded-[2.5rem] rounded-tl-none border border-slate-100 dark:border-white/5 shadow-sm">
+                      <div className="flex items-center justify-between mb-3">
+                         <div className="flex items-center gap-3">
+                            <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
+                               {c.author?.username || 'Signal 00'}
+                            </span>
+                            {c.author?.isVerified && (
+                              <span className="text-[8px] font-black text-emerald-500 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase">Verified</span>
+                            )}
+                         </div>
+                         <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Live Signal</span>
                       </div>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">{c.text}</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-semibold italic">"{c.text}"</p>
                    </div>
                 </div>
               ))

@@ -1,82 +1,82 @@
 import { Link } from 'react-router-dom';
-import { CurrencyDollarIcon, CheckBadgeIcon } from '@heroicons/react/24/solid';
-import { UserIcon, ClockIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { CheckBadgeIcon, RocketLaunchIcon, CubeIcon } from '@heroicons/react/24/solid';
+import { UserIcon, ClockIcon } from '@heroicons/react/24/outline';
 
 export default function CourseCard({ course }) {
-  // Fallback image if no flyer is uploaded
   const flyerImage = course.media?.flyerImage || 'https://via.placeholder.com/400x300?text=No+Flyer';
   
   return (
-    <div className="glass-card rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full">
-      {/* Flyer Image */}
-      <div className="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-700">
+    <div className="bg-white dark:bg-slate-900 rounded-[2rem] md:rounded-[2.5rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 overflow-hidden flex flex-col h-full group hover:border-emerald-500/30 transition-all duration-500">
+      {/* Flyer Image Area */}
+      <div className="relative h-48 md:h-56 overflow-hidden bg-slate-100 dark:bg-slate-800">
         <img 
           src={flyerImage} 
           alt={course.title} 
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1.5s]"
         />
-        {/* Category Badge */}
-        <span className="absolute top-3 right-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-semibold px-2 py-1 rounded-md text-slate-800 dark:text-slate-200 shadow-sm flex items-center gap-1">
-          {course.type === 'product' ? '📦 ' : '🚀 '}
-          {course.category}
-        </span>
-        <div className="absolute top-3 left-3 px-2 py-1 bg-primary-600/90 backdrop-blur text-[10px] font-black text-white uppercase tracking-widest rounded-md">
-           {course.type === 'product' ? 'Product' : 'Service'}
+        <div className="absolute top-4 left-4 flex gap-2">
+           <div className="px-3 py-1 bg-emerald-600/90 backdrop-blur-md text-[10px] font-black text-white uppercase tracking-widest rounded-full flex items-center gap-1.5 shadow-lg">
+              {course.type === 'product' ? <CubeIcon className="w-3 h-3" /> : <RocketLaunchIcon className="w-3 h-3" />}
+              {course.type === 'product' ? 'Product' : 'Service'}
+           </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-5 flex-1 flex flex-col">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white line-clamp-2 leading-tight">
-            {course.title}
-          </h3>
+      {/* Content Area */}
+      <div className="p-6 md:p-8 flex-1 flex flex-col">
+        <div className="mb-4">
+           <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">{course.category}</span>
+           <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white line-clamp-2 uppercase tracking-tighter italic leading-tight group-hover:text-emerald-600 transition-colors mt-2">
+             {course.title}
+           </h3>
         </div>
 
-        {/* Seller Info */}
-Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
-
-        <Link to={`/profile/${course.seller?._id}`} className="flex items-center gap-1 mb-4 hover:opacity-80 transition-opacity">
-          <UserIcon className="w-4 h-4 text-slate-400" />
-          <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-            {course.seller?.username || 'Unknown Seller'}
-          </span>
-          {course.seller?.isVerified && (
-             <CheckBadgeIcon className="w-4 h-4 text-primary-500" title="Verified Competence" />
-          )}
+        <Link to={`/profile/${course.seller?._id}`} className="flex items-center gap-3 mb-6 md:mb-8 group/seller transition-all">
+          <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 overflow-hidden ring-2 ring-transparent group-hover/seller:ring-emerald-500 transition-all">
+            {course.seller?.profileImage ? (
+              <img src={course.seller.profileImage} alt={course.seller.username} className="w-full h-full object-cover" />
+            ) : (
+              <UserIcon className="w-4 h-4" />
+            )}
+          </div>
+          <div className="flex flex-col">
+             <div className="flex items-center gap-1">
+                <span className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-tighter">
+                  {course.seller?.username || 'Anonymous'}
+                </span>
+                {course.seller?.isVerified && (
+                  <CheckBadgeIcon className="w-3.5 h-3.5 text-emerald-500" />
+                )}
+             </div>
+             <span className="text-[8px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest italic">Inventory Node</span>
+          </div>
         </Link>
 
-        {/* Details Row */}
-        <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mt-auto pt-4 border-t border-slate-100 dark:border-slate-700">
-          <span className="flex items-center gap-1">
-             {course.type === 'product' ? (
-               <>
-                 <ShoppingBagIcon className="w-4 h-4" />
-                 In Stock
-               </>
-             ) : (
-               <>
-                 <ClockIcon className="w-4 h-4" />
-                 {course.skuDetails?.duration || 'Flexible'}
-               </>
-             )}
-          </span>
-          <span className="font-bold text-primary-600 dark:text-primary-400 text-lg flex items-center">
-             {course.skuDetails?.price ? `KES ${course.skuDetails.price.toLocaleString()}` : 'Free'}
-          </span>
-        </div>
+        {/* Pricing & Logistics */}
+        <div className="mt-auto pt-6 border-t border-slate-50 dark:border-white/5">
+           <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
+                 {course.type === 'product' ? <CubeIcon className="w-4 h-4" /> : <ClockIcon className="w-4 h-4" />}
+                 <span className="text-[10px] font-black uppercase tracking-widest">{course.type === 'product' ? 'In Stock' : (course.skuDetails?.duration || 'Flexible')}</span>
+              </div>
+              <div className="text-right">
+                 <span className="text-xl md:text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tighter italic">
+                    {course.skuDetails?.price ? `KES ${course.skuDetails.price.toLocaleString()}` : 'NEGOTIABLE'}
+                 </span>
+              </div>
+           </div>
 
-        {/* WhatsApp Fallback Action */}
-        {course.seller?.sellerProfile?.phone && (
-          <a 
-            href={`https://wa.me/${course.seller.sellerProfile.phone.replace(/\s+/g, '')}`}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-4 w-full py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-center text-xs font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
-          >
-            📲 WhatsApp Pulse
-          </a>
-        )}
+           {course.seller?.sellerProfile?.phone && (
+             <a 
+               href={`https://wa.me/${course.seller.sellerProfile.phone.replace(/\s+/g, '').replace(/\+/g, '')}?text=${encodeURIComponent(`Protocol Check: interested in Asset "${course.title}". Confirm status?`)}`}
+               target="_blank"
+               rel="noreferrer"
+               className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-center text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 shadow-xl shadow-emerald-500/20 active:scale-95"
+             >
+               Sync Protocol
+             </a>
+           )}
+        </div>
       </div>
     </div>
   );

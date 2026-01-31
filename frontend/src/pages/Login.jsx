@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import { EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/react/24/outline'; // Need v2 icons
+import { EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Pre-fill email if remembered
   useEffect(() => {
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
@@ -28,7 +27,6 @@ export default function Login() {
     
     try {
       const res = await api.post('/api/auth/login', { email, password });
-      
       const storage = rememberMe ? localStorage : sessionStorage;
       
       storage.setItem('token', res.data.token);
@@ -56,30 +54,33 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative bg-slate-50 dark:bg-slate-900 transition-colors duration-500 overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center relative bg-slate-50 dark:bg-slate-950 transition-colors duration-500 overflow-hidden py-24">
       
-      {/* Futuristic Background Blobs */}
+      {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-primary-500/20 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-cyan-500/20 rounded-full blur-[100px] animate-pulse delay-700"></div>
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-emerald-500/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[100px] animate-pulse delay-700"></div>
       </div>
 
-      <div className="max-w-md w-full relative z-10 p-8 sm:p-10">
+      <div className="max-w-md w-full relative z-10 p-6 md:p-10">
         
         {/* Glass Card */}
-        <div className="bg-white/70 dark:bg-slate-800/60 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 dark:border-slate-700/50 p-8 sm:p-12 transform transition-all hover:scale-[1.01]">
+        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-2xl rounded-[3rem] shadow-2xl border border-white/40 dark:border-white/5 p-10 sm:p-12 hover:border-emerald-500/20 transition-all">
           
           <div className="text-center mb-10">
-            <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-cyan-500 mb-2">
-              Welcome Back
+             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 mb-6 shadow-inner">
+               <ArrowRightIcon className="w-7 h-7" />
+            </div>
+            <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tighter italic">
+              Welcome <span className="text-emerald-600">Back.</span>
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 font-medium">
-              Access your competence portal
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">
+              Access your network competence portal.
             </p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium text-center animate-shake">
+            <div className="mb-8 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-[10px] font-black uppercase tracking-widest text-center">
               {error}
             </div>
           )}
@@ -88,14 +89,11 @@ export default function Login() {
             
             {/* Email Input */}
             <div className="group">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2 ml-1 group-focus-within:text-primary-500 transition-colors">
-                Email Address
-              </label>
               <input
                 type="email"
                 required
-                className="w-full px-5 py-4 rounded-2xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all font-medium"
-                placeholder="name@example.com"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-bold italic"
+                placeholder="Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -103,66 +101,61 @@ export default function Login() {
 
             {/* Password Input */}
             <div className="group relative">
-               <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2 ml-1 group-focus-within:text-primary-500 transition-colors">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  className="w-full px-5 py-4 rounded-2xl bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all font-medium pr-12"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-primary-500 transition-colors"
-                >
-                  {showPassword ? (
-                    <EyeSlashIcon className="h-6 w-6" />
-                  ) : (
-                    <EyeIcon className="h-6 w-6" />
-                  )}
-                </button>
-              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-bold italic pr-12"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-5 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-emerald-500 transition-colors"
+              >
+                {showPassword ? (
+                  <EyeSlashIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-primary-500 transition-colors">
+            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest px-1">
+              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-emerald-600 transition-colors">
                 <input 
                   type="checkbox" 
-                  className="rounded border-slate-300 text-primary-500 focus:ring-primary-500" 
+                  className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 bg-transparent" 
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                 />
-                <span>Remember me</span>
+                <span>Stay Active</span>
               </label>
-              <Link to="/forgot-password" size="sm" className="font-semibold text-primary-600 hover:text-primary-500 dark:text-primary-400 cursor-pointer">
-                Forgot password?
+              <Link to="/forgot-password" size="sm" className="text-emerald-600 hover:text-emerald-500 transition-colors">
+                Lost Key?
               </Link>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-primary-600 to-cyan-500 hover:from-primary-500 hover:to-cyan-400 text-white font-bold text-lg shadow-lg shadow-primary-500/30 transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-emerald-500/30 transform hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
-                <span className="animate-pulse">Signing In...</span>
+                <span className="animate-pulse italic">Authenticating...</span>
               ) : (
                 <>
-                  Sign In <ArrowRightIcon className="w-5 h-5" />
+                  Resume Protocol <ArrowRightIcon className="w-4 h-4" />
                 </>
               )}
             </button>
           </form>
 
-          <p className="mt-8 text-center text-slate-600 dark:text-slate-400">
-            Don't have an account?{' '}
-            <Link to="/signup" className="font-bold text-primary-600 hover:text-primary-500 dark:text-primary-400 hover:underline">
-              Join the future
+          <p className="mt-10 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            New to the Frontline? {' '}
+            <Link to="/signup" className="text-emerald-600 hover:text-emerald-500 transition-colors">
+              Initialize Account
             </Link>
           </p>
         </div>

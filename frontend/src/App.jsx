@@ -7,7 +7,13 @@ import {
   AcademicCapIcon, 
   BriefcaseIcon,
   Bars3Icon,
-  XMarkIcon 
+  XMarkIcon,
+  HomeIcon,
+  MagnifyingGlassIcon,
+  PlusCircleIcon,
+  ShoppingBagIcon,
+  UserIcon,
+  RocketLaunchIcon
 } from '@heroicons/react/24/outline'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -61,37 +67,75 @@ function Home() {
 
   if (user) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-24 pb-12 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="lg:w-1/4 space-y-6">
-              <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 flex items-center justify-center font-bold text-xl overflow-hidden">
+      <div className="min-h-screen bg-white dark:bg-slate-950 pt-24 pb-24 transition-colors duration-500">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row gap-12">
+            
+            {/* Sidebar: Pilot Dashboard */}
+            <div className="lg:w-1/4">
+              <div className="sticky top-24 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5 shadow-2xl shadow-slate-200/50 dark:shadow-none">
+                <div className="flex flex-col items-center text-center mb-8">
+                  <div className="w-24 h-24 rounded-[2rem] bg-white dark:bg-slate-950 p-1 shadow-xl ring-2 ring-emerald-500/20 mb-4 overflow-hidden">
                     {user.profileImage ? (
-                      <img src={user.profileImage} alt="" className="w-full h-full object-cover" />
+                      <img src={user.profileImage} alt="" className="w-full h-full object-cover rounded-[1.75rem]" />
                     ) : (
-                      user.username.charAt(0).toUpperCase()
+                      <div className="w-full h-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 text-slate-300 font-black text-3xl">
+                        {user.username.charAt(0).toUpperCase()}
+                      </div>
                     )}
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white leading-tight">{localStorage.getItem('username') || 'Buyer'}</h3>
-                     <p className="text-xs text-slate-500">Reputation Level: {user?.trustScore >= 50 ? 'Certified Seller' : user?.trustScore > 0 ? 'Rising Professional' : 'Zero-Base Truth'}</p>
+                  <h3 className="font-black text-slate-900 dark:text-white leading-none uppercase tracking-tighter italic text-xl">{localStorage.getItem('username') || 'Member'}</h3>
+                  <div className="mt-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-full border border-emerald-500/10 text-[8px] font-black uppercase tracking-widest">
+                     Certified Node
                   </div>
                 </div>
-                <h3 className="font-bold text-slate-900 dark:text-white mb-2 text-sm">Your Communities</h3>
-                <Link to="/communities" className="text-xs text-primary-500 hover:underline">Browse all communities</Link>
+
+                <div className="space-y-4 pt-6 border-t border-slate-100 dark:border-white/5">
+                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-400">
+                      <span>Trust Score</span>
+                      <span className="text-emerald-600">{user?.trustScore || 85}%</span>
+                   </div>
+                   <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-950 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-600 rounded-full" style={{ width: `${user?.trustScore || 85}%` }}></div>
+                   </div>
+                </div>
+
+                <div className="mt-10">
+                   <Link to="/communities" className="block w-full py-4 bg-slate-900 dark:bg-slate-950 text-white text-center text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-600 transition-all shadow-xl active:scale-95">
+                      Enter the Pulse
+                   </Link>
+                </div>
               </div>
             </div>
 
-            {/* Main Feed */}
+            {/* Main Feed: The Global Stream */}
             <div className="lg:w-3/4">
-               <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Trending in Frontline</h2>
+               <div className="mb-10 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-1">Global Transmission</span>
+                    <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">The <span className="text-emerald-600">Inventory.</span></h2>
+                  </div>
+                  <Link to="/marketplace" className="text-[10px] font-black text-slate-400 hover:text-emerald-600 uppercase tracking-widest transition-colors flex items-center gap-2">
+                     Scan All Assets
+                     <RocketLaunchIcon className="w-4 h-4" />
+                  </Link>
+               </div>
+
                {loading ? (
-                 <div className="text-center py-20">Loading Feed...</div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {[1,2,4].map(i => (
+                       <div key={i} className="h-80 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] animate-pulse"></div>
+                    ))}
+                 </div>
                ) : (
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   {feed.map(item => <CourseCard key={item._id} course={item} />)}
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                   {feed.length === 0 ? (
+                      <div className="col-span-full py-32 text-center bg-slate-50 dark:bg-slate-900 rounded-[3rem] border border-dashed border-slate-200 dark:border-white/5">
+                         <span className="text-slate-400 font-black uppercase tracking-widest text-[10px]">No broadcasts detected in this sector.</span>
+                      </div>
+                   ) : (
+                      feed.map(item => <CourseCard key={item._id} course={item} />)
+                   )}
                  </div>
                )}
             </div>
@@ -121,12 +165,12 @@ function Home() {
           </div>
 
           <div className="flex justify-center gap-4">
-            <Link to="/communities" className="px-8 py-3.5 text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 rounded-full shadow-lg shadow-primary-500/30 transition-all transform hover:scale-105">
+            <Link to="/communities" className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-white bg-emerald-600 hover:bg-emerald-700 rounded-full shadow-2xl shadow-emerald-500/30 transition-all transform hover:scale-105 active:scale-95">
               Explore the Pulse
             </Link>
             <Link 
               to="/dashboard"
-              className="px-8 py-3.5 text-base font-semibold text-primary-600 bg-white dark:bg-slate-800 border-2 border-primary-100 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 rounded-full transition-all"
+              className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-emerald-600 bg-white dark:bg-slate-800 border-2 border-emerald-50 dark:border-white/5 hover:border-emerald-500 rounded-full transition-all shadow-xl shadow-slate-200/50 dark:shadow-none"
             >
               Start Selling
             </Link>
@@ -135,33 +179,33 @@ function Home() {
       </div>
 
       {/* Feature Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Feature 1 */}
-          <div className="glass-card p-6 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none hover:shadow-2xl transition-all">
-            <div className="w-12 h-12 bg-primary-100 dark:bg-slate-700 rounded-xl flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
-               <UserGroupIcon className="w-6 h-6"/>
+          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-emerald-500/10 transition-all group">
+            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-8 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-lg">
+               <UserGroupIcon className="w-7 h-7"/>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Network of Buyers</h3>
-            <p className="text-slate-600 dark:text-slate-400">Don't sell alone. Plug into active communities ready for your value.</p>
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Network of Buyers</h3>
+            <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Don't sell alone. Plug into active communities ready to validate and acquire your professional output.</p>
           </div>
 
           {/* Feature 2 */}
-          <div className="glass-card p-6 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none hover:shadow-2xl transition-all">
-            <div className="w-12 h-12 bg-primary-100 dark:bg-slate-700 rounded-xl flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
-               <AcademicCapIcon className="w-6 h-6"/>
+          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-emerald-500/10 transition-all group">
+            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-8 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-lg">
+               <AcademicCapIcon className="w-7 h-7"/>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Sell Knowledge</h3>
-            <p className="text-slate-600 dark:text-slate-400">From courses to consultations. Monetize your competence effortlessly.</p>
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Monetize Truth</h3>
+            <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">From curated courses to deep consultations. Transform your verified competence into scalable Seller Assets.</p>
           </div>
 
           {/* Feature 3 */}
-          <div className="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none hover:shadow-2xl transition-all">
-            <div className="w-12 h-12 bg-primary-100 dark:bg-slate-700 rounded-xl flex items-center justify-center mb-4 text-primary-600 dark:text-primary-400">
-               <BriefcaseIcon className="w-6 h-6"/>
+          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-emerald-500/10 transition-all group">
+            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-8 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-lg">
+               <BriefcaseIcon className="w-7 h-7"/>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Build a Brand</h3>
-            <p className="text-slate-600 dark:text-slate-400">Turn one-time sales into long-term trust and community reputation.</p>
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Infinite Reputation</h3>
+            <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Every handshake transmits trust. Build an immutable professional identity that scales across the entire network.</p>
           </div>
         </div>
       </div>
@@ -170,6 +214,35 @@ function Home() {
 }
 
 // Redundant Home removed
+
+function BottomNav({ user }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const navItems = [
+    { label: 'Home', icon: HomeIcon, path: '/', active: location.pathname === '/' },
+    { label: 'Market', icon: MagnifyingGlassIcon, path: '/marketplace', active: location.pathname === '/marketplace' },
+    { label: 'Pulse', icon: UserGroupIcon, path: '/communities', active: location.pathname === '/communities' },
+    { label: user?.role === 'seller' ? 'Engine' : 'You', icon: user?.role === 'seller' ? RocketLaunchIcon : UserIcon, path: user?.role === 'seller' ? '/dashboard' : '/settings', active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/settings' },
+  ];
+
+  return (
+    <div className="md:hidden fixed bottom-6 left-4 right-4 z-[100]">
+      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/20 dark:border-white/5 shadow-2xl rounded-3xl p-2 flex items-center justify-around h-16 ring-1 ring-slate-900/5 dark:ring-white/5">
+        {navItems.map((item) => (
+          <button
+            key={item.label}
+            onClick={() => navigate(item.path)}
+            className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${item.active ? 'text-emerald-600 dark:text-emerald-400 scale-110' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'}`}
+          >
+            <item.icon className={`w-5 h-5 ${item.active ? 'stroke-[2.5px]' : 'stroke-2'}`} />
+            <span className="text-[10px] font-black uppercase tracking-widest">{item.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function App() {
   // Initialize state directly from localStorage/system to avoid cascading renders
@@ -256,10 +329,10 @@ function App() {
               to={user?.role === 'seller' ? "/dashboard" : "/"} 
               className="flex items-center gap-2 group"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform">
+              <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
                 F
               </div>
-              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300">
+              <span className="text-xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white">
                 Frontline
               </span>
             </Link>
@@ -330,23 +403,24 @@ function App() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <div className={`md:hidden overflow-hidden transition-all duration-300 border-t border-slate-100 dark:border-slate-800 ${mobileMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
-            <div className="px-4 pt-2 pb-6 space-y-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
-               {user?.role !== 'seller' && (
-                 <>
-                   <Link to="/communities" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Communities</Link>
-                   <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">About</Link>
-                 </>
-               )}
-               {user && user.role === 'seller' && (
-                 <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-base font-bold text-primary-600 dark:text-primary-400 hover:bg-slate-50 dark:hover:bg-slate-800">Dashboard</Link>
-               )}
-               {!user && (
-                 <div className="pt-4 flex flex-col gap-2">
-                   <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full py-3 text-center rounded-xl font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">Login</Link>
-                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full py-3 text-center rounded-xl font-bold bg-primary-600 text-white">Sign Up</Link>
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className="px-4 pt-2 pb-6 space-y-4 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-white/5">
+               <div className="grid grid-cols-2 gap-3">
+                  <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 text-center text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">About</Link>
+                  <Link to="/marketplace" onClick={() => setMobileMenuOpen(false)} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 text-center text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">Inventory</Link>
+               </div>
+               {!user ? (
+                 <div className="flex flex-col gap-2">
+                   <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/5">Login</Link>
+                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-emerald-600 text-white shadow-xl shadow-emerald-500/20">Sign Up</Link>
                  </div>
+               ) : (
+                 <button 
+                   onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                   className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-red-50 dark:bg-red-900/20 text-red-600 border border-red-100 dark:border-red-900/30"
+                 >
+                   Terminate Session
+                 </button>
                )}
             </div>
         </div>
@@ -371,6 +445,9 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </main>
+
+      {/* Mobile-First Navigation Layer */}
+      <BottomNav user={user} />
     </div>
   )
 }
