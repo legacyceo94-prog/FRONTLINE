@@ -114,13 +114,21 @@ A working engineer in Kenya was successfully running a full course business thro
 - **The Breakthrough**: Everyone starts at **0%**.
 - **The Result**: Trust must be built through content (posts) and networking (joining hubs). A 90% score now means you have actually consistently proven your competence.
 
-### **4. INSTANT WHATSAPP CONNECT**
+### **4. THE DIVERGENT ENGINE**
 
-> **Agenda**: Bridging Discovery to Transaction.
+> **Agenda**: specialized Operating Systems for specialized Identities.
 
-- **The Problem**: Finding an expert on a platform but having no way to "talk business" instantly.
-- **The Breakthrough**: Direct `wa.me` integration in every professional profile.
-- **The Result**: One click from "I like this portfolio" to "I'm chatting with the expert on WhatsApp." No platform lock-in for the transaction.
+- **The Problem**: A "Service Expert" (Tutor) has completely different needs than a "Product Merchant" (Tech Retailer). A generic dashboard makes both feel like "just another user."
+- **The Breakthrough**: Upon onboarding, users choose between a **Service Studio** or a **Product Store**.
+- **The Result**: The UI "Diverges." Studios focus on Curriculums and Expert Assets; Stores focus on Inventory and Hub Origins. It makes the platform feel like it was built specifically for YOU.
+
+### **5. THE WHATSAPP PULSE (CRISIS FALLBACK)**
+
+> **Agenda**: Designing for Real-World Reliability.
+
+- **The Problem**: Platforms fail. Servers lag. Transactions get stuck. In the real world, a "stranded" buyer is a lost customer.
+- **The Breakthrough**: The **WhatsApp Pulse** integration.
+- **The Result**: Every listing has a high-visibility communication fallback. If the digital cloud flickers, the "social pulse" remains alive. It ensures 100% connectivity between buyer and seller, regardless of platform state.
 
 ---
 

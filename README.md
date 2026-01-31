@@ -13,9 +13,10 @@
     - **Network Participation** (0.1% Power)
     - **Verified Handshakes** (2.0% Power - The "Gold Standard")
 2.  **The Handshake Economy**: We replaced generic "Likes" with **Locked Ratings**. A rating is an immutable record of a completed value transaction.
-3.  **Dual-Mode Reality**:
-    - **The Private Studio (Seller Mode)**: A high-integrity cockpit for constructing Expert Bundles and monitoring signal reception.
-    - **The Market Pulse (Buyer Mode)**: A real-time, zero-latency discovery engine for finding verified talent.
+3.  **The Divergent Engine**: Upon onboarding, professionals choose between two specialized cockpits:
+    - **Service Studio**: Tailored for experts selling time, knowledge, and consultation.
+    - **Product Store**: Tailored for merchants selling physical inventory or digital products.
+4.  **The WhatsApp Pulse**: A universal, one-click communication fallback integrated into every listing (v1.0 crisis navigation).
 
 ---
 
@@ -24,9 +25,10 @@
 ### **The Engine (Backend)**
 
 - **Core**: Node.js & Express (High-performance REST API)
-- **Database**: MongoDB (Structure-agnostic Asset Storage)
+- **Database**: MongoDB (Divergent User Schema)
 - **Optimization**:
   - **Indexed Search**: Lightning-fast lookup for Usernames, Posts, and Community Feeds.
+  - **WhatsApp Fallback Logic**: Direct communication layer bypassing platform latency.
   - **Deep-Scrub Deletion**: "Clean Slate" protocol ensures no ghost data remains after account removal.
 
 ### **The Interface (Frontend)**

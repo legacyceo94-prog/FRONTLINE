@@ -23,17 +23,17 @@
 
 **Frontline** is a social-first commerce platform that fundamentally reimagines how Kenyans buy, sell, and build trust online. Unlike traditional e-commerce platforms (Jumia, Kilimall) or pure social platforms, Frontline combines:
 
-- **Communities** (like WhatsApp groups, but structured)
-- **Trust Scoring** (visible reputation that grows with activity)
-- **Direct Commerce** (sellers list directly in communities they're part of)
-- **Competence Layer** (verified skills and portfolios)
+- **Divergent Engine** (Choice between **Service Studio** or **Product Store** cockpits)
+- **Trust Scoring** (Visible reputation that grows with activity)
+- **WhatsApp Pulse** (Direct crisis-navigation fallback for all listings)
+- **Competence Layer** (Verified skills and portfolios)
 
 ### The Core Insight
 
 You observed your friend successfully running commerce through WhatsApp groups. Frontline takes that proven model and solves its biggest problems:
 
 - ❌ WhatsApp: No trust verification, no discovery, no scalability, no payment protection
-- ✅ Frontline: Built-in trust scores, community discovery, scalable infrastructure, integrated commerce
+- ✅ Frontline: Built-in trust scores, community discovery, scalable infrastructure, integrated commerce, and a **dedicated cockpit** for your specific business type.
 
 ---
 
@@ -49,14 +49,14 @@ frontend/
 │   ├── pages/
 │   │   ├── Communities.jsx       # Community discovery & creation
 │   │   ├── CommunityFeed.jsx     # Individual community feeds
-│   │   ├── Marketplace.jsx       # Course/service listings
-│   │   ├── Profile.jsx           # User profiles with trust scores
-│   │   ├── AccountSettings.jsx   # User management
+│   │   ├── Marketplace.jsx       # Divergent product/service listings
+│   │   ├── Profile.jsx           # User profiles with trust scores & Hub Origin
+│   │   ├── AccountSettings.jsx   # Divergent Onboarding & Asset Sync
 │   │   ├── Login.jsx / Signup.jsx
-│   │   └── CreateCourse.jsx      # Seller tools
+│   │   └── CreateCourse.jsx      # Divergent Listing Forge (Studio vs Store)
 │   ├── components/
 │   │   ├── PostCard.jsx          # Social posts
-│   │   └── CourseCard.jsx        # Product listings
+│   │   └── CourseCard.jsx        # Value Bundles with WhatsApp Pulse
 │   └── App.jsx                   # Main routing & state
 ```
 
@@ -65,16 +65,16 @@ frontend/
 ```
 backend/
 ├── models/
-│   ├── User.js                   # User profiles + trust data
+│   ├── User.js                   # Divergent Schema (businessType, location)
 │   ├── Community.js              # Community structure
 │   ├── Post.js                   # Social content
-│   └── Course.js                 # Marketplace listings
+│   └── Course.js                 # Divergent Listings (type: product | service)
 ├── routes/
-│   ├── auth.js                   # Authentication
-│   ├── users.js                  # Profile management
+│   ├── auth.js                   # Authentication & /upgrade logic
+│   ├── users.js                  # Profile management & hub settings
 │   ├── communities.js            # Community operations
 │   ├── posts.js                  # Social feed
-│   └── courses.js                # Marketplace
+│   └── courses.js                # Divergent Marketplace logic
 └── middleware/
     └── auth.js                   # JWT protection
 ```
@@ -82,31 +82,32 @@ backend/
 ### **Data Flow**
 
 ```
-User Journey: Discovery → Join Community → Build Trust → Transact
+User Journey: Discovery → Signup → Identity Selection → Build Trust → Transact
 
 1. DISCOVERY
    User browses communities by category
    → GET /api/communities
-   → Displays: Engineering, Tech, Business, Creative communities
 
-2. JOIN COMMUNITY
-   User clicks "Join Community"
-   → POST /api/communities/:id/join (authenticated)
-   → Updates: User.joinedCommunities[] + Community.members[]
-   → Bi-directional relationship established
+2. SIGNUP & IDENTITY FORK
+   User signs up and hits the /upgrade protocol.
+   Choice:
+   - Service Studio (businessType: 'service')
+   - Product Store (businessType: 'product')
 
-3. BUILD TRUST
+3. COCKPIT HYDRATION
+   The Dashboard renders a specialized OS based on 'businessType':
+   - Studio Focus: Build Assets, Consultation, Curriculum.
+   - Store Focus: List Products, Inventory, Warehouse Hub.
+
+4. BUILD TRUST
    User posts in community, shares expertise
    → POST /api/communities/:id/posts
-   → Dynamic Trust Score increases:
-      Base: 50% + (Posts × 10) + (Communities × 5)
-   → Publicly visible on profile
+   → Dynamic Trust Score increases.
 
-4. TRANSACT
-   Seller lists service/product in community
-   → POST /api/courses (type: service/product)
-   → Only visible to community members
-   → WhatsApp contact for direct communication
+5. THE HANDSHAKE (TRANSACT)
+   Buyer finds a "Value Bundle" (Product or Service).
+   → Primary Path: Direct Transaction / Scheduling.
+   → Fallback Path: WhatsApp Pulse (one-click DM).
 ```
 
 ---

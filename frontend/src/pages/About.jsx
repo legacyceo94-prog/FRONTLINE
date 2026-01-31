@@ -90,23 +90,25 @@ export default function About() {
           </div>
         </div>
 
-        {/* Dual Mode Infrastructure */}
+        {/* The Divergent Engine: Dual-Path Infrastructure */}
         <div className="mb-40">
            <div className="text-center mb-20">
-              <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.3em] mb-4 block">The Binary OS</span>
-              <h2 className="text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">A Tale of Two Worlds</h2>
+              <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.3em] mb-4 block">The Divergent Engine</span>
+              <h2 className="text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">A Tale of Two Cockpits</h2>
+              <p className="mt-4 text-slate-500 dark:text-slate-400 max-w-xl mx-auto font-medium">One platform, two specialized operating systems tailored to your specific business identity.</p>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              {/* The Studio */}
+              {/* The Service Studio */}
               <div className="group relative bg-slate-900 rounded-[4rem] p-16 overflow-hidden border border-white/5 transition-all hover:border-primary-500/50 shadow-2xl">
                  <div className="absolute top-0 right-0 w-96 h-96 bg-primary-600/10 blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
-                 <h3 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-6">The Private Studio</h3>
+                 <h3 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-2">Service Studio</h3>
+                 <div className="text-[10px] font-black text-primary-400 uppercase tracking-[0.4em] mb-6">Expertise & Time</div>
                  <p className="text-slate-400 text-lg font-medium leading-relaxed mb-10">
-                    For the **Producer**. A high-integrity cockpit where you formalize your work into Expert Bundles. It’s not a profile; it’s a **Studio for reputation construction.**
+                    For the **Knowledge Producer**. A high-integrity cockpit where you formalize your expertise into Expert Bundles. Focus on curriculum construction and reputation transmission.
                  </p>
                  <ul className="space-y-4">
-                    {['Asset Construction', 'Workshop Metrics', 'Network Reception Feed', 'Trust Transmission Control'].map(feature => (
+                    {['Curriculum Design', 'Knowledge Proofs', 'Consultation Metrics', 'Expertise Reach'].map(feature => (
                        <li key={feature} className="flex items-center gap-3 text-slate-500 text-xs font-black uppercase tracking-widest">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
                           {feature}
@@ -115,21 +117,48 @@ export default function About() {
                  </ul>
               </div>
 
-              {/* The Pulse */}
-              <div className="group relative bg-white dark:bg-slate-800 rounded-[4rem] p-16 overflow-hidden border border-slate-100 dark:border-slate-700 transition-all hover:border-primary-500/50 shadow-xl">
-                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary-600/5 blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
-                 <h3 className="text-4xl font-black text-slate-900 dark:text-white italic uppercase tracking-tighter mb-6">The Market Pulse</h3>
+              {/* The Product Store */}
+              <div className="group relative bg-white dark:bg-slate-800 rounded-[4rem] p-16 overflow-hidden border border-slate-100 dark:border-slate-700 transition-all hover:border-indigo-500/50 shadow-xl">
+                 <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/5 blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+                 <h3 className="text-4xl font-black text-slate-900 dark:text-white italic uppercase tracking-tighter mb-2">Product Store</h3>
+                 <div className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.4em] mb-6">Physical & Digital Goods</div>
                  <p className="text-slate-600 dark:text-slate-400 text-lg font-medium leading-relaxed mb-10">
-                    For the **Consumer**. A live broadcast of competence. Join Territories, discover innovations, and initiate the **Handshake Economy.**
+                    For the **Merchant Pilot**. A volume-focused cockpit designed for inventory management, shipping logistics, and scaling your physical or digital reach.
                  </p>
                  <ul className="space-y-4">
-                    {['Territory Discovery', 'Live Truth Broadcast', 'Expert Bundle Navigation', 'Verified Participant Portal'].map(feature => (
+                    {['Inventory Health', 'Warehouse Velocity', 'Shipping Hubs', 'Catalog Scaling'].map(feature => (
                        <li key={feature} className="flex items-center gap-3 text-slate-400 dark:text-slate-500 text-xs font-black uppercase tracking-widest">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary-600"></div>
+                          <div className="w-1.5 h-1.5 rounded-full bg-indigo-600"></div>
                           {feature}
                        </li>
                     ))}
                  </ul>
+              </div>
+           </div>
+        </div>
+
+        {/* The WhatsApp Pulse Fallback */}
+        <div className="mb-40 relative group">
+           <div className="absolute inset-0 bg-green-500/5 blur-[100px] rounded-[5rem] group-hover:bg-green-500/10 transition-all"></div>
+           <div className="relative glass-card rounded-[4rem] p-12 md:p-20 border-green-500/20 dark:border-green-500/10 overflow-hidden shadow-2xl">
+              <div className="flex flex-col lg:flex-row items-center gap-16">
+                 <div className="flex-1">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 text-green-600 dark:text-green-500 text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-6">
+                       Crisis Navigation Fallback
+                    </div>
+                    <h2 className="text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none mb-8">
+                       The WhatsApp <br />Pulse Protocol
+                    </h2>
+                    <p className="text-xl text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                       We understand that in real-world commerce, the cloud can flicker. Every listing on Frontline is armed with a **WhatsApp Pulse**—a direct communication bridge that ensures buyers never get "stranded" and transactions never stop.
+                    </p>
+                 </div>
+                 <div className="w-full lg:w-96 flex justify-center">
+                    <div className="w-64 h-64 rounded-full bg-green-500 flex items-center justify-center text-white shadow-2xl shadow-green-500/20 animate-pulse relative">
+                       <div className="absolute inset-0 rounded-full border-4 border-green-500/30 animate-ping"></div>
+                       <SignalIcon className="w-32 h-32" />
+                    </div>
+                 </div>
               </div>
            </div>
         </div>

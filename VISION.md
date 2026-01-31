@@ -26,12 +26,15 @@ Frontline aims to bridge the gap between specific individual trust and mass-mark
 2.  **Community-First**: Sellers don't just list products; they plug into **Communities** (Networks of Buyers).
     - _Example_: A "Knowledge Seller" connects to a generic "Student Community".
     - _Example_: A "Laptop Seller" connects to a "Tech Community".
-3.  **Competence over Inventory**: For service/knowledge sellers, the platform highlights **Competence** (portfolios, past work, student success) rather than just "items in stock".
-4.  **A Friendly Business System**: Empowering individuals (engineers, creative, tutors) to monetize their value easily.
+3.  **Divergent Identities**: Sellers aren't one-size-fits-all. We provide specialized "Cockpits" for **Service Studios** and **Product Stores**, ensuring tools match the nature of the business.
+4.  **The WhatsApp Pulse**: A universal, crisis-navigation bridge. We don't just "talk" about trust; we ensure a direct communication fallback in every listing.
+5.  **A Friendly Business System**: Empowering individuals (engineers, creatives, tutors) to monetize their value through a specialized Operating System.
 
 ## 3. The Mechanics
 
 - **From "One-to-One" to "One-to-Community"**: Instead of 1 seller finding 1 buyer (Sales), a seller connects with a network (Trust) which leads to a Brand.
+- **Divergent Onboarding**: Professionals choose their path (Studio vs Store) to unlock specific tools.
+- **The WhatsApp Fallback**: Integrated `wa.me` links as a mandatory "Safe Line" for transactions.
 - **The Ladder of Growth**:
   1.  **Sale**: Selling to a single person.
   2.  **Trust**: That person refers someone else.
