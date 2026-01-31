@@ -18,7 +18,7 @@ export default function PostCard({ post }) {
   const handleRateAuthor = async (stars) => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) return alert('Please sign in to rate this expert.');
+      if (!token) return alert('Please sign in to rate this seller.');
       
       const userId = localStorage.getItem('userId');
       if (userId === post.author?._id) return alert('You cannot rate your own work.');
@@ -42,7 +42,7 @@ export default function PostCard({ post }) {
 
     try {
       const token = localStorage.getItem('token');
-      if (!token) return alert('Please sign in to participate in the pulse.');
+      if (!token) return alert('Please sign in to participate in the handshake.');
 
       setIsCommenting(true);
       const res = await api.post(`/api/communities/posts/${post._id}/comment`, { text: commentText });

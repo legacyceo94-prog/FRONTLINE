@@ -105,10 +105,10 @@ export default function About() {
                  <h3 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-2">Service Studio</h3>
                  <div className="text-[10px] font-black text-primary-400 uppercase tracking-[0.4em] mb-6">Expertise & Time</div>
                  <p className="text-slate-400 text-lg font-medium leading-relaxed mb-10">
-                    For the **Knowledge Producer**. A high-integrity cockpit where you formalize your expertise into Expert Bundles. Focus on curriculum construction and reputation transmission.
+                    For the **Knowledge Producer**. A high-integrity cockpit where you formalize your expertise into Seller Bundles. Focus on curriculum construction and reputation transmission.
                  </p>
                  <ul className="space-y-4">
-                    {['Curriculum Design', 'Knowledge Proofs', 'Consultation Metrics', 'Expertise Reach'].map(feature => (
+                    {['Territory Discovery', 'Live Truth Broadcast', 'Seller Bundle Navigation', 'Verified Buyer Portal'].map(feature => (
                        <li key={feature} className="flex items-center gap-3 text-slate-500 text-xs font-black uppercase tracking-widest">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
                           {feature}
@@ -190,9 +190,9 @@ export default function About() {
                  <div className="w-24 h-24 rounded-3xl bg-green-50 dark:bg-green-900/10 flex items-center justify-center text-green-600 mb-8 border border-green-100 dark:border-green-900/20">
                     <CurrencyDollarIcon className="w-10 h-10" />
                  </div>
-                 <h4 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 italic">Outcome Bundles</h4>
+                 <h4 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-4 italic">Seller Assets</h4>
                  <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
-                    You don't just sell services; you deploy **Solution Bundles**. An organized asset that buyers can handshake on instantly.
+                    Turn your skills into **Seller Assets**. Not just a portfolio, but a verifiable proof of value that buyers can trust instantly.
                  </p>
               </div>
            </div>

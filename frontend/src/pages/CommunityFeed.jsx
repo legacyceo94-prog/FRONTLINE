@@ -165,12 +165,12 @@ export default function CommunityFeed() {
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-slate-500 dark:text-slate-400 text-sm mt-1">
                   <div className="flex items-center gap-1.5">
                     <UserGroupIcon className="w-4 h-4" />
-                    <span>{community?.members?.length || 0} Members</span>
+                    <span>{community?.members?.length || 0} Buyers</span>
                   </div>
                   {community?.creator && (
                     <Link to={`/profile/${community.creator._id || community.creator}`} className="flex items-center gap-1.5 hover:text-primary-500 transition-colors">
                       <CheckBadgeIcon className="w-4 h-4 text-primary-500" />
-                      <span>Founded by <span className="font-semibold uppercase">{community.creator.username || 'Expert'}</span></span>
+                      <span>Founded by <span className="font-semibold uppercase">{community.creator.username || 'Seller'}</span></span>
                     </Link>
                   )}
                 </div>
@@ -183,7 +183,7 @@ export default function CommunityFeed() {
                  : 'bg-primary-600 hover:bg-primary-700 text-white shadow-primary-500/30'
                }`}
              >
-               {isMember ? 'Member' : 'Join Community'}
+               {isMember ? 'Buyer' : 'Join Community'}
              </button>
           </div>
         </div>

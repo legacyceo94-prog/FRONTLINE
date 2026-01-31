@@ -169,9 +169,9 @@ export default function Dashboard() {
                 <div className="mt-2 flex flex-col items-center gap-1">
                    <div className="flex items-center gap-2 px-4 py-1.5 bg-slate-100 dark:bg-slate-900/50 rounded-full border border-slate-200 dark:border-slate-700">
                       <div className="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
-                      <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
-                        {user?.businessType === 'product' ? 'Verified Merchant' : 'Professional Expert'}
-                      </span>
+                       <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                        {user?.businessType === 'product' ? 'Verified Merchant' : 'Professional Seller'}
+                       </span>
                    </div>
                    {user?.sellerProfile?.phone && (
                      <span className="text-[10px] font-bold text-green-600 dark:text-green-400 uppercase tracking-widest mt-2 flex items-center gap-1">
@@ -200,7 +200,7 @@ export default function Dashboard() {
                   </div>
                   <div className="text-right">
                      <span className="text-[10px] font-bold text-primary-500 uppercase tracking-widest block mb-1">Threshold</span>
-                     <span className="text-sm font-black text-slate-300 dark:text-slate-600">{user?.trustScore >= 50 ? 'Verified Authority' : 'Verification Lock'}</span>
+                     <span className="text-sm font-black text-slate-300 dark:text-slate-600">{user?.trustScore >= 50 ? 'Verified Seller' : 'Verification Lock'}</span>
                   </div>
                 </div>
                 <div className="w-full h-4 bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden p-1 border border-slate-200 dark:border-slate-800">
@@ -213,7 +213,7 @@ export default function Dashboard() {
                 <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800">
                    <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide flex items-center gap-2">
                      <ShieldCheckIcon className="w-3 h-3" />
-                     Reputation Level: {user?.trustScore >= 50 ? 'Certified Expert' : user?.trustScore > 0 ? 'Rising Professional' : 'Zero-Base Truth'}
+                     Reputation Level: {user?.trustScore >= 50 ? 'Certified Seller' : user?.trustScore > 0 ? 'Rising Professional' : 'Zero-Base Truth'}
                    </p>
                    <p className="text-[9px] text-slate-400 mt-1 italic leading-relaxed">
                      {user?.trustScore > 0 ? 'Your authority is growing. Keep broadcasting competence.' : 'Identity is private. Upload assets to begin your public broadcast.'}
@@ -281,7 +281,7 @@ export default function Dashboard() {
                            <div>
                              <p className="text-3xl font-black tracking-tighter text-white">{myPosts.length}</p>
                              <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">
-                               {user?.businessType === 'product' ? 'Product SKUs' : 'Expert Assets'}
+                               {user?.businessType === 'product' ? 'Product SKUs' : 'Seller Assets'}
                              </p>
                            </div>
                            <div>

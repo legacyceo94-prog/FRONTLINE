@@ -121,7 +121,7 @@ const Communities = () => {
                 <div className="w-5 h-5 rounded-md bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
                    <UserGroupIcon className="w-3 h-3" />
                 </div>
-                Expert Hubs
+                Seller Hubs
                 {activeTab === 'hubs' && <div className="absolute bottom-0 left-0 w-full h-1 bg-primary-600 rounded-t-full"></div>}
               </button>
               <button 

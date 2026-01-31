@@ -75,8 +75,8 @@ function Home() {
                     )}
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white leading-tight">{localStorage.getItem('username') || 'Member'}</h3>
-                    <p className="text-xs text-slate-500">Professional Profile</p>
+                    <h3 className="font-bold text-slate-900 dark:text-white leading-tight">{localStorage.getItem('username') || 'Buyer'}</h3>
+                     <p className="text-xs text-slate-500">Reputation Level: {user?.trustScore >= 50 ? 'Certified Seller' : user?.trustScore > 0 ? 'Rising Professional' : 'Zero-Base Truth'}</p>
                   </div>
                 </div>
                 <h3 className="font-bold text-slate-900 dark:text-white mb-2 text-sm">Your Communities</h3>
@@ -184,7 +184,7 @@ function App() {
     const profileImage = localStorage.getItem('profileImage'); // Images usually stay in local
     const role = localStorage.getItem('role') || sessionStorage.getItem('role');
     
-    return token ? { username: username || 'Member', profileImage, role } : null;
+    return token ? { username: username || 'Buyer', profileImage, role } : null;
   });
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -18,7 +18,7 @@ export default function Profile() {
   const handleRate = async (stars) => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) return alert('Please sign in to rate this expert.');
+      if (!token) return alert('Please sign in to rate this seller.');
       
       setIsRating(true);
       const res = await api.post(`/api/users/${id}/rate`, { stars }, {
@@ -108,7 +108,7 @@ export default function Profile() {
                       {profile.businessType === 'product' ? (
                         <>📦 Verified Merchant</>
                       ) : (
-                        <>🚀 Professional Expert</>
+                         <>🚀 Professional Seller</>
                       )}
                     </span>
                   )}
@@ -178,7 +178,7 @@ export default function Profile() {
                          }}
                          className={`px-4 py-2 ${profile.businessType === 'product' ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white'} font-semibold rounded-lg transition-colors`}
                        >
-                         {profile.businessType === 'product' ? 'Visit Hub' : 'Contact Expert'}
+                          {profile.businessType === 'product' ? 'Visit Hub' : 'Contact Seller'}
                        </button>
                     </>
                   )}
@@ -203,7 +203,7 @@ export default function Profile() {
                 onClick={() => setActiveTab('portfolio')}
                 className={`py-3 text-sm font-semibold border-b-2 transition-colors ${activeTab === 'portfolio' ? 'border-primary-500 text-primary-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
               >
-                {profile.businessType === 'product' ? 'Inventory' : 'Competence Assets'}
+                 {profile.businessType === 'product' ? 'Inventory' : 'Seller Assets'}
               </button>
             </div>
           </div>
@@ -219,7 +219,7 @@ export default function Profile() {
             <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2">Orientation</h3>
                <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
-                 <p>🛰️ <span className="font-semibold">Network Role:</span> {profile.role === 'seller' ? 'Member / Admin' : 'Community Member'}</p>
+                  <p>🛰️ <span className="font-semibold">Network Role:</span> {profile.role === 'seller' ? 'Seller' : 'Buyer'}</p>
                   {profile.location && (
                     <p>📍 <span className="font-semibold">{profile.businessType === 'product' ? 'Store Hub:' : 'Base Location:'}</span> {profile.location}</p>
                   )}
@@ -319,7 +319,7 @@ export default function Profile() {
                     <div className="col-span-full py-20 text-center text-slate-400 bg-white dark:bg-slate-800 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-700">
                       <BriefcaseIcon className="w-16 h-16 mx-auto mb-4 opacity-20" />
                       <p className="font-black uppercase tracking-tighter text-xl">Mirror is Empty</p>
-                      <p className="text-sm italic mt-1 font-medium">This admin hasn't broadcast any competence assets yet.</p>
+                       <p className="text-sm italic mt-1 font-medium">This seller hasn't broadcast any competence assets yet.</p>
                     </div>
                   )}
                   </div>

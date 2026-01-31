@@ -329,7 +329,7 @@ export default function AccountSettings() {
               </div>
             ) : (
               <p className="text-slate-500 dark:text-slate-400 text-center py-8">
-                You haven't joined any communities yet.
+                You haven't joined any hubs yet.
               </p>
             )}
           </div>
@@ -343,7 +343,7 @@ export default function AccountSettings() {
               <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
                 {user.role === 'seller' 
                   ? 'Your identity is recognized. Initialize your specialized cockpit to unlock the core tools of the network.'
-                  : 'Choose how you want to scale on Frontline. Access expert tools and build your trust score.'}
+                  : 'Choose how you want to scale on Frontline. Access seller tools and build your trust score.'}
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

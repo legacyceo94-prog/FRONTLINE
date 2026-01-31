@@ -123,14 +123,14 @@ export default function Signup() {
                 onClick={() => setFormData({...formData, role: 'user'})}
                 className={userBtnClass}
               >
-                I want to Buy
+                I want to be a Buyer
               </button>
               <button
                 type="button"
                 onClick={() => setFormData({...formData, role: 'seller'})}
                 className={sellerBtnClass}
               >
-                I want to Sell
+                I want to be a Seller
               </button>
             </div>
 
