@@ -16,7 +16,8 @@ import {
   ArrowUpCircleIcon,
   DocumentDuplicateIcon,
   Square3Stack3DIcon,
-  StarIcon
+  StarIcon,
+  BuildingStorefrontIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
