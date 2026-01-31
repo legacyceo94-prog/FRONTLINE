@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
       if (maxPrice) query['skuDetails.price'].$lte = maxPrice;
     }
 
-    const courses = await Course.find(query).populate('seller', 'username isVerified trustScore sellerProfile.bio');
+    const courses = await Course.find(query).populate('seller', 'username isVerified trustScore sellerProfile.bio sellerProfile.phone');
     res.json(courses);
   } catch (err) {
     console.error(err.message);
@@ -83,12 +83,13 @@ router.post('/:id/contact', async (req, res) => {
 router.post('/', auth, async (req, res) => {
   try {
     // TODO: Verify user is a seller?
-    const { title, description, category, price, duration, skillLevel, flyerImage, curriculum } = req.body;
+    const { title, description, category, price, duration, skillLevel, flyerImage, curriculum, type } = req.body;
 
     const newCourse = new Course({
       seller: req.user.id,
       title,
       description,
+      type, // Divergent identity
       category,
       skuDetails: {
         price,

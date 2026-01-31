@@ -65,6 +65,18 @@ Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use e
              {course.skuDetails?.price ? `KES ${course.skuDetails.price.toLocaleString()}` : 'Free'}
           </span>
         </div>
+
+        {/* WhatsApp Fallback Action */}
+        {course.seller?.sellerProfile?.phone && (
+          <a 
+            href={`https://wa.me/${course.seller.sellerProfile.phone.replace(/\s+/g, '')}`}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 w-full py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-center text-xs font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+          >
+            📲 WhatsApp Pulse
+          </a>
+        )}
       </div>
     </div>
   );
