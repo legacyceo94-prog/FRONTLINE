@@ -12,9 +12,13 @@ router.post(
   '/',
   auth,
   async (req, res) => {
-    const { name, description, category, image } = req.body;
-
     try {
+      const user = await User.findById(req.user.id);
+      if (!user || (user.role !== 'seller' && user.role !== 'admin')) {
+        return res.status(403).json({ msg: 'Territory Launch Denied: Only professional pilots (Sellers) can initialize new Hubs.' });
+      }
+
+      const { name, description, category, image } = req.body;
       const newCommunity = new Community({
         name,
         description,
@@ -27,7 +31,6 @@ router.post(
       const community = await newCommunity.save();
       
       // Also add to User's joined list
-      const user = await User.findById(req.user.id);
       user.joinedCommunities.push(community.id);
       await user.save();
 
@@ -110,6 +113,10 @@ router.get('/:id/posts', async (req, res) => {
 router.post('/:id/posts', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
+    if (!user || (user.role !== 'seller' && user.role !== 'admin')) {
+      return res.status(403).json({ msg: 'Broadcast Restricted: Only verified Sellers can pilot new posts in this territory.' });
+    }
+
     const { title, content, type, price, media } = req.body; // media is array of URLs
 
     const newPost = new Post({

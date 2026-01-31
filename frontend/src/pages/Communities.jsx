@@ -146,7 +146,7 @@ const Communities = () => {
               <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] italic">
                 {activeTab === 'hubs' ? 'Active Territories' : 'Recent Proofs of Work'}
               </h2>
-              {localStorage.getItem('role') === 'seller' && (
+              {(localStorage.getItem('role') === 'seller' || localStorage.getItem('role') === 'admin') && (
                 <button 
                   onClick={() => {
                     const token = localStorage.getItem('token');
@@ -177,6 +177,10 @@ const Communities = () => {
                   onClick={() => {
                     const token = localStorage.getItem('token');
                     if (!token) return navigate('/login');
+                    if (localStorage.getItem('role') !== 'seller' && localStorage.getItem('role') !== 'admin') {
+                      alert("Restricted: Only sellers can create territories.");
+                      return;
+                    }
                     setIsModalOpen(true);
                   }}
                   className="px-8 py-3 bg-primary-600 text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl shadow-lg shadow-primary-500/20"

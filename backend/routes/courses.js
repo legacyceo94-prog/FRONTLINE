@@ -85,6 +85,12 @@ router.post('/', auth, async (req, res) => {
     // TODO: Verify user is a seller?
     const { title, description, category, price, duration, skillLevel, flyerImage, curriculum, type } = req.body;
 
+    // Verify Role (Source of Truth check)
+    const user = await User.findById(req.user.id);
+    if (!user || (user.role !== 'seller' && user.role !== 'admin')) {
+      return res.status(403).json({ msg: 'Security Breach: Only professional pilots (Sellers) can broadcast new listings.' });
+    }
+
     const newCourse = new Course({
       seller: req.user.id,
       title,

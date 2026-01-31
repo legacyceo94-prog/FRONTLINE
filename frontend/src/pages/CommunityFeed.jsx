@@ -190,12 +190,14 @@ export default function CommunityFeed() {
       </div>
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-        {/* Create Post Trigger */}
-        <div onClick={() => setIsModalOpen(true)} className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 mb-6 flex gap-4 items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-           <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div>
-           <div className="flex-1 bg-slate-100 dark:bg-slate-900 h-10 rounded-full px-4 flex items-center text-slate-500 text-sm">Start a discussion or list a product...</div>
-           <PencilSquareIcon className="w-6 h-6 text-slate-400" />
-        </div>
+        {/* Create Post Trigger (Sellers Only) */}
+        {(localStorage.getItem('role') === 'seller' || localStorage.getItem('role') === 'admin') && (
+          <div onClick={() => setIsModalOpen(true)} className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 mb-6 flex gap-4 items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div>
+            <div className="flex-1 bg-slate-100 dark:bg-slate-900 h-10 rounded-full px-4 flex items-center text-slate-500 text-sm">Start a discussion or list a product...</div>
+            <PencilSquareIcon className="w-6 h-6 text-slate-400" />
+          </div>
+        )}
 
         {/* Feed */}
         <div className="space-y-6">
