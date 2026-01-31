@@ -21,6 +21,7 @@ import AccountSettings from './pages/AccountSettings'
 import Dashboard from './pages/Dashboard'
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
+import Choice from './pages/Choice';
 import api from './utils/api';
 import CourseCard from './components/CourseCard' // Added CourseCard import
 
@@ -216,10 +217,15 @@ function App() {
   // MODE ORIENTATION: Redirect to Dashboard only on initial login or Home visit
   useEffect(() => {
     const role = localStorage.getItem('role');
+    const bType = localStorage.getItem('businessType');
     const path = window.location.pathname;
     
-    if (role === 'seller' && path === '/') {
-      navigate('/dashboard');
+    if (role === 'seller') {
+      if (!bType && path !== '/choice' && path !== '/settings') {
+        navigate('/choice');
+      } else if (path === '/') {
+        navigate('/dashboard');
+      }
     }
   }, [navigate]);
 
@@ -259,16 +265,12 @@ function App() {
             </Link>
             
             <div className="hidden md:flex items-center space-x-8">
-              {location.pathname !== '/dashboard' && (
-                <>
-                  <Link to="/communities" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    Marketplace Pulse
-                  </Link>
-                  <Link to="/about" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    About
-                  </Link>
-                </>
-              )}
+              <Link to="/communities" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                Marketplace Pulse
+              </Link>
+              <Link to="/about" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                About
+              </Link>
               {user && user.role === 'seller' && (
                 <Link to="/dashboard" className={`text-sm font-bold transition-colors ${location.pathname === '/dashboard' ? 'text-primary-600 dark:text-primary-400' : 'text-slate-500 hover:text-primary-600'}`}>
                   Dashboard
@@ -362,6 +364,7 @@ function App() {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/settings" element={<AccountSettings />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/choice" element={<Choice />} />
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/about" element={<About />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

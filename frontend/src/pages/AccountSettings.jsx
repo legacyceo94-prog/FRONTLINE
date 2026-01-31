@@ -334,12 +334,16 @@ export default function AccountSettings() {
             )}
           </div>
 
-          {/* Seller Upgrade (Only for users) */}
-          {(user.role === 'user' || user.role === 'buyer') && (
+          {/* Seller Upgrade / Identity Calibration */}
+          {(user.role === 'user' || user.role === 'buyer' || (user.role === 'seller' && !user.businessType)) && (
             <div className="glass-card rounded-2xl p-6 shadow-sm bg-gradient-to-r from-primary-50 to-indigo-50 dark:from-primary-900/20 dark:to-indigo-900/20 border-2 border-primary-200 dark:border-primary-800">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">🚀 Launch Your Engine</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                {user.role === 'seller' ? '⚙️ Calibrate Your Engine' : '🚀 Launch Your Engine'}
+              </h2>
               <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
-                Choose how you want to scale on Frontline. Access expert tools and build your trust score.
+                {user.role === 'seller' 
+                  ? 'Your identity is recognized. Initialize your specialized cockpit to unlock the core tools of the network.'
+                  : 'Choose how you want to scale on Frontline. Access expert tools and build your trust score.'}
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
