@@ -83,11 +83,10 @@ export default function AccountSettings() {
       await api.patch(`/api/users/${userId}`, { bio, phone, location }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      alert('✅ Profile updated successfully!');
+      setSaving('done');
+      setTimeout(() => setSaving(false), 2000);
     } catch (err) {
       console.error(err);
-      alert('Failed to update profile');
-    } finally {
       setSaving(false);
     }
   };
@@ -294,9 +293,13 @@ export default function AccountSettings() {
                   <button 
                     onClick={handleUpdateProfile}
                     disabled={saving}
-                    className="w-full md:w-auto px-12 py-4 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl shadow-emerald-500/20 transition-all disabled:opacity-50 active:scale-95"
+                    className={`w-full md:w-auto px-12 py-4 text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl transition-all active:scale-95 ${
+                      saving === 'done' 
+                        ? 'bg-emerald-500 text-white' 
+                        : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/20'
+                    }`}
                   >
-                    {saving ? 'Transmitting Data...' : 'Commit Profile Changes'}
+                    {saving === 'done' ? 'Protocol Captured ✓' : saving ? 'Transmitting Data...' : 'Commit Profile Changes'}
                   </button>
                 </div>
               )}

@@ -146,34 +146,36 @@ export default function PostCard({ post }) {
           <span className="text-[10px] font-black uppercase tracking-[0.3em]">{comments.length > 0 ? `${comments.length} Syncs` : 'Synchronize'}</span>
         </button>
         
-        <div className="flex gap-4">
-          <button 
-            onClick={() => {
-               if (post.author?.sellerProfile?.phone) {
-                 const cleanPhone = post.author.sellerProfile.phone.replace(/\+/g, '').replace(/\s/g, '');
-                 window.open(`https://wa.me/${cleanPhone}`, '_blank');
-               } else {
-                 alert("Contact protocol not initialized.");
-               }
-            }}
-            className="px-8 py-3.5 bg-slate-900 dark:bg-slate-950 border border-white/10 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-600 transition-all shadow-xl active:scale-95"
-          >
-            Negotiate
-          </button>
-          {isFlyer && (
-            <button 
-              onClick={() => {
-                 const phone = post.author?.sellerProfile?.phone || '254700000000';
-                 const message = `Protocol Check: interested in Asset "${post.title}" on Frontline. Confirm availability?`;
-                 const url = `https://wa.me/${phone.replace(/\+/g, '').replace(/\s/g, '')}?text=${encodeURIComponent(message)}`;
-                 window.open(url, '_blank');
-              }}
-              className="px-8 py-3.5 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20 active:scale-95"
-            >
-              Acquire
-            </button>
-          )}
-        </div>
+         <div className="flex gap-4">
+           <button 
+             onClick={() => {
+                if (post.author?.sellerProfile?.phone) {
+                  const cleanPhone = post.author.sellerProfile.phone.replace(/\D/g, '').replace(/^0/, '254');
+                  window.open(`https://wa.me/${cleanPhone}`, '_blank');
+                } else {
+                  // Contact protocol silent
+                }
+             }}
+             className="px-8 py-3.5 bg-slate-900 dark:bg-slate-950 border border-white/10 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-600 transition-all shadow-xl active:scale-95"
+           >
+             Negotiate
+           </button>
+           {isFlyer && (
+             <button 
+               onClick={() => {
+                  const phone = post.author?.sellerProfile?.phone || '';
+                  if (!phone) return;
+                  const cleanPhone = phone.replace(/\D/g, '').replace(/^0/, '254');
+                  const message = `Protocol Check: interested in Asset "${post.title}" on Frontline. Confirm availability?`;
+                  const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+                  window.open(url, '_blank');
+               }}
+               className="px-8 py-3.5 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20 active:scale-95"
+             >
+               Acquire
+             </button>
+           )}
+         </div>
       </div>
 
       {/* Handshake Matrix (Comments) */}

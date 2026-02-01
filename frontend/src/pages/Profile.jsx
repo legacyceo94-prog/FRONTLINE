@@ -29,7 +29,8 @@ export default function Profile() {
       updatedProfile.ratings.push({ author: localStorage.getItem('userId') }); 
       setProfile(updatedProfile);
       
-      alert('✅ Your rating has been added to the trust network.');
+      // Silent success - trust metrics update reactively
+
     } catch (err) {
       alert(err.response?.data?.msg || 'Failed to rate');
     } finally {
@@ -159,11 +160,12 @@ export default function Profile() {
                       </button>
                       <button 
                          onClick={() => {
-                           if (profile?.sellerProfile?.phone) {
-                             const cleanPhone = profile.sellerProfile.phone.replace(/\+/g, '').replace(/\s/g, '');
-                             window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Protocol Sync: interested in your professional signals on Frontline.`)}`, '_blank');
-                           } else {
-                             alert("Contact protocol not initialized.");
+                            if (profile?.sellerProfile?.phone) {
+                              const cleanPhone = profile.sellerProfile.phone.replace(/\D/g, '').replace(/^0/, '254');
+                              window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Protocol Sync: interested in your professional signals on Frontline.`)}`, '_blank');
+                            } else {
+                             // Contact protocol intentionally silent if missing
+
                            }
                          }}
                          className="px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl active:scale-95"

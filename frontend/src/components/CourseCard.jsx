@@ -3,17 +3,34 @@ import { CheckBadgeIcon, RocketLaunchIcon, CubeIcon } from '@heroicons/react/24/
 import { UserIcon, ClockIcon } from '@heroicons/react/24/outline';
 
 export default function CourseCard({ course }) {
-  const flyerImage = course.media?.flyerImage || 'https://via.placeholder.com/400x300?text=No+Flyer';
+  const flyerImage = course.media?.flyerImage;
   
   return (
     <div className="bg-white dark:bg-slate-900 rounded-[2rem] md:rounded-[2.5rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 overflow-hidden flex flex-col h-full group hover:border-emerald-500/30 transition-all duration-500">
       {/* Flyer Image Area */}
-      <div className="relative h-48 md:h-56 overflow-hidden bg-slate-100 dark:bg-slate-800">
-        <img 
-          src={flyerImage} 
-          alt={course.title} 
-          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1.5s]"
-        />
+      <div className="relative h-48 md:h-56 overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+        {flyerImage ? (
+          <>
+            <img 
+              src={flyerImage} 
+              alt={course.title} 
+              className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1.5s]"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="hidden flex-col items-center gap-3 text-slate-300 dark:text-slate-700">
+               {course.type === 'product' ? <CubeIcon className="w-12 h-12 opacity-20" /> : <RocketLaunchIcon className="w-12 h-12 opacity-20" />}
+               <span className="text-[8px] font-black uppercase tracking-[0.3em]">No Visual Uplink</span>
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center gap-3 text-slate-300 dark:text-slate-700">
+             {course.type === 'product' ? <CubeIcon className="w-12 h-12 opacity-20" /> : <RocketLaunchIcon className="w-12 h-12 opacity-20" />}
+             <span className="text-[8px] font-black uppercase tracking-[0.3em]">No Visual Uplink</span>
+          </div>
+        )}
         <div className="absolute top-4 left-4 flex gap-2">
            <div className="px-3 py-1 bg-emerald-600/90 backdrop-blur-md text-[10px] font-black text-white uppercase tracking-widest rounded-full flex items-center gap-1.5 shadow-lg">
               {course.type === 'product' ? <CubeIcon className="w-3 h-3" /> : <RocketLaunchIcon className="w-3 h-3" />}
@@ -68,7 +85,7 @@ export default function CourseCard({ course }) {
 
            {course.seller?.sellerProfile?.phone && (
              <a 
-               href={`https://wa.me/${course.seller.sellerProfile.phone.replace(/\s+/g, '').replace(/\+/g, '')}?text=${encodeURIComponent(`Protocol Check: interested in Asset "${course.title}". Confirm status?`)}`}
+               href={`https://wa.me/${course.seller.sellerProfile.phone.replace(/\D/g, '').replace(/^0/, '254')}?text=${encodeURIComponent(`Protocol Check: interested in Asset "${course.title}". Confirm status?`)}`}
                target="_blank"
                rel="noreferrer"
                className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-center text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 shadow-xl shadow-emerald-500/20 active:scale-95"

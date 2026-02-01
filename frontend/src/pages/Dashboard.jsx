@@ -58,7 +58,7 @@ export default function Dashboard() {
           api.get(`/api/users/${userId}/posts`)
         ]);
 
-        console.log("DASHBOARD DATA DEBUG:", { user: userRes.data, hubs: hubsRes.data, posts: postsRes.data });
+
 
         setUser(userRes.data);
         setMyHubs(Array.isArray(hubsRes.data) ? hubsRes.data : []);
