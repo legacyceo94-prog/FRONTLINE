@@ -188,6 +188,8 @@ function BottomNav({ user }) {
 
   const navItems = [
     { label: 'Home', icon: HomeIcon, path: '/', active: location.pathname === '/' },
+    { label: 'Market', icon: MagnifyingGlassIcon, path: '/marketplace', active: location.pathname === '/marketplace' },
+    { label: 'Pulse', icon: UserGroupIcon, path: '/communities', active: location.pathname === '/communities' },
     { label: user?.role === 'seller' ? 'Engine' : 'You', icon: user?.role === 'seller' ? RocketLaunchIcon : UserIcon, path: user?.role === 'seller' ? '/dashboard' : '/settings', active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/settings' },
   ];
 
