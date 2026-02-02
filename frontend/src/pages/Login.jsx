@@ -58,21 +58,21 @@ export default function Login() {
       
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-emerald-500/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[100px] animate-pulse delay-700"></div>
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[100px] animate-pulse delay-700"></div>
       </div>
 
       <div className="max-w-md w-full relative z-10 p-6 md:p-10">
         
         {/* Glass Card */}
-        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-2xl rounded-[3rem] shadow-2xl border border-white/40 dark:border-white/5 p-10 sm:p-12 hover:border-emerald-500/20 transition-all">
+        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-2xl rounded-[3rem] shadow-2xl border border-white/40 dark:border-white/5 p-10 sm:p-12 hover:border-blue-500/20 transition-all">
           
           <div className="text-center mb-10">
-             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 mb-6 shadow-inner">
+             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 mb-6 shadow-inner">
                <ArrowRightIcon className="w-7 h-7" />
             </div>
             <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tighter italic">
-              Welcome <span className="text-emerald-600">Back.</span>
+              Welcome <span className="text-blue-600">Back.</span>
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">
               Access your network competence portal.
@@ -92,7 +92,7 @@ export default function Login() {
               <input
                 type="email"
                 required
-                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-bold italic"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-bold italic"
                 placeholder="Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -104,7 +104,7 @@ export default function Login() {
               <input
                 type={showPassword ? "text" : "password"}
                 required
-                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-bold italic pr-12"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-bold italic pr-12"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -112,7 +112,7 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-5 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-emerald-500 transition-colors"
+                className="absolute right-5 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-blue-500 transition-colors"
               >
                 {showPassword ? (
                   <EyeSlashIcon className="h-5 w-5" />
@@ -123,16 +123,16 @@ export default function Login() {
             </div>
 
             <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest px-1">
-              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-emerald-600 transition-colors">
+              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors">
                 <input 
                   type="checkbox" 
-                  className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 bg-transparent" 
+                  className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-blue-600 focus:ring-blue-500 bg-transparent" 
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                 />
                 <span>Stay Active</span>
               </label>
-              <Link to="/forgot-password" size="sm" className="text-emerald-600 hover:text-emerald-500 transition-colors">
+              <Link to="/forgot-password" size="sm" className="text-blue-600 hover:text-blue-500 transition-colors">
                 Lost Key?
               </Link>
             </div>
@@ -140,7 +140,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-emerald-500/30 transform hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-500/30 transform hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="animate-pulse italic">Authenticating...</span>
@@ -154,7 +154,7 @@ export default function Login() {
 
           <p className="mt-10 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
             New to the Frontline? {' '}
-            <Link to="/signup" className="text-emerald-600 hover:text-emerald-500 transition-colors">
+            <Link to="/signup" className="text-blue-600 hover:text-blue-500 transition-colors">
               Initialize Account
             </Link>
           </p>

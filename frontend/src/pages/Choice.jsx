@@ -40,18 +40,18 @@ export default function Choice() {
       
       {/* Background Ambience */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-[100px] animate-pulse delay-700"></div>
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] animate-pulse delay-700"></div>
       </div>
 
       <div className="max-w-4xl w-full relative z-10 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em] mb-12 border border-emerald-500/20 shadow-xl shadow-emerald-500/5">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.4em] mb-12 border border-blue-500/20 shadow-xl shadow-blue-500/5">
            Identity Initialization Phase
         </div>
         
         <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-none italic uppercase mb-8">
           Initialize <br />
-          <span className="text-emerald-600">Your Frontline.</span>
+          <span className="text-blue-600">Your Frontline.</span>
         </h1>
         
         <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto mb-16 leading-relaxed italic">
@@ -63,10 +63,10 @@ export default function Choice() {
           {/* Option 1: Service Studio */}
           <div 
             onClick={() => !loading && handleChoice('service')}
-            className={`group relative bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-12 border border-slate-100 dark:border-white/5 hover:border-emerald-500 transition-all cursor-pointer text-left shadow-2xl shadow-slate-200/50 dark:shadow-none hover:-translate-y-2 active:scale-95 duration-500 ${loading ? 'opacity-50 grayscale' : ''}`}
+            className={`group relative bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-12 border border-slate-100 dark:border-white/5 hover:border-blue-500 transition-all cursor-pointer text-left shadow-2xl shadow-slate-200/50 dark:shadow-none hover:-translate-y-2 active:scale-95 duration-500 ${loading ? 'opacity-50 grayscale' : ''}`}
           >
-            <div className="absolute top-8 right-10 text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest italic group-hover:text-emerald-500 transition-colors">Path 01</div>
-            <div className="w-20 h-20 rounded-2xl bg-white dark:bg-slate-950 text-emerald-600 flex items-center justify-center mb-10 border border-slate-100 dark:border-white/5 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-xl shadow-emerald-500/5">
+            <div className="absolute top-8 right-10 text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest italic group-hover:text-blue-500 transition-colors">Path 01</div>
+            <div className="w-20 h-20 rounded-2xl bg-white dark:bg-slate-950 text-blue-600 flex items-center justify-center mb-10 border border-slate-100 dark:border-white/5 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-xl shadow-blue-500/5">
                <BriefcaseIcon className="w-10 h-10" />
             </div>
             <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-4">Service Studio</h3>
@@ -80,16 +80,16 @@ export default function Choice() {
             </div>
           </div>
 
-          {/* Option 2: Product Store */}
+          {/* Option 2: Product Studio */}
           <div 
             onClick={() => !loading && handleChoice('product')}
-            className={`group relative bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-12 border border-slate-100 dark:border-white/5 hover:border-emerald-500 transition-all cursor-pointer text-left shadow-2xl shadow-slate-200/50 dark:shadow-none hover:-translate-y-2 active:scale-95 duration-500 ${loading ? 'opacity-50 grayscale' : ''}`}
+            className={`group relative bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-12 border border-slate-100 dark:border-white/5 hover:border-blue-500 transition-all cursor-pointer text-left shadow-2xl shadow-slate-200/50 dark:shadow-none hover:-translate-y-2 active:scale-95 duration-500 ${loading ? 'opacity-50 grayscale' : ''}`}
           >
-            <div className="absolute top-8 right-10 text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest italic group-hover:text-emerald-500 transition-colors">Path 02</div>
-            <div className="w-20 h-20 rounded-2xl bg-white dark:bg-slate-950 text-emerald-600 flex items-center justify-center mb-10 border border-slate-100 dark:border-white/5 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-xl shadow-emerald-500/5">
+            <div className="absolute top-8 right-10 text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest italic group-hover:text-blue-500 transition-colors">Path 02</div>
+            <div className="w-20 h-20 rounded-2xl bg-white dark:bg-slate-950 text-blue-600 flex items-center justify-center mb-10 border border-slate-100 dark:border-white/5 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-xl shadow-blue-500/5">
                <BuildingStorefrontIcon className="w-10 h-10" />
             </div>
-            <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-4">Product Store</h3>
+            <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-4">Product Studio</h3>
             <p className="text-slate-500 dark:text-slate-400 font-medium mb-10 leading-relaxed italic">
               Designed for **Merchants and Retailers**. Scale your physical or digital inventory through high-velocity Stores.
             </p>
@@ -103,7 +103,7 @@ export default function Choice() {
         </div>
 
         <div className="mt-16 flex items-center justify-center gap-3 text-slate-400 font-black uppercase tracking-widest text-[9px] italic animate-pulse">
-           <ShieldCheckIcon className="w-5 h-5 text-emerald-600" />
+           <ShieldCheckIcon className="w-5 h-5 text-blue-600" />
            Choice will permanently calibrate your cockpit tools.
         </div>
       </div>

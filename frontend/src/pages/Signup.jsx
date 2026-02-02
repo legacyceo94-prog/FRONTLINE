@@ -46,13 +46,13 @@ export default function Signup() {
 
   const userBtnClass = `py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
     formData.role === 'user' 
-      ? 'bg-white dark:bg-emerald-600 text-emerald-600 dark:text-white shadow-xl' 
+      ? 'bg-white dark:bg-blue-600 text-blue-600 dark:text-white shadow-xl' 
       : 'text-slate-500 dark:text-slate-500 hover:text-slate-700'
   }`;
 
   const sellerBtnClass = `py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
     formData.role === 'seller' 
-      ? 'bg-white dark:bg-emerald-600 text-emerald-600 dark:text-white shadow-xl' 
+      ? 'bg-white dark:bg-blue-600 text-blue-600 dark:text-white shadow-xl' 
       : 'text-slate-500 dark:text-slate-500 hover:text-slate-700'
   }`;
 
@@ -61,8 +61,8 @@ export default function Signup() {
       
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[60%] bg-emerald-500/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[10%] -left-[10%] w-[50%] h-[50%] bg-emerald-500/10 rounded-full blur-[100px] animate-pulse delay-1000"></div>
+        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-[10%] -left-[10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[100px] animate-pulse delay-1000"></div>
       </div>
 
       <div className="max-w-md w-full relative z-10 p-6 md:p-4">
@@ -71,11 +71,11 @@ export default function Signup() {
         <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-2xl rounded-[3rem] shadow-2xl border border-white/40 dark:border-white/5 p-10 sm:p-12">
           
           <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 mb-6 shadow-inner">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 mb-6 shadow-inner">
                <SparklesIcon className="w-7 h-7" />
             </div>
             <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tighter italic">
-              Join <span className="text-emerald-600">Frontline.</span>
+              Join <span className="text-blue-600">Frontline.</span>
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">
               Plug into the premier social commerce network.
@@ -96,7 +96,7 @@ export default function Signup() {
                 type="text"
                 name="username"
                 required
-                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-bold italic"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-bold italic"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
@@ -109,7 +109,7 @@ export default function Signup() {
                 type="email"
                 name="email"
                 required
-                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-bold italic"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-bold italic"
                 placeholder="Email Address"
                 value={formData.email}
                 onChange={handleChange}
@@ -140,7 +140,7 @@ export default function Signup() {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 required
-                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-bold italic pr-12"
+                className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-bold italic pr-12"
                 placeholder="Create Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -148,7 +148,7 @@ export default function Signup() {
                <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-5 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-emerald-500 transition-colors"
+                  className="absolute right-5 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-blue-500 transition-colors"
                 >
                   {showPassword ? (
                     <EyeSlashIcon className="h-5 w-5" />
@@ -161,7 +161,7 @@ export default function Signup() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-emerald-500/30 transform hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-6"
+              className="w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-500/30 transform hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-6"
             >
               {loading ? 'Initializing...' : 'Join the Network'}
             </button>
@@ -169,7 +169,7 @@ export default function Signup() {
 
           <p className="mt-10 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
             Identity already active?{' '}
-            <Link to="/login" className="text-emerald-600 hover:text-emerald-500 transition-colors">
+            <Link to="/login" className="text-blue-600 hover:text-blue-500 transition-colors">
               Sign In
             </Link>
           </p>

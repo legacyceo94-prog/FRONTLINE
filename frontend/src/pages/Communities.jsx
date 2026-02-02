@@ -64,7 +64,7 @@ const Communities = () => {
   if (loading) {
     return (
       <div className="min-h-screen pt-24 flex justify-center items-center bg-slate-50 dark:bg-slate-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -74,16 +74,16 @@ const Communities = () => {
       
       {/* Pulse Hero Section */}
       <div className="relative pt-32 pb-16 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-white/5 overflow-hidden">
-         <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-500/5 blur-[100px] rounded-full"></div>
+         <div className="absolute top-0 right-0 w-1/3 h-full bg-blue-500/5 blur-[100px] rounded-full"></div>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-end gap-8">
                <div className="max-w-2xl">
                   <div className="flex items-center gap-2 mb-4">
-                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                     <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                      <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em]">Live Network Broadcast</span>
                   </div>
                   <h1 className="text-5xl sm:text-6xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-4 italic">
-                     Seller <span className="text-emerald-600">Hubs.</span>
+                     Seller <span className="text-blue-600">Hubs.</span>
                   </h1>
                   <p className="text-lg text-slate-500 dark:text-slate-400 font-medium max-w-lg leading-relaxed">
                      The social discovery zone for real competence. Explore hubs of expertise and witness live proof-of-work across the network.
@@ -92,13 +92,13 @@ const Communities = () => {
                
                <div className="w-full md:w-96 group">
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-emerald-600">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-blue-600">
                       <MagnifyingGlassIcon className="h-5 w-5 text-slate-400" />
                     </div>
                     <input 
                       type="text"
                       placeholder="Search for Hubs..."
-                      className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/5 shadow-inner focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none dark:text-white transition-all font-bold italic"
+                      className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/5 shadow-inner focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none dark:text-white transition-all font-bold italic"
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
                     />
@@ -110,23 +110,23 @@ const Communities = () => {
             <div className="flex gap-8 mt-12 border-b border-slate-100 dark:border-white/5">
               <button 
                 onClick={() => setActiveTab('hubs')}
-                className={`pb-4 px-2 text-xs font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 relative ${activeTab === 'hubs' ? 'text-emerald-600' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`pb-4 px-2 text-xs font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 relative ${activeTab === 'hubs' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
               >
-                <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${activeTab === 'hubs' ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${activeTab === 'hubs' ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
                    <UserGroupIcon className="w-3 h-3" />
                 </div>
                 Seller Hubs
-                {activeTab === 'hubs' && <div className="absolute bottom-0 left-0 w-full h-1 bg-emerald-600 rounded-t-full"></div>}
+                {activeTab === 'hubs' && <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 rounded-t-full"></div>}
               </button>
               <button 
                 onClick={() => setActiveTab('pulse')}
-                className={`pb-4 px-2 text-xs font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 relative ${activeTab === 'pulse' ? 'text-emerald-600' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`pb-4 px-2 text-xs font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 relative ${activeTab === 'pulse' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
               >
-                 <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${activeTab === 'pulse' ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                 <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${activeTab === 'pulse' ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
                    <FireIcon className="w-3 h-3" />
                 </div>
                 Live Feed
-                {activeTab === 'pulse' && <div className="absolute bottom-0 left-0 w-full h-1 bg-emerald-600 rounded-t-full"></div>}
+                {activeTab === 'pulse' && <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 rounded-t-full"></div>}
               </button>
             </div>
          </div>
@@ -140,7 +140,7 @@ const Communities = () => {
               {(localStorage.getItem('role') === 'seller' || localStorage.getItem('role') === 'admin') && (
                 <button 
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full hover:scale-105 active:scale-95 transition-all shadow-xl shadow-emerald-500/20"
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full hover:scale-105 active:scale-95 transition-all shadow-xl shadow-blue-500/20"
                 >
                   <PlusCircleIcon className="w-4 h-4" />
                   Launch Territory
@@ -156,7 +156,7 @@ const Communities = () => {
                 c.description.toLowerCase().includes(searchQuery.toLowerCase())
               ).length === 0 ? (
                 <div className="col-span-full text-center py-24 bg-white dark:bg-slate-900 rounded-[3rem] border border-dashed border-slate-200 dark:border-white/10">
-                  <RocketLaunchIcon className="w-20 h-20 mx-auto text-emerald-500/20 mb-6" />
+                  <RocketLaunchIcon className="w-20 h-20 mx-auto text-blue-500/20 mb-6" />
                   <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">No Territories Located</p>
                 </div>
               ) : (
@@ -169,7 +169,7 @@ const Communities = () => {
                     <div 
                       key={community._id}
                       onClick={() => navigate(`/communities/${community._id}`)}
-                      className="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-500 cursor-pointer"
+                      className="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-500 cursor-pointer"
                     >
                       <div className="h-40 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
                         {community.image ? (
@@ -180,7 +180,7 @@ const Communities = () => {
                           </div>
                         )}
                         <div className="absolute top-4 right-4 px-3 py-1 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md rounded-full border border-white/40 dark:border-white/5">
-                           <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">{community.category}</span>
+                           <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">{community.category}</span>
                         </div>
                       </div>
                       <div className="p-8">
@@ -203,7 +203,7 @@ const Communities = () => {
               globalPosts.map(post => <PostCard key={post._id} post={post} />)
             ) : (
                 <div className="text-center py-24 bg-white dark:bg-slate-900 rounded-[3rem] border border-dashed border-slate-200 dark:border-white/10">
-                  <FireIcon className="w-20 h-20 mx-auto text-emerald-500/20 mb-6" />
+                  <FireIcon className="w-20 h-20 mx-auto text-blue-500/20 mb-6" />
                   <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Pulse is Silent</p>
                 </div>
             )}
@@ -222,13 +222,13 @@ const Communities = () => {
                     <input 
                       type="text" 
                       placeholder="Hub Identity" 
-                      className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-white font-bold italic"
+                      className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 outline-none text-slate-900 dark:text-white font-bold italic"
                       value={newCommunity.name}
                       onChange={e => setNewCommunity({...newCommunity, name: e.target.value})}
                       required
                     />
                     <select 
-                      className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-white font-bold italic"
+                      className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 outline-none text-slate-900 dark:text-white font-bold italic"
                       value={newCommunity.category}
                       onChange={e => setNewCommunity({...newCommunity, category: e.target.value})}
                     >
@@ -237,13 +237,13 @@ const Communities = () => {
                     <textarea 
                       placeholder="Manifesto" 
                       rows={3}
-                      className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-white font-bold italic"
+                      className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 outline-none text-slate-900 dark:text-white font-bold italic"
                       value={newCommunity.description}
                       onChange={e => setNewCommunity({...newCommunity, description: e.target.value})}
                       required
                     />
                     <div className="flex gap-4">
-                       <button type="submit" disabled={creating} className="flex-1 py-4 bg-emerald-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl shadow-emerald-500/20 active:scale-95 transition-all">
+                       <button type="submit" disabled={creating} className="flex-1 py-4 bg-blue-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl shadow-blue-500/20 active:scale-95 transition-all">
                           {creating ? 'Initializing...' : 'Confirm Launch'}
                        </button>
                        <button type="button" onClick={() => setIsModalOpen(false)} className="px-8 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 font-black uppercase tracking-widest text-xs rounded-2xl active:scale-95 transition-all">

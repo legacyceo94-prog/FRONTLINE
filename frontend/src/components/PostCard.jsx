@@ -56,13 +56,13 @@ export default function PostCard({ post }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 p-8 mb-8 transition-all group hover:border-emerald-500/20">
+    <div className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 p-8 mb-8 transition-all group hover:border-blue-500/20">
       
       {/* Header: Author Integrity */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-5">
           <Link to={`/profile/${post.author?._id}`} className="block relative group">
-            <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-300 overflow-hidden ring-2 ring-transparent group-hover:ring-emerald-500 transition-all shadow-inner">
+            <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-300 overflow-hidden ring-2 ring-transparent group-hover:ring-blue-500 transition-all shadow-inner">
               {post.author?.profileImage ? (
                  <img src={post.author.profileImage} alt={post.author.username} className="w-full h-full object-cover" />
               ) : (
@@ -75,7 +75,7 @@ export default function PostCard({ post }) {
               <h4 className="font-black text-slate-900 dark:text-white uppercase tracking-tighter italic text-lg leading-none">
                 {post.author?.username || 'Phantom'}
                 {post.author?.isVerified && (
-                   <span className="ml-2 text-emerald-600 text-[8px] font-black uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-full border border-emerald-500/20 align-middle">Verified</span>
+                   <span className="ml-2 text-blue-600 text-[8px] font-black uppercase tracking-widest bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-full border border-blue-500/20 align-middle">Verified</span>
                 )}
               </h4>
             </Link>
@@ -83,8 +83,8 @@ export default function PostCard({ post }) {
               <span className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] italic">Origin Signal</span>
               {post.community && (
                 <>
-                  <div className="w-1 h-1 rounded-full bg-emerald-500"></div>
-                  <Link to={`/communities/${post.community?._id || 'global'}`} className="text-[10px] text-emerald-600 dark:text-emerald-400 font-black uppercase tracking-widest hover:underline flex items-center gap-1 group">
+                  <div className="w-1 h-1 rounded-full bg-blue-500"></div>
+                  <Link to={`/communities/${post.community?._id || 'global'}`} className="text-[10px] text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest hover:underline flex items-center gap-1 group">
                      {post.community.name}
                      <RocketLaunchIcon className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -109,9 +109,9 @@ export default function PostCard({ post }) {
                      className="transition-transform hover:scale-150 disabled:cursor-not-allowed group/star"
                    >
                      {isActive ? (
-                       <StarSolidIcon className="w-4 h-4 text-emerald-500 transition-colors" />
+                       <StarSolidIcon className="w-4 h-4 text-blue-500 transition-colors" />
                      ) : (
-                       <StarOutlineIcon className="w-4 h-4 text-slate-200 dark:text-slate-800 transition-colors group-hover/star:text-emerald-300" />
+                       <StarOutlineIcon className="w-4 h-4 text-slate-200 dark:text-slate-800 transition-colors group-hover/star:text-blue-300" />
                      )}
                    </button>
                  );
@@ -140,7 +140,7 @@ export default function PostCard({ post }) {
       <div className="flex items-center justify-between pt-8 border-t border-slate-50 dark:border-white/5">
         <button 
           onClick={() => setShowComments(!showComments)}
-          className={`flex items-center gap-4 transition-all ${showComments ? 'text-emerald-600' : 'text-slate-400 hover:text-emerald-500'}`}
+          className={`flex items-center gap-4 transition-all ${showComments ? 'text-blue-600' : 'text-slate-400 hover:text-blue-500'}`}
         >
           <ChatBubbleLeftIcon className={`w-7 h-7 ${showComments ? 'stroke-[2.5px]' : ''}`} />
           <span className="text-[10px] font-black uppercase tracking-[0.3em]">{comments.length > 0 ? `${comments.length} Syncs` : 'Synchronize'}</span>
@@ -156,7 +156,7 @@ export default function PostCard({ post }) {
                   // Contact protocol silent
                 }
              }}
-             className="px-8 py-3.5 bg-slate-900 dark:bg-slate-950 border border-white/10 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-600 transition-all shadow-xl active:scale-95"
+             className="px-8 py-3.5 bg-slate-900 dark:bg-slate-950 border border-white/10 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl active:scale-95"
            >
              Negotiate
            </button>
@@ -170,7 +170,7 @@ export default function PostCard({ post }) {
                   const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
                   window.open(url, '_blank');
                }}
-               className="px-8 py-3.5 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20 active:scale-95"
+               className="px-8 py-3.5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
              >
                Acquire
              </button>
@@ -193,7 +193,7 @@ export default function PostCard({ post }) {
               <input 
                 type="text" 
                 placeholder="Broadcast your signal..."
-                className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 rounded-2xl px-6 py-4 text-sm outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-slate-900 dark:text-white font-bold italic"
+                className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 rounded-2xl px-6 py-4 text-sm outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-slate-900 dark:text-white font-bold italic"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 disabled={isCommenting}
@@ -201,7 +201,7 @@ export default function PostCard({ post }) {
               <button 
                 type="submit"
                 disabled={isCommenting || !commentText.trim()}
-                className="px-8 py-4 bg-emerald-600 text-white font-black uppercase tracking-widest text-[10px] rounded-2xl hover:bg-emerald-700 active:scale-95 disabled:opacity-50 transition-all shadow-xl shadow-emerald-500/20"
+                className="px-8 py-4 bg-blue-600 text-white font-black uppercase tracking-widest text-[10px] rounded-2xl hover:bg-blue-700 active:scale-95 disabled:opacity-50 transition-all shadow-xl shadow-blue-500/20"
               >
                 Sync
               </button>
@@ -230,7 +230,7 @@ export default function PostCard({ post }) {
                                {c.author?.username || 'Signal 00'}
                             </span>
                             {c.author?.isVerified && (
-                              <span className="text-[8px] font-black text-emerald-500 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase">Verified</span>
+                              <span className="text-[8px] font-black text-blue-500 border border-blue-500/20 px-2 py-0.5 rounded-full uppercase">Verified</span>
                             )}
                          </div>
                          <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Live Signal</span>

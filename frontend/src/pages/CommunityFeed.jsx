@@ -168,8 +168,8 @@ export default function CommunityFeed() {
                     <span>{community?.members?.length || 0} Buyers</span>
                   </div>
                   {community?.creator && (
-                    <Link to={`/profile/${community.creator._id || community.creator}`} className="flex items-center gap-1.5 hover:text-primary-500 transition-colors">
-                      <CheckBadgeIcon className="w-4 h-4 text-primary-500" />
+                    <Link to={`/profile/${community.creator._id || community.creator}`} className="flex items-center gap-1.5 hover:text-blue-500 transition-colors">
+                      <CheckBadgeIcon className="w-4 h-4 text-blue-500" />
                       <span>Founded by <span className="font-semibold uppercase">{community.creator.username || 'Seller'}</span></span>
                     </Link>
                   )}
@@ -180,7 +180,7 @@ export default function CommunityFeed() {
                className={`px-6 py-2.5 font-semibold rounded-full shadow-lg transition-all ${
                  isMember 
                  ? 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300' 
-                 : 'bg-primary-600 hover:bg-primary-700 text-white shadow-primary-500/30'
+                 : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/30'
                }`}
              >
                {isMember ? 'Buyer' : 'Join Community'}
@@ -223,7 +223,7 @@ export default function CommunityFeed() {
                   <input 
                     type="text" 
                     placeholder="Title (e.g. Selling AutoCAD License)" 
-                    className="w-full px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-primary-500 dark:text-white"
+                    className="w-full px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
                     value={newPost.title}
                     onChange={e => setNewPost({...newPost, title: e.target.value})}
                     required
@@ -231,7 +231,7 @@ export default function CommunityFeed() {
                   <textarea 
                     rows={4} 
                     placeholder="What's on your mind? Describe your service or question..." 
-                    className="w-full px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-primary-500 dark:text-white"
+                    className="w-full px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
                     value={newPost.content}
                     onChange={e => setNewPost({...newPost, content: e.target.value})}
                     required
@@ -239,7 +239,7 @@ export default function CommunityFeed() {
 
                   <div className="flex gap-4">
                     <select 
-                      className="w-1/2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-primary-500 dark:text-white"
+                      className="w-1/2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
                       value={newPost.type}
                       onChange={e => setNewPost({...newPost, type: e.target.value})}
                     >
@@ -255,7 +255,7 @@ export default function CommunityFeed() {
                        <input 
                         type="number" 
                         placeholder="Price (KES)" 
-                        className="w-1/2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-primary-500 dark:text-white"
+                        className="w-1/2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
                         value={newPost.price}
                         onChange={e => setNewPost({...newPost, price: e.target.value})}
                       />
@@ -292,7 +292,7 @@ export default function CommunityFeed() {
                   type="submit" 
                   form="post-form"
                   disabled={posting}
-                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white hover:bg-primary-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
+                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
                 >
                   {posting ? 'Posting...' : 'Post'}
                 </button>

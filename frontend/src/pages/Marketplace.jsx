@@ -49,19 +49,19 @@ export default function Marketplace() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 pt-24 pb-32 transition-colors duration-500 selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950 pt-24 pb-32 transition-colors duration-500 selection:bg-blue-500 selection:text-white">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Header & Internal Scanning Matrix */}
         <div className="mb-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
             <div>
-               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-6 border border-emerald-500/10">
+               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest mb-6 border border-blue-500/10">
                   <SparklesIcon className="w-4 h-4" />
                   Inventory Scan Protocol
                </div>
                <h1 className="text-5xl md:text-8xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter italic uppercase leading-[0.8]">
-                 Scan <span className="text-emerald-600">Assets.</span>
+                 Scan <span className="text-blue-600">Assets.</span>
                </h1>
                <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl font-medium italic">
                  {studioInsights[filters.type]}
@@ -72,20 +72,20 @@ export default function Marketplace() {
             <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded-[2rem] border border-slate-100 dark:border-white/5 flex gap-2 shadow-inner">
                <button 
                  onClick={() => handleFilterChange('type', '')}
-                 className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${filters.type === '' ? 'bg-white dark:bg-slate-800 text-emerald-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
+                 className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${filters.type === '' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
                >
                  Global Stream
                </button>
                <button 
                  onClick={() => handleFilterChange('type', 'service')}
-                 className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${filters.type === 'service' ? 'bg-white dark:bg-slate-800 text-emerald-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
+                 className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${filters.type === 'service' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
                >
                  <RocketLaunchIcon className="w-4 h-4" />
                  Service Studio
                </button>
                <button 
                  onClick={() => handleFilterChange('type', 'product')}
-                 className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${filters.type === 'product' ? 'bg-white dark:bg-slate-800 text-emerald-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
+                 className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${filters.type === 'product' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
                >
                  <CubeIcon className="w-4 h-4" />
                  Product Store
@@ -96,12 +96,12 @@ export default function Marketplace() {
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Search Engine */}
             <div className="relative flex-1 group">
-              <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none transition-colors group-focus-within:text-emerald-600">
+              <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none transition-colors group-focus-within:text-blue-600">
                 <MagnifyingGlassIcon className="h-6 w-6 text-slate-300 dark:text-slate-700" aria-hidden="true" />
               </div>
               <input
                 type="text"
-                className="block w-full pl-16 pr-6 py-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 placeholder-slate-400 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all text-sm font-bold shadow-xl shadow-slate-200/50 dark:shadow-none"
+                className="block w-full pl-16 pr-6 py-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 placeholder-slate-400 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-sm font-bold shadow-xl shadow-slate-200/50 dark:shadow-none"
                 placeholder="Synchronize with Sellers, Skills, or Results..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
@@ -111,7 +111,7 @@ export default function Marketplace() {
             {/* Category Filter */}
             <div className="relative">
               <select 
-                className="block w-full lg:w-64 px-8 py-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all text-[10px] font-black uppercase tracking-widest appearance-none cursor-pointer shadow-xl shadow-slate-200/50 dark:shadow-none"
+                className="block w-full lg:w-64 px-8 py-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-[10px] font-black uppercase tracking-widest appearance-none cursor-pointer shadow-xl shadow-slate-200/50 dark:shadow-none"
                 value={filters.category}
                 onChange={(e) => handleFilterChange('category', e.target.value)}
               >
@@ -128,7 +128,7 @@ export default function Marketplace() {
         {/* Inventory Stream */}
         {loading ? (
              <div className="text-center py-32">
-               <div className="w-16 h-16 border-b-2 border-emerald-500 rounded-full animate-spin mx-auto mb-6"></div>
+               <div className="w-16 h-16 border-b-2 border-blue-500 rounded-full animate-spin mx-auto mb-6"></div>
                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 animate-pulse">Syncing Network Inventory...</p>
              </div>
         ) : (

@@ -75,7 +75,7 @@ function Home() {
             <div className="lg:w-1/4">
               <div className="sticky top-24 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5 shadow-2xl shadow-slate-200/50 dark:shadow-none">
                 <div className="flex flex-col items-center text-center mb-8">
-                  <div className="w-24 h-24 rounded-[2rem] bg-white dark:bg-slate-950 p-1 shadow-xl ring-2 ring-emerald-500/20 mb-4 overflow-hidden">
+                  <div className="w-24 h-24 rounded-[2rem] bg-white dark:bg-slate-950 p-1 shadow-xl ring-2 ring-blue-500/20 mb-4 overflow-hidden">
                     {user.profileImage ? (
                       <img src={user.profileImage} alt="" className="w-full h-full object-cover rounded-[1.75rem]" />
                     ) : (
@@ -85,7 +85,7 @@ function Home() {
                     )}
                   </div>
                   <h3 className="font-black text-slate-900 dark:text-white leading-none uppercase tracking-tighter italic text-xl">{localStorage.getItem('username') || 'Member'}</h3>
-                  <div className="mt-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-full border border-emerald-500/10 text-[8px] font-black uppercase tracking-widest">
+                  <div className="mt-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[8px] font-black uppercase tracking-widest">
                      Certified Node
                   </div>
                 </div>
@@ -93,15 +93,15 @@ function Home() {
                 <div className="space-y-4 pt-6 border-t border-slate-100 dark:border-white/5">
                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-400">
                       <span>Trust Score</span>
-                      <span className="text-emerald-600">{user?.trustScore || 85}%</span>
+                      <span className="text-blue-600">{user?.trustScore || 85}%</span>
                    </div>
                    <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-950 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-600 rounded-full" style={{ width: `${user?.trustScore || 85}%` }}></div>
+                      <div className="h-full bg-blue-600 rounded-full" style={{ width: `${user?.trustScore || 85}%` }}></div>
                    </div>
                 </div>
 
                 <div className="mt-10">
-                   <Link to="/communities" className="block w-full py-4 bg-slate-900 dark:bg-slate-950 text-white text-center text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-emerald-600 transition-all shadow-xl active:scale-95">
+                   <Link to="/communities" className="block w-full py-4 bg-slate-900 dark:bg-slate-950 text-white text-center text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl active:scale-95">
                       Enter the Pulse
                    </Link>
                 </div>
@@ -112,10 +112,10 @@ function Home() {
             <div className="lg:w-3/4">
                <div className="mb-10 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-1">Global Transmission</span>
-                    <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">The <span className="text-emerald-600">Inventory.</span></h2>
+                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-1">Global Transmission</span>
+                    <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">The <span className="text-blue-600">Inventory.</span></h2>
                   </div>
-                  <Link to="/marketplace" className="text-[10px] font-black text-slate-400 hover:text-emerald-600 uppercase tracking-widest transition-colors flex items-center gap-2">
+                  <Link to="/marketplace" className="text-[10px] font-black text-slate-400 hover:text-blue-600 uppercase tracking-widest transition-colors flex items-center gap-2">
                      Scan All Assets
                      <RocketLaunchIcon className="w-4 h-4" />
                   </Link>
@@ -150,27 +150,27 @@ function Home() {
       {/* Hero Section Container */}
       <div className="relative pt-32 pb-20 sm:pt-48 sm:pb-32 overflow-hidden">
         {/* Animated Background Gradient Blobs */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 -right-24 w-80 h-80 bg-indigo-400/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 -right-24 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-pulse delay-700"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="animate-in fade-in slide-in-from-bottom-5 duration-700">
             <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8">
-              The <span className="bg-gradient-to-r from-primary-600 to-indigo-500 bg-clip-text text-transparent">Social Network</span> for<br />
+              The <span className="blue-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400">Social Network</span> for<br />
               <span className="relative inline-block mt-2">
                 Real Competence
-                <div className="absolute -bottom-2 left-0 w-full h-2 bg-primary-200 dark:bg-primary-900/30 -z-10 rounded-full"></div>
+                <div className="absolute -bottom-2 left-0 w-full h-2 bg-blue-200 dark:bg-blue-900/30 -z-10 rounded-full"></div>
               </span>
             </h1>
           </div>
 
           <div className="flex justify-center gap-4">
-            <Link to="/communities" className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-white bg-emerald-600 hover:bg-emerald-700 rounded-full shadow-2xl shadow-emerald-500/30 transition-all transform hover:scale-105 active:scale-95">
+            <Link to="/communities" className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-2xl shadow-blue-500/30 transition-all transform hover:scale-105 active:scale-95">
               Explore the Pulse
             </Link>
             <Link 
               to="/dashboard"
-              className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-emerald-600 bg-white dark:bg-slate-800 border-2 border-emerald-50 dark:border-white/5 hover:border-emerald-500 rounded-full transition-all shadow-xl shadow-slate-200/50 dark:shadow-none"
+              className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-blue-600 bg-white dark:bg-slate-800 border-2 border-blue-50 dark:border-white/5 hover:border-blue-500 rounded-full transition-all shadow-xl shadow-slate-200/50 dark:shadow-none"
             >
               Start Selling
             </Link>
@@ -182,8 +182,8 @@ function Home() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Feature 1 */}
-          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-emerald-500/10 transition-all group">
-            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-8 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-lg">
+          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-blue-500/10 transition-all group">
+            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-8 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
                <UserGroupIcon className="w-7 h-7"/>
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Network of Buyers</h3>
@@ -191,8 +191,8 @@ function Home() {
           </div>
 
           {/* Feature 2 */}
-          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-emerald-500/10 transition-all group">
-            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-8 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-lg">
+          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-blue-500/10 transition-all group">
+            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-8 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
                <AcademicCapIcon className="w-7 h-7"/>
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Monetize Truth</h3>
@@ -200,8 +200,8 @@ function Home() {
           </div>
 
           {/* Feature 3 */}
-          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-emerald-500/10 transition-all group">
-            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-8 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-lg">
+          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-blue-500/10 transition-all group">
+            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-8 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
                <BriefcaseIcon className="w-7 h-7"/>
             </div>
             <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Infinite Reputation</h3>
@@ -233,7 +233,7 @@ function BottomNav({ user }) {
           <button
             key={item.label}
             onClick={() => navigate(item.path)}
-            className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${item.active ? 'text-emerald-600 dark:text-emerald-400 scale-110' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'}`}
+            className={`flex flex-col items-center justify-center gap-1 flex-1 transition-all duration-300 ${item.active ? 'text-blue-600 dark:text-blue-400 scale-110' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'}`}
           >
             <item.icon className={`w-5 h-5 ${item.active ? 'stroke-[2.5px]' : 'stroke-2'}`} />
             <span className="text-[10px] font-black uppercase tracking-widest">{item.label}</span>
@@ -329,7 +329,7 @@ function App() {
               to={user?.role === 'seller' ? "/dashboard" : "/"} 
               className="flex items-center gap-2 group"
             >
-              <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
                 F
               </div>
               <span className="text-xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white">
@@ -338,19 +338,19 @@ function App() {
             </Link>
             
             <div className="hidden md:flex items-center space-x-10">
-              <Link to="/marketplace" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 flex items-center gap-2 ${location.pathname === '/marketplace' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
+              <Link to="/marketplace" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 flex items-center gap-2 ${location.pathname === '/marketplace' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                 <ShoppingBagIcon className="w-4 h-4" />
                 Inventory Scan
               </Link>
-              <Link to="/communities" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 flex items-center gap-2 ${location.pathname === '/communities' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
+              <Link to="/communities" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 flex items-center gap-2 ${location.pathname === '/communities' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                 <UserGroupIcon className="w-4 h-4" />
                 Community Pulse
               </Link>
-              <Link to="/about" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 ${location.pathname === '/about' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
+              <Link to="/about" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 ${location.pathname === '/about' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                 About
               </Link>
               {user && user.role === 'seller' && (
-                <Link to="/dashboard" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 flex items-center gap-2 ${location.pathname === '/dashboard' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
+                <Link to="/dashboard" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 flex items-center gap-2 ${location.pathname === '/dashboard' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                   <RocketLaunchIcon className="w-4 h-4" />
                   Cockpit
                 </Link>
@@ -363,7 +363,7 @@ function App() {
                 className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 aria-label="Toggle Dark Mode"
               >
-                {darkMode ? <SunIcon className="w-5 h-5 text-amber-400" /> : <MoonIcon className="w-5 h-5" />}
+                {darkMode ? <SunIcon className="w-5 h-5 text-blue-400" /> : <MoonIcon className="w-5 h-5" />}
               </button>
 
               <button 
@@ -378,7 +378,7 @@ function App() {
                 <div className="flex items-center gap-4">
                    <div className="flex items-center gap-2">
                      <span className="text-sm font-medium text-slate-700 dark:text-slate-300 hidden sm:block">Hello, {user.username}</span>
-                     <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 flex items-center justify-center font-bold text-xs ring-2 ring-white dark:ring-slate-800 overflow-hidden">
+                     <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center font-bold text-xs ring-2 ring-white dark:ring-slate-800 overflow-hidden">
                        {user.profileImage ? (
                          <img src={user.profileImage} alt="" className="w-full h-full object-cover" />
                        ) : (
@@ -401,8 +401,8 @@ function App() {
                 </div>
               ) : (
                 <div className="hidden md:flex items-center gap-3">
-                  <Link to="/login" className="px-5 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary-600 transition-colors">Login</Link>
-                  <Link to="/signup" className="px-5 py-2 text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-full shadow-lg shadow-primary-500/20 transition-all">Sign Up</Link>
+                  <Link to="/login" className="px-5 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors">Login</Link>
+                  <Link to="/signup" className="px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-lg shadow-blue-500/20 transition-all">Sign Up</Link>
                 </div>
               )}
             </div>
@@ -418,7 +418,7 @@ function App() {
                {!user ? (
                  <div className="flex flex-col gap-2">
                    <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/5">Login</Link>
-                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-emerald-600 text-white shadow-xl shadow-emerald-500/20">Sign Up</Link>
+                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-blue-600 text-white shadow-xl shadow-blue-500/20">Sign Up</Link>
                  </div>
                ) : (
                  <button 

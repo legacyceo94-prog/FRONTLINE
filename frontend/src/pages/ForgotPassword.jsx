@@ -29,11 +29,11 @@ export default function ForgotPassword() {
     <div className="min-h-screen flex items-center justify-center relative bg-slate-50 dark:bg-slate-900 transition-colors duration-500 overflow-hidden px-4">
       {/* Background Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-primary-500/10 rounded-full blur-[120px]"></div>
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px]"></div>
       </div>
 
       <div className="max-w-md w-full relative z-10">
-        <Link to="/login" className="flex items-center gap-2 text-slate-500 hover:text-primary-600 transition-colors mb-8 font-bold text-sm">
+        <Link to="/login" className="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors mb-8 font-bold text-sm">
           <ArrowLeftIcon className="w-4 h-4" />
           Back to Login
         </Link>
@@ -47,7 +47,7 @@ export default function ForgotPassword() {
           </div>
 
           {message && (
-            <div className="mb-6 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium text-center">
+            <div className="mb-6 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-medium text-center">
               {message}
             </div>
           )}
@@ -61,14 +61,14 @@ export default function ForgotPassword() {
           {!message && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="group">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 ml-1 group-focus-within:text-primary-500 transition-colors">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 ml-1 group-focus-within:text-blue-500 transition-colors">
                   Registered Email
                 </label>
                 <div className="relative">
                   <input
                     type="email"
                     required
-                    className="w-full pl-12 pr-5 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all font-bold placeholder:italic"
+                    className="w-full pl-12 pr-5 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold placeholder:italic"
                     placeholder="name@mombasa.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -80,7 +80,7 @@ export default function ForgotPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-5 bg-slate-900 dark:bg-primary-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:bg-primary-600 transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50"
+                className="w-full py-5 bg-slate-900 dark:bg-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:bg-blue-600 transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50"
               >
                 {loading ? 'Transmitting...' : 'Send Recovery Link'}
               </button>

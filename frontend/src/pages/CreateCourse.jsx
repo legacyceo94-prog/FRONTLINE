@@ -76,17 +76,17 @@ export default function CreateCourse() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 pt-32 pb-24 transition-colors duration-500 selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950 pt-32 pb-24 transition-colors duration-500 selection:bg-blue-500 selection:text-white">
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Header: Asset Calibration */}
         <div className="text-center mb-16">
-           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-full border border-emerald-500/10 text-[10px] font-black uppercase tracking-widest mb-6">
+           <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[10px] font-black uppercase tracking-widest mb-6">
               <SparklesIcon className="w-4 h-4" />
               Asset Calibration Flow
            </div>
            <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none mb-6">
-             Broadcast <span className="text-emerald-600">Competence.</span>
+             Broadcast <span className="text-blue-600">Competence.</span>
            </h1>
            <p className="text-lg text-slate-500 dark:text-slate-400 font-medium italic">
              Formalize your professional output into the global inventory stream.
@@ -99,7 +99,7 @@ export default function CreateCourse() {
               {user?.businessType === 'product' ? 'Product Specification' : 'Service Manifest'}
             </h2>
             <div className="flex items-center gap-2">
-               {user?.businessType === 'product' ? <CubeIcon className="w-5 h-5 text-emerald-600" /> : <RocketLaunchIcon className="w-5 h-5 text-emerald-600" />}
+               {user?.businessType === 'product' ? <CubeIcon className="w-5 h-5 text-blue-600" /> : <RocketLaunchIcon className="w-5 h-5 text-blue-600" />}
                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{user?.businessType || 'Service'}</span>
             </div>
           </div>
@@ -119,18 +119,18 @@ export default function CreateCourse() {
                   type="text"
                   name="title"
                   required
-                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-emerald-500/30 transition-all py-5 px-6 font-bold italic"
+                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-bold italic"
                   placeholder={user?.businessType === 'product' ? "e.g. TR-900 Torque Regulator" : "e.g. Quantum Systems Architecture Consultation"}
                   value={formData.title}
                   onChange={handleChange}
                 />
               </div>
 
-              <div>
+              <div className={user?.businessType === 'product' ? 'md:col-span-2' : ''}>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Network Sector</label>
                 <select
                   name="category"
-                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-emerald-500/30 transition-all py-5 px-6 font-bold italic appearance-none cursor-pointer"
+                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-bold italic appearance-none cursor-pointer"
                   value={formData.category}
                   onChange={handleChange}
                 >
@@ -142,20 +142,22 @@ export default function CreateCourse() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Competence Level</label>
-                <select
-                  name="skillLevel"
-                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-emerald-500/30 transition-all py-5 px-6 font-bold italic appearance-none cursor-pointer"
-                  value={formData.skillLevel}
-                  onChange={handleChange}
-                >
-                  <option>All Levels</option>
-                  <option>Beginner</option>
-                  <option>Intermediate</option>
-                  <option>Advanced</option>
-                </select>
-              </div>
+              {user?.businessType !== 'product' && (
+                <div>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Competence Level</label>
+                  <select
+                    name="skillLevel"
+                    className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-bold italic appearance-none cursor-pointer"
+                    value={formData.skillLevel}
+                    onChange={handleChange}
+                  >
+                    <option>All Levels</option>
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+                  </select>
+                </div>
+              )}
             </div>
 
             {/* Pricing Matrix */}
@@ -166,7 +168,7 @@ export default function CreateCourse() {
                   type="number"
                   name="price"
                   required
-                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-emerald-500/30 transition-all py-5 px-6 font-black text-xl text-emerald-600 italic"
+                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-black text-xl text-blue-600 italic"
                   placeholder="0.00"
                   value={formData.price || ''}
                   onChange={handleChange}
@@ -180,7 +182,7 @@ export default function CreateCourse() {
                   type="text"
                   name="duration"
                   required
-                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-emerald-500/30 transition-all py-5 px-6 font-bold italic"
+                  className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-bold italic"
                   placeholder={user?.businessType === 'product' ? "e.g. 5 Units in Stock" : "e.g. 4 Week Engagement"}
                   value={formData.duration}
                   onChange={handleChange}
@@ -195,7 +197,7 @@ export default function CreateCourse() {
                 name="description"
                 rows={4}
                 required
-                className="block w-full rounded-[2rem] border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-emerald-500/30 transition-all py-6 px-8 font-medium italic leading-relaxed"
+                className="block w-full rounded-[2rem] border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-6 px-8 font-medium italic leading-relaxed"
                 placeholder="Describe the value proposition of this asset..."
                 value={formData.description}
                 onChange={handleChange}
@@ -210,7 +212,7 @@ export default function CreateCourse() {
               <textarea
                 name="curriculum"
                 rows={4}
-                className="block w-full rounded-[2rem] border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-emerald-500/30 transition-all py-6 px-8 font-medium italic leading-relaxed"
+                className="block w-full rounded-[2rem] border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-6 px-8 font-medium italic leading-relaxed"
                 placeholder={user?.businessType === 'product' ? "Performance: High Efficiency&#10;Material: Sustainable Poly&#10;Origin: Nairobi Hub" : "Phase 1: Initial Handshake&#10;Phase 2: Depth Analysis&#10;Phase 3: Final Deployment"}
                 value={formData.curriculum}
                 onChange={handleChange}
@@ -221,11 +223,11 @@ export default function CreateCourse() {
              <div>
               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Visual Transmission (Flyer)</label>
               <div className="mt-2 flex flex-col md:flex-row items-center gap-8">
-                <label className="w-full h-40 flex flex-col items-center justify-center gap-4 rounded-[2.5rem] border-2 border-dashed border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 hover:border-emerald-500 hover:bg-emerald-500/5 cursor-pointer transition-all group/upload">
-                  <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center text-slate-300 group-hover/upload:bg-emerald-600 group-hover/upload:text-white transition-all shadow-lg shadow-black/5">
+                <label className="w-full h-40 flex flex-col items-center justify-center gap-4 rounded-[2.5rem] border-2 border-dashed border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer transition-all group/upload">
+                  <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center text-slate-300 group-hover/upload:bg-blue-600 group-hover/upload:text-white transition-all shadow-lg shadow-black/5">
                      <PhotoIcon className="h-6 w-6" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/upload:text-emerald-600 transition-colors">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/upload:text-blue-600 transition-colors">
                     {formData.flyerImage ? 'Signal Captured ✓' : 'Upload Broadcast Image'}
                   </span>
                   <input
@@ -257,7 +259,7 @@ export default function CreateCourse() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full md:w-auto px-12 py-5 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-[0.3em] rounded-2xl hover:bg-emerald-700 transition-all shadow-2xl shadow-emerald-500/30 active:scale-95 disabled:opacity-50"
+                className="w-full md:w-auto px-12 py-5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.3em] rounded-2xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-500/30 active:scale-95 disabled:opacity-50"
               >
                 {loading ? 'Transmitting...' : 'Initiate Broadcast'}
               </button>

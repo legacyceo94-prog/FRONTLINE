@@ -47,3 +47,10 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+export const api2 = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});

@@ -115,7 +115,7 @@ export default function Dashboard() {
 
   if (loading) return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-24 flex justify-center items-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
     </div>
   );
 
@@ -141,8 +141,8 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
              <div className="text-right">
                 <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">System Health</p>
-                <div className="flex items-center gap-2 text-green-500">
-                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <div className="flex items-center gap-2 text-blue-500">
+                   <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                    <span className="text-sm font-bold uppercase tracking-tighter">Operational</span>
                 </div>
              </div>
@@ -168,13 +168,13 @@ export default function Dashboard() {
                 <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">{user?.username}</h2>
                 <div className="mt-2 flex flex-col items-center gap-1">
                    <div className="flex items-center gap-2 px-4 py-1.5 bg-slate-100 dark:bg-slate-900/50 rounded-full border border-slate-200 dark:border-slate-700">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
                        <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
                         {user?.businessType === 'product' ? 'Verified Merchant' : 'Professional Seller'}
                        </span>
                    </div>
                    {user?.sellerProfile?.phone && (
-                     <span className="text-[10px] font-bold text-green-600 dark:text-green-400 uppercase tracking-widest mt-2 flex items-center gap-1">
+                     <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mt-2 flex items-center gap-1">
                         📲 {user.sellerProfile.phone}
                      </span>
                    )}
@@ -184,7 +184,7 @@ export default function Dashboard() {
                      </span>
                    )}
                    {myHubs.length > 0 && (
-                     <span className="text-[9px] font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest italic">
+                     <span className="text-[9px] font-bold text-blue-500 dark:text-blue-400 uppercase tracking-widest italic">
                         📍 {myHubs[0].name}
                      </span>
                    )}
@@ -199,13 +199,13 @@ export default function Dashboard() {
                      <span className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter italic">{user?.trustScore || 0}%</span>
                   </div>
                   <div className="text-right">
-                     <span className="text-[10px] font-bold text-primary-500 uppercase tracking-widest block mb-1">Threshold</span>
+                     <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest block mb-1">Threshold</span>
                      <span className="text-sm font-black text-slate-300 dark:text-slate-600">{user?.trustScore >= 50 ? 'Verified Seller' : 'Verification Lock'}</span>
                   </div>
                 </div>
                 <div className="w-full h-4 bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden p-1 border border-slate-200 dark:border-slate-800">
                   <div 
-                    className={`h-full rounded-full transition-all duration-1000 ${user?.trustScore > 0 ? 'bg-primary-500 shadow-[0_0_10px_rgba(var(--color-primary-500),0.5)]' : 'bg-slate-200 dark:bg-slate-800'}`}
+                    className={`h-full rounded-full transition-all duration-1000 ${user?.trustScore > 0 ? 'bg-blue-500 shadow-[0_0_10px_rgba(var(--color-blue-500),0.5)]' : 'bg-slate-200 dark:bg-slate-800'}`}
                     style={{ width: `${Math.max(user?.trustScore || 0, 5)}%` }}
                   ></div>
                 </div>
@@ -230,22 +230,22 @@ export default function Dashboard() {
                        </div>
                        <div className="min-w-0 flex-1">
                           <p className="text-[10px] font-black text-slate-900 dark:text-white truncate uppercase tracking-tighter">{user?.username}</p>
-                          <p className="text-[8px] font-bold text-primary-500 uppercase tracking-widest">{myHubs[0]?.name || 'No Territory'}</p>
+                          <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest">{myHubs[0]?.name || 'No Territory'}</p>
                        </div>
                     </div>
                     <div className="mt-3 pt-3 border-t border-slate-200/50 dark:border-white/5 flex items-center justify-between">
                        <div className="flex items-center gap-0.5">
                           {[1, 2, 3, 4, 5].map((s) => (
-                             <StarIconSolid key={s} className={`w-2 h-2 ${s <= (user?.averageRating || 0) ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700'}`} />
+                             <StarIconSolid key={s} className={`w-2 h-2 ${s <= (user?.averageRating || 0) ? 'text-blue-400' : 'text-slate-200 dark:text-slate-700'}`} />
                           ))}
                           <span className="text-[7px] font-black text-slate-400 ml-1">({user?.ratings?.length || 0})</span>
                        </div>
                        {user?.sellerProfile?.phone && (
-                         <span className="text-[8px] font-black text-green-500 uppercase tracking-tighter">WA: {user.sellerProfile.phone}</span>
+                         <span className="text-[8px] font-black text-blue-500 uppercase tracking-tighter">WA: {user.sellerProfile.phone}</span>
                        )}
                     </div>
                   </div>
-                 <Link to={`/profile/${user?._id}`} className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-2xl text-slate-400 dark:text-slate-500 font-bold text-[10px] uppercase tracking-widest hover:text-primary-500 transition-all group">
+                 <Link to={`/profile/${user?._id}`} className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-2xl text-slate-400 dark:text-slate-500 font-bold text-[10px] uppercase tracking-widest hover:text-blue-500 transition-all group">
                    Visit Public Hub
                    <ArrowRightIcon className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                  </Link>
@@ -263,14 +263,14 @@ export default function Dashboard() {
                </h3>
                <div className="grid grid-cols-2 gap-6 relative z-10">
                    <div className="flex flex-col">
-                     <p className="text-3xl font-black tracking-tighter text-indigo-400">{user?.averageRating?.toFixed(1) || '0.0'}</p>
+                     <p className="text-3xl font-black tracking-tighter text-blue-400">{user?.averageRating?.toFixed(1) || '0.0'}</p>
                      <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1 flex items-center gap-1">
-                        <StarIconSolid className="w-2 h-2 text-amber-400" />
+                        <StarIconSolid className="w-2 h-2 text-blue-400" />
                         Social Rating
                      </p>
                    </div>
                    <div className="flex flex-col">
-                     <p className="text-3xl font-black tracking-tighter text-emerald-400">{user?.ratings?.length || 0}</p>
+                     <p className="text-3xl font-black tracking-tighter text-blue-400">{user?.ratings?.length || 0}</p>
                      <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">
                        {user?.businessType === 'product' ? 'Total Orders' : 'Total Handshakes'}
                      </p>
@@ -285,7 +285,7 @@ export default function Dashboard() {
                              </p>
                            </div>
                            <div>
-                             <p className="text-3xl font-black tracking-tighter text-primary-500">{myHubs.length}</p>
+                             <p className="text-3xl font-black tracking-tighter text-blue-500">{myHubs.length}</p>
                              <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">
                                {user?.businessType === 'product' ? 'Live Stores' : 'Live Hubs'}
                              </p>
@@ -310,10 +310,10 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                <button 
                   onClick={() => setIsHubModalOpen(true)}
-                  className="group relative p-10 rounded-[2.5rem] bg-gradient-to-br from-slate-900 to-slate-800 dark:from-indigo-600 dark:to-primary-600 text-white shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 text-left overflow-hidden border border-white/10"
+                  className="group relative p-10 rounded-[2.5rem] bg-gradient-to-br from-slate-900 to-slate-800 dark:from-blue-600 dark:to-blue-600 text-white shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 text-left overflow-hidden border border-white/10"
                >
                   <div className="relative z-10">
-                    <RocketLaunchIcon className="w-12 h-12 mb-6 text-primary-400 dark:text-white/80" />
+                    <RocketLaunchIcon className="w-12 h-12 mb-6 text-blue-400 dark:text-white/80" />
                     <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Launch Hub</h3>
                     <p className="text-slate-400 dark:text-white/60 text-xs italic leading-relaxed">Establish your professional territory on the network.</p>
                   </div>
@@ -324,12 +324,12 @@ export default function Dashboard() {
 
                <button 
                   onClick={() => setIsPortfolioOpen(true)}
-                  className="group p-10 rounded-[2.5rem] bg-white dark:bg-slate-800 border-4 border-slate-50 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 transition-all hover:-translate-y-1 text-left shadow-sm hover:shadow-xl"
+                  className="group p-10 rounded-[2.5rem] bg-white dark:bg-slate-800 border-4 border-slate-50 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all hover:-translate-y-1 text-left shadow-sm hover:shadow-xl"
                >
                   {user?.businessType === 'product' ? (
-                    <BuildingStorefrontIcon className="w-12 h-12 mb-6 text-indigo-600 dark:text-indigo-400" />
+                    <BuildingStorefrontIcon className="w-12 h-12 mb-6 text-blue-600 dark:text-blue-400" />
                   ) : (
-                    <PhotoIcon className="w-12 h-12 mb-6 text-primary-600 dark:text-primary-400" />
+                    <PhotoIcon className="w-12 h-12 mb-6 text-blue-600 dark:text-blue-400" />
                   )}
                   <h3 className="text-2xl font-black uppercase tracking-tighter text-slate-900 dark:text-white mb-2">
                     {user?.businessType === 'product' ? 'List Product' : 'Build Assets'}
@@ -352,7 +352,7 @@ export default function Dashboard() {
                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Admin Access Only</span>
                 </div>
                 <div className="flex items-center gap-2">
-                   <div className="w-2 h-2 rounded-full bg-primary-500"></div>
+                   <div className="w-2 h-2 rounded-full bg-blue-500"></div>
                    <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{myHubs.length} Active</span>
                 </div>
               </div>
@@ -362,12 +362,12 @@ export default function Dashboard() {
                   <Square3Stack3DIcon className="w-16 h-16 text-slate-300 dark:text-slate-700 mx-auto mb-6" />
                   <p className="text-slate-600 dark:text-slate-400 font-black uppercase tracking-tighter text-xl">No Active Territories</p>
                   <p className="text-sm text-slate-400 mb-8 italic">You are currently operating without a dedicated Hub.</p>
-                  <button onClick={() => setIsHubModalOpen(true)} className="px-8 py-3 bg-slate-900 dark:bg-slate-700 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-primary-600 transition-all">Claim your territory</button>
+                  <button onClick={() => setIsHubModalOpen(true)} className="px-8 py-3 bg-slate-900 dark:bg-slate-700 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-600 transition-all">Claim your territory</button>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {myHubs.map(hub => (
-                    <div key={hub._id} className="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700 flex items-center gap-5 hover:shadow-xl hover:border-primary-500 dark:hover:border-primary-500 transition-all group">
+                    <div key={hub._id} className="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700 flex items-center gap-5 hover:shadow-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group">
                        <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-900 overflow-hidden flex-shrink-0 border border-slate-100 dark:border-slate-700 group-hover:rotate-3 transition-transform">
                           {hub.image ? (
                             <img src={hub.image} alt="" className="w-full h-full object-cover" />
@@ -378,12 +378,12 @@ export default function Dashboard() {
                        <div className="flex-1 min-w-0">
                           <h4 className="font-black text-slate-900 dark:text-white truncate uppercase tracking-tighter text-lg">{hub.name}</h4>
                           <div className="flex items-center gap-2 mt-1">
-                             <span className="text-[10px] text-primary-600 dark:text-primary-400 font-black uppercase tracking-widest">{hub.category}</span>
+                             <span className="text-[10px] text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest">{hub.category}</span>
                              <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Member / Admin</span>
                           </div>
                        </div>
-                       <Link to={`/communities/${hub._id}`} className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 text-slate-300 group-hover:text-primary-500 group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20 transition-all">
+                       <Link to={`/communities/${hub._id}`} className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 text-slate-300 group-hover:text-blue-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-all">
                           <ArrowRightIcon className="w-5 h-5" />
                        </Link>
                     </div>
@@ -399,20 +399,20 @@ export default function Dashboard() {
                     <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Network Signals</h3>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Reception status from the network</span>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-500 shadow-sm border border-amber-100 dark:border-amber-900/50">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shadow-sm border border-blue-100 dark:border-blue-900/50">
                     <StarIconSolid className="w-5 h-5" />
                   </div>
                 </div>
                 <div className="flex bg-slate-100 dark:bg-slate-900/50 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
                    <button 
                       onClick={() => setReceptionType('ratings')}
-                      className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${receptionType === 'ratings' ? 'bg-white dark:bg-slate-800 text-primary-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                      className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${receptionType === 'ratings' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                    >
                       Ratings
                    </button>
                    <button 
                       onClick={() => setReceptionType('comments')}
-                      className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${receptionType === 'comments' ? 'bg-white dark:bg-slate-800 text-primary-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                      className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${receptionType === 'comments' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                    >
                       Pulse Comments
                    </button>
@@ -426,7 +426,7 @@ export default function Dashboard() {
                           </div>
                        ) : (
                           user.ratings.slice(0, 5).map((rating, idx) => (
-                            <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-primary-500 group">
+                            <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-blue-500 group">
                                <div className="flex items-center justify-between mb-3">
                                   <div className="flex items-center gap-2">
                                      <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-black text-slate-500 overflow-hidden">
@@ -435,11 +435,11 @@ export default function Dashboard() {
                                      <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tighter">
                                         {rating.author?.username || 'Verified Client'}
                                      </span>
-                                     {rating.author?.isVerified && <span className="text-[8px] font-bold text-primary-500 border border-primary-500/20 px-1 rounded uppercase">Verified</span>}
+                                     {rating.author?.isVerified && <span className="text-[8px] font-bold text-blue-500 border border-blue-500/20 px-1 rounded uppercase">Verified</span>}
                                   </div>
                                   <div className="flex items-center gap-1">
                                     {[1,2,3,4,5].map(s => (
-                                      <StarIconSolid key={s} className={`w-3 h-3 ${s <= rating.stars ? 'text-amber-400' : 'text-slate-200 dark:text-slate-700'}`} />
+                                      <StarIconSolid key={s} className={`w-3 h-3 ${s <= rating.stars ? 'text-blue-400' : 'text-slate-200 dark:text-slate-700'}`} />
                                     ))}
                                   </div>
                                </div>
@@ -475,7 +475,7 @@ export default function Dashboard() {
                              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                              .slice(0, 5)
                              .map((comment, idx) => (
-                                <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-primary-500 group">
+                                <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-blue-500 group">
                                    <div className="flex items-center justify-between mb-2">
                                       <div className="flex items-center gap-2">
                                          <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-black text-slate-500 overflow-hidden">
@@ -484,7 +484,7 @@ export default function Dashboard() {
                                          <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tighter">
                                             {comment.author?.username || 'Anonymous'}
                                          </span>
-                                         {comment.author?.isVerified && <span className="text-[8px] font-bold text-primary-500 border border-primary-500/20 px-1 rounded uppercase">Verified</span>}
+                                         {comment.author?.isVerified && <span className="text-[8px] font-bold text-blue-500 border border-blue-500/20 px-1 rounded uppercase">Verified</span>}
                                       </div>
                                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{new Date(comment.createdAt).toLocaleDateString()}</span>
                                    </div>
@@ -504,18 +504,18 @@ export default function Dashboard() {
              </div>
 
             {/* Dashboard Orientation Help */}
-            <div className="p-8 rounded-[2rem] bg-indigo-50 dark:bg-slate-950 border border-indigo-100 dark:border-white/5 relative overflow-hidden">
+            <div className="p-8 rounded-[2rem] bg-blue-50 dark:bg-slate-950 border border-blue-100 dark:border-white/5 relative overflow-hidden">
 
                <div className="absolute bottom-0 right-0 p-8 opacity-5">
                   <ShieldCheckIcon className="w-24 h-24 rotate-12" />
                </div>
                <div className="relative z-10 flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20">
+                  <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
                      <ShieldCheckIcon className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-black text-indigo-900 dark:text-white uppercase tracking-tighter mb-2 italic">Infrastructure of Trust</h4>
-                    <p className="text-indigo-800/60 dark:text-slate-500 text-xs leading-relaxed max-w-lg">
+                    <h4 className="font-black text-blue-900 dark:text-white uppercase tracking-tighter mb-2 italic">Infrastructure of Trust</h4>
+                    <p className="text-blue-800/60 dark:text-slate-500 text-xs leading-relaxed max-w-lg">
                       Frontline operates on **Zero-Base Truth**. Your visibility on the Pulse is tied strictly to your earned trust. 
                       Launch Hubs, engage with members, and upload high-fidelity competence assets to scale from 0 to 99%.
                     </p>
@@ -534,7 +534,7 @@ export default function Dashboard() {
             <div className="p-8 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
                <div>
                   <div className="flex items-center gap-2 mb-1">
-                     <div className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></div>
+                     <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
                        {user?.businessType === 'product' ? 'Inventory Control' : 'Asset Management'}
                      </span>
@@ -563,7 +563,7 @@ export default function Dashboard() {
                   <p className="text-slate-400 text-xs mb-6 italic leading-relaxed">Upload blueprints, certificates, or project results to earn Trust weight.</p>
                   <button 
                     onClick={() => navigate('/create-course')}
-                    className="flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-primary-500 hover:text-white transition-all shadow-xl shadow-black/20"
+                    className="flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-blue-500 hover:text-white transition-all shadow-xl shadow-black/20"
                   >
                     <ArrowUpCircleIcon className="w-4 h-4" />
                     Upload Expert Asset
@@ -585,7 +585,7 @@ export default function Dashboard() {
                   ) : (
                     <div className="space-y-4">
                        {myPosts.map(post => (
-                         <div key={post._id} className="p-5 rounded-3xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 flex items-center gap-4 group hover:border-primary-500 transition-all">
+                         <div key={post._id} className="p-5 rounded-3xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 flex items-center gap-4 group hover:border-blue-500 transition-all">
                             <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-800 overflow-hidden flex-shrink-0">
                                {post.media?.[0] ? (
                                  <img src={post.media[0]} alt="" className="w-full h-full object-cover" />
@@ -598,7 +598,7 @@ export default function Dashboard() {
                             <div className="flex-1 min-w-0">
                                <h6 className="font-bold text-slate-900 dark:text-white truncate uppercase tracking-tight">{post.title}</h6>
                                <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-[10px] font-black text-primary-500 uppercase tracking-widest">Type: {post.type}</span>
+                                  <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Type: {post.type}</span>
                                   <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
                                </div>
@@ -617,7 +617,7 @@ export default function Dashboard() {
             <div className="p-8 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-white/5">
                 <div className="flex items-center justify-between mb-2">
                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Asset Trust Weight</p>
-                   <p className="text-sm font-black text-primary-500">+{myPosts.length * 0.1}% Power</p>
+                   <p className="text-sm font-black text-blue-500">+{myPosts.length * 0.1}% Power</p>
                 </div>
                 <p className="text-[11px] text-slate-500 italic leading-relaxed">
                    Expert Assets generate continuous trust by providing verifiable proof of your technical competence to searching buyers.
@@ -637,8 +637,8 @@ export default function Dashboard() {
                 <div className="flex justify-between items-center mb-0">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                       <RocketLaunchIcon className="w-3 h-3 text-primary-500" />
-                       <span className="text-[10px] font-black uppercase text-primary-500 tracking-widest">Identity Construction</span>
+                       <RocketLaunchIcon className="w-3 h-3 text-blue-500" />
+                       <span className="text-[10px] font-black uppercase text-blue-500 tracking-widest">Identity Construction</span>
                     </div>
                     <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic" id="modal-title">Launch Territory</h3>
                   </div>
@@ -653,7 +653,7 @@ export default function Dashboard() {
                     <input 
                       type="text" 
                       placeholder="e.g. Mombasa Engineering Core" 
-                      className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-primary-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
+                      className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
                       value={newHub.name}
                       onChange={e => setNewHub({...newHub, name: e.target.value})}
                       required
@@ -664,7 +664,7 @@ export default function Dashboard() {
                      <div className="space-y-2">
                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Classification</label>
                        <select 
-                         className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-primary-500 outline-none dark:text-white transition-all font-bold"
+                         className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold"
                          value={newHub.category}
                          onChange={e => setNewHub({...newHub, category: e.target.value})}
                        >
@@ -677,7 +677,7 @@ export default function Dashboard() {
                      </div>
                      <div className="space-y-2">
                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Visual ID</label>
-                       <label className="w-full flex items-center gap-3 px-6 py-4 rounded-[1.5rem] bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 cursor-pointer hover:bg-primary-500 hover:text-white transition-all">
+                       <label className="w-full flex items-center gap-3 px-6 py-4 rounded-[1.5rem] bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 cursor-pointer hover:bg-blue-500 hover:text-white transition-all">
                          <PhotoIcon className="h-5 w-5 opacity-50" />
                          <span className="text-xs font-bold uppercase truncate">
                            {newHub.image ? 'ID Loaded ✓' : 'Add Image'}
@@ -706,7 +706,7 @@ export default function Dashboard() {
                     <textarea 
                       rows={3} 
                       placeholder="Define the specific problem your hub solves." 
-                      className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-primary-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
+                      className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
                       value={newHub.description}
                       onChange={e => setNewHub({...newHub, description: e.target.value})}
                       required
@@ -719,7 +719,7 @@ export default function Dashboard() {
                   type="submit" 
                   form="create-hub-form"
                   disabled={creating}
-                  className="w-full py-5 bg-gradient-to-r from-primary-600 to-indigo-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-full hover:scale-[1.02] active:scale-98 transition-all shadow-2xl shadow-primary-500/20 disabled:opacity-50"
+                  className="w-full py-5 bg-gradient-to-r from-blue-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-full hover:scale-[1.02] active:scale-98 transition-all shadow-2xl shadow-blue-500/20 disabled:opacity-50"
                 >
                   {creating ? 'CONSTRUCTING...' : 'CONFIRM LIVE LAUNCH'}
                 </button>

@@ -56,14 +56,14 @@ export default function Profile() {
   }, [id]);
 
   if (loading) return <div className="min-h-screen pt-24 flex flex-col items-center justify-center bg-white dark:bg-slate-950">
-    <div className="w-12 h-12 border-b-2 border-emerald-500 rounded-full animate-spin mb-4"></div>
+    <div className="w-12 h-12 border-b-2 border-blue-500 rounded-full animate-spin mb-4"></div>
     <span className="font-black uppercase text-[10px] tracking-widest text-slate-400">Synchronizing Identity...</span>
   </div>;
 
   if (!profile) return <div className="min-h-screen pt-24 text-center bg-white dark:bg-slate-950 font-black uppercase text-xs tracking-widest text-slate-400">Protocol Error: Identity Not Found.</div>;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 pt-16 transition-colors duration-500 selection:bg-emerald-500 selection:text-white pb-24">
+    <div className="min-h-screen bg-white dark:bg-slate-950 pt-16 transition-colors duration-500 selection:bg-blue-500 selection:text-white pb-24">
       
       {/* Premium Header */}
       <div className="bg-white dark:bg-slate-900 shadow-sm border-b border-slate-100 dark:border-white/5">
@@ -71,7 +71,7 @@ export default function Profile() {
           
           {/* Cover Area */}
           <div className="h-48 md:h-64 bg-slate-50 dark:bg-slate-950 relative rounded-b-[3rem] mx-4 md:mx-0 overflow-hidden group">
-             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-slate-200 dark:to-slate-900 animate-pulse"></div>
+             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-slate-200 dark:to-slate-900 animate-pulse"></div>
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
              <div className="absolute bottom-6 right-8 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
                 <span className="text-[10px] font-black text-white uppercase tracking-widest italic">Identity Hub</span>
@@ -97,7 +97,7 @@ export default function Profile() {
                    )}
                 </div>
                 {profile.isVerified && (
-                  <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-emerald-500/30 border-4 border-white dark:border-slate-900">
+                  <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-500/30 border-4 border-white dark:border-slate-900">
                      <CheckBadgeIcon className="w-5 h-5" />
                   </div>
                 )}
@@ -106,12 +106,12 @@ export default function Profile() {
               {/* Info Block */}
               <div className="flex-1 text-center md:text-left mb-2 md:mb-6">
                 <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-4 leading-none">
-                  {profile.username}<span className="text-emerald-600">.</span>
+                  {profile.username}<span className="text-blue-600">.</span>
                 </h1>
                 
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-black uppercase tracking-widest text-slate-400">
                   {profile.role === 'seller' && (
-                    <span className="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 px-3 py-1.5 rounded-full border border-emerald-500/20">
+                    <span className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 px-3 py-1.5 rounded-full border border-blue-500/20">
                       {profile.businessType === 'product' ? 'Merchant Pilot' : 'Service Architect'}
                     </span>
                   )}
@@ -132,7 +132,7 @@ export default function Profile() {
                              onMouseEnter={() => setHoverRating(s)}
                              className="transition-transform hover:scale-150 disabled:cursor-not-allowed group/star"
                            >
-                             <CheckBadgeIcon className={`w-4 h-4 transition-colors ${s <= (hoverRating || profile.averageRating || 0) ? 'text-emerald-500' : 'text-slate-200 dark:text-slate-800 group-hover/star:text-emerald-300'}`} />
+                             <CheckBadgeIcon className={`w-4 h-4 transition-colors ${s <= (hoverRating || profile.averageRating || 0) ? 'text-blue-500' : 'text-slate-200 dark:text-slate-800 group-hover/star:text-blue-300'}`} />
                            </button>
                          );
                        })}
@@ -149,13 +149,13 @@ export default function Profile() {
                   {localStorage.getItem('userId') === id ? (
                     <Link 
                      to="/dashboard"
-                     className="px-8 py-3.5 bg-slate-900 dark:bg-emerald-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-emerald-500/10 active:scale-95 hover:bg-emerald-700"
+                     className="px-8 py-3.5 bg-slate-900 dark:bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-blue-500/10 active:scale-95 hover:bg-blue-700"
                     >
                       Access Cockpit
                     </Link>
                   ) : (
                     <>
-                      <button className="px-8 py-3.5 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-emerald-500/20 hover:bg-emerald-700 active:scale-95">
+                      <button className="px-8 py-3.5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-blue-500/20 hover:bg-blue-700 active:scale-95">
                         Connect
                       </button>
                       <button 
@@ -187,7 +187,7 @@ export default function Profile() {
                 <button 
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-5 text-[10px] font-black uppercase tracking-[0.3em] border-b-2 transition-all whitespace-nowrap ${activeTab === tab.id ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+                  className={`py-5 text-[10px] font-black uppercase tracking-[0.3em] border-b-2 transition-all whitespace-nowrap ${activeTab === tab.id ? 'border-blue-500 text-blue-600' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
                 >
                   {tab.label}
                 </button>
@@ -204,17 +204,17 @@ export default function Profile() {
           {/* Sidebar Stats */}
           <div className="lg:col-span-4 space-y-6 hidden lg:block">
             <div className="bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none">
-               <h3 className="font-black text-[10px] uppercase tracking-widest text-emerald-600 mb-8 italic">Personnel Data</h3>
+               <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-8 italic">Personnel Data</h3>
                <div className="space-y-6 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                   <div className="flex items-center gap-4">
-                     <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-emerald-600 border border-slate-100 dark:border-white/5 shadow-lg">
+                     <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-blue-600 border border-slate-100 dark:border-white/5 shadow-lg">
                         <BriefcaseIcon className="w-5 h-5" />
                      </div>
                      <p><span className="text-slate-900 dark:text-white block text-xs">Network Role</span> {profile.role}</p>
                   </div>
                   {profile.location && (
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-emerald-600 border border-slate-100 dark:border-white/5 shadow-lg">
+                        <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-blue-600 border border-slate-100 dark:border-white/5 shadow-lg">
                            <MapPinIcon className="w-5 h-5" />
                         </div>
                         <p><span className="text-slate-900 dark:text-white block text-xs">Origin Hub</span> {profile.location}</p>
@@ -226,7 +226,7 @@ export default function Profile() {
             {/* Skills List */}
             {profile.competence?.skills?.length > 0 && (
               <div className="bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5">
-                <h3 className="font-black text-[10px] uppercase tracking-widest text-emerald-600 mb-8 italic">Signal Types</h3>
+                <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-8 italic">Signal Types</h3>
                 <div className="flex flex-wrap gap-2">
                   {profile.competence.skills.map(skill => (
                     <span key={skill} className="px-4 py-2 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-white/5 shadow-sm">
@@ -260,7 +260,7 @@ export default function Profile() {
                   {posts.filter(p => p.type === 'product' || p.type === 'service').length > 0 ? (
                     posts.filter(p => p.type === 'product' || p.type === 'service').map((post) => (
                       <Link key={post._id} to={`/communities/${post.community?._id || 'global'}`} className="block group">
-                        <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] overflow-hidden border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all hover:-translate-y-2 hover:border-emerald-500/20">
+                        <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] overflow-hidden border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all hover:-translate-y-2 hover:border-blue-500/20">
                           <div className="h-56 overflow-hidden relative">
                             {post.media?.[0] ? (
                               <img src={post.media[0]} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
@@ -269,7 +269,7 @@ export default function Profile() {
                                  <PhotoIcon className="w-16 h-16" />
                               </div>
                             )}
-                            <div className="absolute top-6 left-6 px-4 py-1.5 bg-emerald-600 text-white rounded-full shadow-lg shadow-emerald-500/20">
+                            <div className="absolute top-6 left-6 px-4 py-1.5 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-500/20">
                                <span className="text-[9px] font-black uppercase tracking-widest">
                                  {profile.businessType === 'product' ? 'Merchant Asset' : 'Expert Service'}
                                </span>
@@ -279,7 +279,7 @@ export default function Profile() {
                             <h4 className="font-black text-slate-900 dark:text-white mb-3 uppercase tracking-tighter text-xl italic leading-tight truncate">{post.title}</h4>
                             <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-6 italic font-medium leading-relaxed">"{post.content || 'No description provided.'}"</p>
                             <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-white/5">
-                               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{post.category || 'Competence'}</span>
+                               <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{post.category || 'Competence'}</span>
                                <span className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
                             </div>
                           </div>
@@ -299,11 +299,11 @@ export default function Profile() {
             {activeTab === 'about' && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                  <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-10 md:p-12 border border-slate-100 dark:border-white/5 shadow-xl">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-full border border-emerald-500/10 text-[10px] font-black uppercase tracking-widest mb-8">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[10px] font-black uppercase tracking-widest mb-8">
                        <InformationCircleIcon className="w-4 h-4" />
                        Manifesto & Mission
                     </div>
-                    <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-6">The <span className="text-emerald-600">Competence</span> Baseline.</h2>
+                    <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-6">The <span className="text-blue-600">Competence</span> Baseline.</h2>
                     <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-medium italic mb-10">
                       {profile.sellerProfile?.bio || "This participant has not yet transmitted their professional mission signal. They operate within the network as a verified entity."}
                     </p>

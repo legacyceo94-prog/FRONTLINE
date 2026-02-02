@@ -127,7 +127,7 @@ export default function AccountSettings() {
   if (loading) {
     return (
       <div className="min-h-screen pt-24 flex flex-col justify-center items-center bg-white dark:bg-slate-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 mb-4"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Syncing Protocol...</span>
       </div>
     );
@@ -142,14 +142,14 @@ export default function AccountSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 pt-24 pb-24 transition-colors duration-500 selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950 pt-24 pb-24 transition-colors duration-500 selection:bg-blue-500 selection:text-white">
       <div className="max-w-4xl mx-auto px-6">
         <div className="mb-12">
-           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-full border border-emerald-500/10 text-[10px] font-black uppercase tracking-widest mb-4">
+           <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[10px] font-black uppercase tracking-widest mb-4">
               <Cog6ToothIcon className="w-4 h-4" />
               Pulse Calibration
            </div>
-           <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-2">Protocol <span className="text-emerald-600">Settings.</span></h1>
+           <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-2">Protocol <span className="text-blue-600">Settings.</span></h1>
            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">Manage your professional identity and network preferences.</p>
         </div>
 
@@ -160,7 +160,7 @@ export default function AccountSettings() {
               <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Identity Profile</h2>
               <Link 
                 to={`/profile/${user._id}`}
-                className="px-6 py-2 bg-white dark:bg-slate-950 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all shadow-lg"
+                className="px-6 py-2 bg-white dark:bg-slate-950 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-blue-500/20 hover:bg-blue-500 hover:text-white transition-all shadow-lg"
               >
                 View Feed →
               </Link>
@@ -169,7 +169,7 @@ export default function AccountSettings() {
             <div className="space-y-10">
               {/* Profile Picture */}
               <div className="flex flex-col md:flex-row items-center gap-10">
-                <div className="w-32 h-32 rounded-[2rem] bg-white dark:bg-slate-950 text-emerald-600 flex items-center justify-center font-black text-4xl overflow-hidden border border-slate-100 dark:border-white/10 shadow-2xl relative group">
+                <div className="w-32 h-32 rounded-[2rem] bg-white dark:bg-slate-950 text-blue-600 flex items-center justify-center font-black text-4xl overflow-hidden border border-slate-100 dark:border-white/10 shadow-2xl relative group">
                   {(user.profileImage || localStorage.getItem('profileImage')) ? (
                     <img 
                       src={user.profileImage || localStorage.getItem('profileImage')} 
@@ -186,7 +186,7 @@ export default function AccountSettings() {
                 <div className="text-center md:text-left">
                   <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-2 italic">Signal Avatar</h3>
                   <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-6">High fidelity face of your profile</p>
-                  <label className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-black uppercase tracking-widest rounded-full transition-all cursor-pointer inline-block shadow-xl shadow-emerald-500/20 active:scale-95">
+                  <label className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-black uppercase tracking-widest rounded-full transition-all cursor-pointer inline-block shadow-xl shadow-blue-500/20 active:scale-95">
                     Choose Image
                     <input 
                       type="file" 
@@ -210,7 +210,7 @@ export default function AccountSettings() {
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Current Role</label>
                     <div className="px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 flex flex-col space-y-2">
-                       <span className="text-emerald-600 font-black uppercase tracking-widest text-xs italic">
+                       <span className="text-blue-600 font-black uppercase tracking-widest text-xs italic">
                         {user.role} Hub
                       </span>
                       {user.role === 'seller' && (
@@ -226,7 +226,7 @@ export default function AccountSettings() {
                       <div>
                         <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Network Trust Score</label>
                         <div className="px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5">
-                           <span className="text-emerald-600 font-black text-lg italic">
+                           <span className="text-blue-600 font-black text-lg italic">
                             {user.trustScore || 0}% <span className="text-[10px] uppercase tracking-widest">Integrity</span>
                           </span>
                         </div>
@@ -236,7 +236,7 @@ export default function AccountSettings() {
                         <div className="px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5">
                           <span className={`text-[10px] font-black uppercase tracking-widest ${
                             user.isVerified 
-                              ? 'text-emerald-500' 
+                              ? 'text-blue-500' 
                               : 'text-slate-400'
                           }`}>
                             {user.isVerified ? 'VERIFIED IDENTITY ✓' : 'UNVERIFIED PROTOCOL'}
@@ -257,7 +257,7 @@ export default function AccountSettings() {
                     <textarea 
                       rows={4}
                       placeholder={user.businessType === 'product' ? "e.g. Bringing high-quality digital assets to creators..." : "Describe your professional competence..."}
-                      className="w-full px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-medium italic leading-relaxed"
+                      className="w-full px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-medium italic leading-relaxed"
                       value={bio}
                       onChange={e => setBio(e.target.value)}
                     />
@@ -269,7 +269,7 @@ export default function AccountSettings() {
                     <input 
                       type="text" 
                       placeholder="e.g. +254 700 000000"
-                      className="w-full px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-black italic"
+                      className="w-full px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-black italic"
                       value={phone}
                       onChange={e => setPhone(e.target.value)}
                     />
@@ -283,7 +283,7 @@ export default function AccountSettings() {
                       <input 
                         type="text" 
                         placeholder="e.g. Nairobi Hub, Kenya"
-                        className="w-full px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-black italic"
+                        className="w-full px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-black italic"
                         value={location}
                         onChange={e => setLocation(e.target.value)}
                       />
@@ -295,8 +295,8 @@ export default function AccountSettings() {
                     disabled={saving}
                     className={`w-full md:w-auto px-12 py-4 text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl transition-all active:scale-95 ${
                       saving === 'done' 
-                        ? 'bg-emerald-500 text-white' 
-                        : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/20'
+                        ? 'bg-blue-500 text-white' 
+                        : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/20'
                     }`}
                   >
                     {saving === 'done' ? 'Protocol Captured ✓' : saving ? 'Transmitting Data...' : 'Commit Profile Changes'}
@@ -315,13 +315,13 @@ export default function AccountSettings() {
                   <Link
                     key={community._id}
                     to={`/communities/${community._id}`}
-                    className="flex items-center gap-4 p-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 hover:border-emerald-500/30 transition-all group shadow-sm"
+                    className="flex items-center gap-4 p-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 hover:border-blue-500/30 transition-all group shadow-sm"
                   >
                     <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0">
                       {community.image && <img src={community.image} alt={community.name} className="w-full h-full object-cover" />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter truncate group-hover:text-emerald-600 transition-colors">
+                      <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter truncate group-hover:text-blue-600 transition-colors">
                         {community.name}
                       </h3>
                       <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Member</p>
@@ -338,8 +338,8 @@ export default function AccountSettings() {
 
           {/* Seller Upgrade */}
           {(user.role === 'user' || user.role === 'buyer' || (user.role === 'seller' && !user.businessType)) && (
-            <div className="bg-slate-950 rounded-[3rem] p-8 md:p-12 border border-emerald-500/20 shadow-[0_0_80px_rgba(16,185,129,0.1)] overflow-hidden relative group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+            <div className="bg-slate-950 rounded-[3rem] p-8 md:p-12 border border-blue-500/20 shadow-[0_0_80px_rgba(16,185,129,0.1)] overflow-hidden relative group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
               <div className="relative z-10">
                 <h2 className="text-3xl font-black text-white uppercase tracking-tighter italic mb-4">
                   {user.role === 'seller' ? 'Calibrate Your Identity' : 'Launch Your Cockpit'}
@@ -353,9 +353,9 @@ export default function AccountSettings() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <button 
                     onClick={() => handleBecomeSeller('service')}
-                    className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-emerald-500 transition-all text-left active:scale-95 group"
+                    className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-blue-500 transition-all text-left active:scale-95 group"
                   >
-                    <div className="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+                    <div className="w-14 h-14 bg-blue-500 text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl shadow-blue-500/20 group-hover:scale-110 transition-transform">
                        <BriefcaseIcon className="w-8 h-8" />
                     </div>
                     <h3 className="text-xl font-black text-white uppercase tracking-tighter italic mb-2">Service Studio</h3>
@@ -364,9 +364,9 @@ export default function AccountSettings() {
   
                   <button 
                     onClick={() => handleBecomeSeller('product')}
-                    className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-emerald-500 transition-all text-left active:scale-95 group"
+                    className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-blue-500 transition-all text-left active:scale-95 group"
                   >
-                    <div className="w-14 h-14 bg-emerald-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+                    <div className="w-14 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl shadow-blue-500/20 group-hover:scale-110 transition-transform">
                        <BuildingStorefrontIcon className="w-8 h-8" />
                     </div>
                     <h3 className="text-xl font-black text-white uppercase tracking-tighter italic mb-2">Product Store</h3>
@@ -381,16 +381,16 @@ export default function AccountSettings() {
           <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-8 md:p-12 border border-red-500/10 mb-24">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-8">Danger Protocol</h2>
             <div className="space-y-4">
-              <button 
-                onClick={handleLogout}
-                className="w-full flex items-center justify-between px-8 py-5 bg-white dark:bg-slate-950 text-slate-900 dark:text-white rounded-[2rem] border border-slate-100 dark:border-white/5 hover:border-emerald-500 transition-all group shadow-sm active:scale-95"
-              >
-                <span className="flex items-center gap-4">
-                  <ArrowRightOnRectangleIcon className="w-6 h-6 text-slate-400 group-hover:text-emerald-500 transition-colors" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Terminate Session</span>
-                </span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 hidden sm:block">Logout Protocol</span>
-              </button>
+      <button 
+        onClick={handleLogout}
+        className="w-full flex items-center justify-between px-8 py-5 bg-white dark:bg-slate-950 text-red-600 rounded-[2rem] border border-red-500/20 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all group shadow-sm active:scale-95"
+      >
+        <span className="flex items-center gap-4">
+          <ArrowRightOnRectangleIcon className="w-6 h-6 text-red-500 transition-colors" />
+          <span className="text-[10px] font-black uppercase tracking-widest">Terminate Session</span>
+        </span>
+        <span className="text-[9px] font-black uppercase tracking-widest text-red-400 hidden sm:block">Logout Protocol</span>
+      </button>
 
               <div className="pt-6">
                 <button 

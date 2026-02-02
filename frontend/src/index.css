@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --eco-primary: #10b981;
-  --eco-primary-dark: #059669;
+  --eco-primary: #2563eb;
+  --eco-primary-dark: #1d4ed8;
   --eco-bg: #f8fafc;
   --eco-surface: #ffffff;
   --eco-text: #0f172a;
@@ -20,8 +20,8 @@
   body {
     @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 font-sans antialiased;
     background-image:
-      radial-gradient(at 0% 0%, hsla(160, 84%, 39%, 0.05) 0, transparent 50%),
-      radial-gradient(at 50% 0%, hsla(140, 60%, 50%, 0.03) 0, transparent 50%);
+      radial-gradient(at 0% 0%, hsla(220, 84%, 39%, 0.05) 0, transparent 50%),
+      radial-gradient(at 50% 0%, hsla(210, 60%, 50%, 0.03) 0, transparent 50%);
   }
 }
 
@@ -39,7 +39,7 @@
   }
 
   .eco-btn-primary {
-    @apply eco-btn bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20 active:shadow-inner;
+    @apply eco-btn bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 active:shadow-inner;
   }
 
   .bottom-nav-item {
@@ -47,7 +47,7 @@
   }
 
   .bottom-nav-item.active {
-    @apply text-emerald-600 dark:text-emerald-400;
+    @apply text-blue-600 dark:text-blue-400;
   }
 }
 
