@@ -86,7 +86,7 @@ function Home() {
                   </div>
                   <h3 className="font-black text-slate-900 dark:text-white leading-none uppercase tracking-tighter italic text-xl">{localStorage.getItem('username') || 'Member'}</h3>
                   <div className="mt-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[8px] font-black uppercase tracking-widest">
-                     Certified Node
+                     Verified Member
                   </div>
                 </div>
 
@@ -102,7 +102,7 @@ function Home() {
 
                 <div className="mt-10">
                    <Link to="/communities" className="block w-full py-4 bg-slate-900 dark:bg-slate-950 text-white text-center text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl active:scale-95">
-                      Enter the Pulse
+                      Go to Communities
                    </Link>
                 </div>
               </div>
@@ -112,11 +112,11 @@ function Home() {
             <div className="lg:w-3/4">
                <div className="mb-10 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-1">Global Transmission</span>
-                    <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">The <span className="text-blue-600">Inventory.</span></h2>
+                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-1">Live Feed</span>
+                    <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">The <span className="text-blue-600">Marketplace.</span></h2>
                   </div>
                   <Link to="/marketplace" className="text-[10px] font-black text-slate-400 hover:text-blue-600 uppercase tracking-widest transition-colors flex items-center gap-2">
-                     Scan All Assets
+                     Browse Work
                      <RocketLaunchIcon className="w-4 h-4" />
                   </Link>
                </div>
@@ -156,7 +156,7 @@ function Home() {
             <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8">
               The <span className="blue-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400">Social Network</span> for<br />
               <span className="relative inline-block mt-2">
-                Real Competence
+                Trusted Pros
                 <div className="absolute -bottom-2 left-0 w-full h-2 bg-blue-200 dark:bg-blue-900/30 -z-10 rounded-full"></div>
               </span>
             </h1>
@@ -164,13 +164,13 @@ function Home() {
 
           <div className="flex justify-center gap-4">
             <Link to="/communities" className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-2xl shadow-blue-500/30 transition-all transform hover:scale-105 active:scale-95">
-              Explore the Pulse
+              Find Services
             </Link>
             <Link 
               to="/dashboard"
               className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-blue-600 bg-white dark:bg-slate-800 border-2 border-blue-50 dark:border-white/5 hover:border-blue-500 rounded-full transition-all shadow-xl shadow-slate-200/50 dark:shadow-none"
             >
-              Start Selling
+              Join as a Pro
             </Link>
           </div>
         </div>
