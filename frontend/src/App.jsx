@@ -149,9 +149,7 @@ function Home() {
     <div className="relative isolate">
       {/* Hero Section Container */}
       <div className="relative pt-32 pb-20 sm:pt-48 sm:pb-32 overflow-hidden">
-        {/* Animated Background Gradient Blobs */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 -right-24 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+        {/* Hero Content */}
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="animate-in fade-in slide-in-from-bottom-5 duration-700">
@@ -178,37 +176,6 @@ function Home() {
         </div>
       </div>
 
-      {/* Feature Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Feature 1 */}
-          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-blue-500/10 transition-all group">
-            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-8 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
-               <UserGroupIcon className="w-7 h-7"/>
-            </div>
-            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Network of Buyers</h3>
-            <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Don't sell alone. Plug into active communities ready to validate and acquire your professional output.</p>
-          </div>
-
-          {/* Feature 2 */}
-          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-blue-500/10 transition-all group">
-            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-8 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
-               <AcademicCapIcon className="w-7 h-7"/>
-            </div>
-            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Monetize Truth</h3>
-            <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">From curated courses to deep consultations. Transform your verified competence into scalable Seller Assets.</p>
-          </div>
-
-          {/* Feature 3 */}
-          <div className="glass-card p-10 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 dark:shadow-none hover:shadow-blue-500/10 transition-all group">
-            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-8 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-lg">
-               <BriefcaseIcon className="w-7 h-7"/>
-            </div>
-            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic">Infinite Reputation</h3>
-            <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">Every handshake transmits trust. Build an immutable professional identity that scales across the entire network.</p>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
@@ -221,8 +188,6 @@ function BottomNav({ user }) {
 
   const navItems = [
     { label: 'Home', icon: HomeIcon, path: '/', active: location.pathname === '/' },
-    { label: 'Market', icon: MagnifyingGlassIcon, path: '/marketplace', active: location.pathname === '/marketplace' },
-    { label: 'Pulse', icon: UserGroupIcon, path: '/communities', active: location.pathname === '/communities' },
     { label: user?.role === 'seller' ? 'Engine' : 'You', icon: user?.role === 'seller' ? RocketLaunchIcon : UserIcon, path: user?.role === 'seller' ? '/dashboard' : '/settings', active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/settings' },
   ];
 
@@ -346,9 +311,6 @@ function App() {
                 <UserGroupIcon className="w-4 h-4" />
                 Community Pulse
               </Link>
-              <Link to="/about" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 ${location.pathname === '/about' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
-                About
-              </Link>
               {user && user.role === 'seller' && (
                 <Link to="/dashboard" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 flex items-center gap-2 ${location.pathname === '/dashboard' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                   <RocketLaunchIcon className="w-4 h-4" />
@@ -411,10 +373,6 @@ function App() {
 
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
             <div className="px-4 pt-2 pb-6 space-y-4 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-white/5">
-               <div className="grid grid-cols-2 gap-3">
-                  <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 text-center text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">About</Link>
-                  <Link to="/marketplace" onClick={() => setMobileMenuOpen(false)} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 text-center text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">Inventory</Link>
-               </div>
                {!user ? (
                  <div className="flex flex-col gap-2">
                    <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/5">Login</Link>
@@ -451,6 +409,29 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </main>
+
+      {/* Footer Section */}
+      <footer className="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 py-12 pb-32 md:pb-12">
+        <div className="max-w-7xl mx-auto px-6">
+           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
+                 © {new Date().getFullYear()} Art of Proof
+              </div>
+              
+              <div className="flex items-center gap-8">
+                 <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20">
+                       F
+                    </div>
+                    <span className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Frontline<span className="text-blue-600">.</span></span>
+                 </div>
+                 <Link to="/about" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">About</Link>
+              </div>
+
+              <div className="hidden md:block w-32"></div> {/* Spacer for symmetry */}
+           </div>
+        </div>
+      </footer>
 
       {/* Mobile-First Navigation Layer */}
       <BottomNav user={user} />
