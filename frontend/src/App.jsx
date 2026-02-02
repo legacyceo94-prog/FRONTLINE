@@ -337,16 +337,22 @@ function App() {
               </span>
             </Link>
             
-            <div className="hidden md:flex items-center space-x-8">
-              <Link to="/communities" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                Marketplace Pulse
+            <div className="hidden md:flex items-center space-x-10">
+              <Link to="/marketplace" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 flex items-center gap-2 ${location.pathname === '/marketplace' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
+                <ShoppingBagIcon className="w-4 h-4" />
+                Inventory Scan
               </Link>
-              <Link to="/about" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+              <Link to="/communities" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 flex items-center gap-2 ${location.pathname === '/communities' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
+                <UserGroupIcon className="w-4 h-4" />
+                Community Pulse
+              </Link>
+              <Link to="/about" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 ${location.pathname === '/about' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
                 About
               </Link>
               {user && user.role === 'seller' && (
-                <Link to="/dashboard" className={`text-sm font-bold transition-colors ${location.pathname === '/dashboard' ? 'text-primary-600 dark:text-primary-400' : 'text-slate-500 hover:text-primary-600'}`}>
-                  Dashboard
+                <Link to="/dashboard" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-emerald-600 flex items-center gap-2 ${location.pathname === '/dashboard' ? 'text-emerald-600' : 'text-slate-500 dark:text-slate-400'}`}>
+                  <RocketLaunchIcon className="w-4 h-4" />
+                  Cockpit
                 </Link>
               )}
             </div>
