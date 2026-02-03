@@ -413,7 +413,6 @@ function App() {
       </main>
 
       {/* Footer Section */}
-      {/* Footer Section */}
       {location.pathname === '/' && (
         <footer className="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 py-12 pb-32 md:pb-12">
           <div className="max-w-7xl mx-auto px-6">
