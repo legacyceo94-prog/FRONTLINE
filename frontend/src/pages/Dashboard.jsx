@@ -17,7 +17,8 @@ import {
   DocumentDuplicateIcon,
   Square3Stack3DIcon,
   StarIcon,
-  BuildingStorefrontIcon
+  BuildingStorefrontIcon,
+  CommandLineIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
@@ -415,7 +416,7 @@ export default function Dashboard() {
                    >
                       Pulse Comments
                    </button>
-                </div>
+                 </div>
 
                 <div className="space-y-4">
                     {receptionType === 'ratings' ? (
@@ -449,61 +450,100 @@ export default function Dashboard() {
                             </div>
                           ))
                        )
-                    ) : 
-                       (() => {
-                          const allComments = (myPosts || []).reduce((acc, post) => {
-                             if (post && Array.isArray(post.comments)) {
-                                return [...acc, ...post.comments.map(c => ({ 
-                                   ...c, 
-                                   postTitle: post.title, 
-                                   postId: post._id 
-                                }))];
-                             }
-                             return acc;
-                          }, []);
+                     ) : (
+                        (() => {
+                           const allComments = (myPosts || []).reduce((acc, post) => {
+                              if (post && Array.isArray(post.comments)) {
+                                 return [...acc, ...post.comments.map(c => ({ 
+                                    ...c, 
+                                    postTitle: post.title, 
+                                    postId: post._id 
+                                 }))];
+                              }
+                              return acc;
+                           }, []);
 
-                          if (allComments.length === 0) {
-                             return (
-                                <div className="py-12 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
-                                   <p className="text-sm text-slate-400 italic font-medium">No comments on your posts yet.</p>
-                                </div>
-                             );
-                          }
+                           if (allComments.length === 0) {
+                              return (
+                                 <div className="py-12 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
+                                    <p className="text-sm text-slate-400 italic font-medium">No comments on your posts yet.</p>
+                                 </div>
+                              );
+                           }
 
-                          return allComments
-                             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                             .slice(0, 5)
-                             .map((comment, idx) => (
-                                <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-blue-500 group">
-                                   <div className="flex items-center justify-between mb-2">
-                                      <div className="flex items-center gap-2">
-                                         <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-black text-slate-500 overflow-hidden">
-                                            {comment.author?.profileImage ? <img src={comment.author.profileImage} className="w-full h-full object-cover" /> : <div className="p-1 text-[10px]">💬</div>}
-                                         </div>
-                                         <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tighter">
-                                            {comment.author?.username || 'Anonymous'}
-                                         </span>
-                                         {comment.author?.isVerified && <span className="text-[8px] font-bold text-blue-500 border border-blue-500/20 px-1 rounded uppercase">Verified</span>}
-                                      </div>
-                                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{new Date(comment.createdAt).toLocaleDateString()}</span>
-                                   </div>
-                                   <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mb-3 line-clamp-2 italic">
-                                      "{comment.text}"
-                                   </p>
-                                   <div className="flex items-center gap-2">
-                                      <div className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[8px] font-black text-slate-400 uppercase tracking-widest border border-slate-100 dark:border-slate-700 italic">
-                                         Asset: {comment.postTitle}
-                                      </div>
-                                   </div>
-                                </div>
-                             ));
-                       })()
-                    }
+                           return allComments
+                              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                              .slice(0, 5)
+                              .map((comment, idx) => (
+                                 <div key={idx} className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all hover:border-blue-500 group">
+                                    <div className="flex items-center justify-between mb-2">
+                                       <div className="flex items-center gap-2">
+                                          <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-black text-slate-500 overflow-hidden">
+                                             {comment.author?.profileImage ? <img src={comment.author.profileImage} className="w-full h-full object-cover" /> : <div className="p-1 text-[10px]">💬</div>}
+                                          </div>
+                                          <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+                                             {comment.author?.username || 'Anonymous'}
+                                          </span>
+                                          {comment.author?.isVerified && <span className="text-[8px] font-bold text-blue-500 border border-blue-500/20 px-1 rounded uppercase">Verified</span>}
+                                       </div>
+                                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{new Date(comment.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                    <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mb-3 line-clamp-2 italic">
+                                       "{comment.text}"
+                                    </p>
+                                    <div className="flex items-center gap-2">
+                                       <div className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-[8px] font-black text-slate-400 uppercase tracking-widest border border-slate-100 dark:border-slate-700 italic">
+                                          Asset: {comment.postTitle}
+                                       </div>
+                                    </div>
+                                 </div>
+                              ));
+                        })()
+                     )}
                  </div>
              </div>
 
+             {/* Publisher Project Monitor - The Nerve Center */}
+             <div className="mt-12 p-10 bg-slate-950 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                   <CommandLineIcon className="w-32 h-32 text-blue-500 -rotate-12" />
+                </div>
+                
+                <div className="relative z-10">
+                   <div className="flex items-center gap-3 mb-8">
+                      <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                         <CommandLineIcon className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-black text-white uppercase tracking-tighter italic">Publisher Monitor</h3>
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Project Activity Handshake</p>
+                      </div>
+                   </div>
+
+                   <div className="bg-black/40 rounded-2xl p-6 font-mono text-[11px] leading-relaxed border border-white/5 h-64 overflow-y-auto custom-scrollbar">
+                      <div className="text-blue-500/50 mb-4 flex items-center gap-2">
+                         <span className="animate-pulse">●</span> LIVE_RECEPTION_ACTIVE
+                      </div>
+                      <div className="space-y-2">
+                         {[
+                            ...(myPosts || []).map(p => ({ t: 'DEPLOY', msg: `Asset [${p.title}] verified and live.`, d: p.createdAt })),
+                            ...(user?.ratings || []).map(r => ({ t: 'FEEDBACK', msg: `Received ${r.stars}★ reception from client channel.`, d: r.createdAt })),
+                            ...(myHubs || []).map(h => ({ t: 'PROTOCOL', msg: `Hub [${h.name}] established on the network.`, d: h.createdAt || new Date() })),
+                            { t: 'SYSTEM', msg: `Network Trust: ${user?.trustScore || 0}% Authority Sync Complete.`, d: new Date() }
+                         ].sort((a,b) => new Date(b.d) - new Date(a.d)).map((log, i) => (
+                            <div key={i} className="flex gap-3 text-slate-400 hover:text-white transition-colors">
+                               <span className="text-slate-600">[{new Date(log.d).toLocaleTimeString()}]</span>
+                               <span className="text-blue-500 font-bold">{log.t}:</span>
+                               <span className="italic">{log.msg}</span>
+                            </div>
+                         ))}
+                      </div>
+                   </div>
+                </div>
+             </div>
+
             {/* Dashboard Orientation Help */}
-            <div className="p-8 rounded-[2rem] bg-blue-50 dark:bg-slate-950 border border-blue-100 dark:border-white/5 relative overflow-hidden">
+            <div className="mt-8 p-8 rounded-[2rem] bg-blue-50 dark:bg-slate-950 border border-blue-100 dark:border-white/5 relative overflow-hidden">
 
                <div className="absolute bottom-0 right-0 p-8 opacity-5">
                   <ShieldCheckIcon className="w-24 h-24 rotate-12" />
