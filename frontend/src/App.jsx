@@ -444,8 +444,8 @@ function App() {
         </footer>
       )}
 
-      {/* Mobile-First Navigation Layer */}
-      <BottomNav user={user} />
+      {/* Mobile-First Navigation Layer - Hidden in Vanguard for total immersion */}
+      {location.pathname !== '/vanguard' && <BottomNav user={user} />}
     </div>
   )
 }

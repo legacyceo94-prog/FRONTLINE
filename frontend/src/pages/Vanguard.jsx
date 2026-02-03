@@ -10,7 +10,8 @@ import {
   StarIcon,
   ExclamationTriangleIcon,
   ArrowDownTrayIcon,
-  BoltIcon
+  BoltIcon,
+  HomeIcon
 } from '@heroicons/react/24/outline';
 
 export default function Vanguard() {
@@ -167,6 +168,16 @@ export default function Vanguard() {
               <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Empire Status</span>
               <span className="text-xs font-mono text-slate-400">08:00 AM - Optimal</span>
             </div>
+            
+            <button 
+              onClick={() => navigate('/')}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-white/5 rounded-xl transition-all border border-white/5 active:scale-95 group"
+              title="Return to Main Command"
+            >
+              <HomeIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors" />
+              <span className="text-[10px] font-black text-slate-500 group-hover:text-white uppercase tracking-widest hidden sm:block">Exit Console</span>
+            </button>
+
             <button className="p-2 hover:bg-white/5 rounded-lg transition-colors border border-white/5">
               <BoltIcon className="w-5 h-5 text-yellow-500" />
             </button>
