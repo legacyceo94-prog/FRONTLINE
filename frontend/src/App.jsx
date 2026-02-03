@@ -425,21 +425,16 @@ function App() {
         </Routes>
       </main>
 
-      {/* Footer Section */}
-      {location.pathname === '/' && (
+      {/* Footer Section - Only on Guest Landing Page */}
+      {location.pathname === '/' && !user && (
         <footer className="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 py-12 pb-32 md:pb-12">
           <div className="max-w-7xl mx-auto px-6">
-             <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8">
-                {/* Visual Balance Placeholder (Left) */}
-                <div className="hidden md:block"></div>
+             <div className="flex items-center justify-center gap-12 text-center">
+                {/* About to the Left (of Center) */}
+                <Link to="/about" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">About</Link>
 
-                {/* About in the Center */}
-                <div className="flex justify-center">
-                   <Link to="/about" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">About</Link>
-                </div>
-
-                {/* Copyright on the Right */}
-                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600 md:text-right">
+                {/* Copyright to the Right (of Center) */}
+                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
                    © {new Date().getFullYear()} Art of Proof
                 </div>
              </div>
