@@ -13,7 +13,8 @@ import {
   PlusCircleIcon,
   ShoppingBagIcon,
   UserIcon,
-  RocketLaunchIcon
+  RocketLaunchIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -28,6 +29,7 @@ import Dashboard from './pages/Dashboard'
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
 import Choice from './pages/Choice';
+import Vanguard from './pages/Vanguard';
 import api from './utils/api';
 import CourseCard from './components/CourseCard' // Added CourseCard import
 
@@ -191,6 +193,10 @@ function BottomNav({ user }) {
     { label: 'Market', icon: MagnifyingGlassIcon, path: '/marketplace', active: location.pathname === '/marketplace' },
     { label: 'Pulse', icon: UserGroupIcon, path: '/communities', active: location.pathname === '/communities' },
     { label: user?.role === 'seller' ? 'Engine' : 'You', icon: user?.role === 'seller' ? RocketLaunchIcon : UserIcon, path: user?.role === 'seller' ? '/dashboard' : (user ? '/settings' : '/login'), active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/settings' || location.pathname === '/login' },
+    // Hidden Master Command for the Publisher
+    ...(user && (user.username === 'daniel' || user.username === 'legacyceo94' || localStorage.getItem('username') === 'daniel') ? [
+      { label: 'Vanguard', icon: ShieldCheckIcon, path: '/vanguard', active: location.pathname === '/vanguard' }
+    ] : [])
   ];
 
   return (
@@ -404,6 +410,7 @@ function App() {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/settings" element={<AccountSettings />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/vanguard" element={<Vanguard />} />
           <Route path="/choice" element={<Choice />} />
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/about" element={<About />} />
