@@ -171,19 +171,19 @@ export default function Vanguard() {
                   <tbody className="text-xs font-bold uppercase tracking-tight italic">
                     <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                       <td className="py-6 px-4 text-white">Marketplace Attraction</td>
-                      <td className="py-6 px-4 text-blue-500">+24.5%</td>
+                      <td className="py-6 px-4 text-blue-500">+{((stats.listings / (stats.users || 1)) * 10).toFixed(1)}%</td>
                       <td className="py-6 px-4"><span className="px-2 py-1 bg-green-500/10 text-green-500 rounded text-[9px] font-black uppercase">Dominant</span></td>
                       <td className="py-6 px-4 text-slate-500">Verified</td>
                     </tr>
                     <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                       <td className="py-6 px-4 text-white">Trust Handshake Velocity</td>
-                      <td className="py-6 px-4 text-blue-500">+12.2%</td>
+                      <td className="py-6 px-4 text-blue-500">+{((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}%</td>
                       <td className="py-6 px-4"><span className="px-2 py-1 bg-blue-500/10 text-blue-500 rounded text-[9px] font-black uppercase">Scaling</span></td>
                       <td className="py-6 px-4 text-slate-500">Verified</td>
                     </tr>
                     <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                       <td className="py-6 px-4 text-white">Community Intrusion</td>
-                      <td className="py-6 px-4 text-blue-500">+45.8%</td>
+                      <td className="py-6 px-4 text-blue-500">+{((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}%</td>
                       <td className="py-6 px-4"><span className="px-2 py-1 bg-yellow-500/10 text-yellow-500 rounded text-[9px] font-black uppercase">Aggressive</span></td>
                       <td className="py-6 px-4 text-slate-500">Verified</td>
                     </tr>

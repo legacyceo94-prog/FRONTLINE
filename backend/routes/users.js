@@ -4,6 +4,19 @@ const auth = require('../middleware/auth');
 const User = require('../models/User');
 const Post = require('../models/Post');
 
+// @route   GET api/users
+// @desc    Get all users overview (Admin/Vanguard)
+// @access  Public (Should be protected in production)
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET api/users/:id
 // @desc    Get user profile by ID (public info)
 // @access  Public

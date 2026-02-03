@@ -31,6 +31,7 @@ export default function Login() {
       
       storage.setItem('token', res.data.token);
       storage.setItem('username', res.data.user.username);
+      storage.setItem('email', res.data.user.email);
       storage.setItem('userId', res.data.user.id);
       storage.setItem('role', res.data.user.role || 'user');
       
