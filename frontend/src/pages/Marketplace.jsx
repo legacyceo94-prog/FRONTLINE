@@ -15,9 +15,9 @@ export default function Marketplace() {
   const categories = ['Engineering', 'Design', 'Technology', 'Business', 'Other'];
 
   const studioInsights = {
-    '': 'Browse all: A mix of professional services and products.',
-    'service': 'Services: Hire experts and consultants.',
-    'product': 'Products: Buy items and digital goods.'
+    '': 'Browse everything.',
+    'service': 'Services',
+    'product': 'Products'
   };
 
   useEffect(() => {
@@ -58,10 +58,10 @@ export default function Marketplace() {
             <div>
                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest mb-6 border border-blue-500/10">
                   <SparklesIcon className="w-4 h-4" />
-                  Marketplace
+                  Listings
                </div>
                <h1 className="text-5xl md:text-8xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter italic uppercase leading-[0.8]">
-                 Browse <span className="text-blue-600">Market.</span>
+                 Browse.
                </h1>
                <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl font-medium italic">
                  {studioInsights[filters.type]}
@@ -74,7 +74,7 @@ export default function Marketplace() {
                  onClick={() => handleFilterChange('type', '')}
                  className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${filters.type === '' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
                >
-                 All Items
+                 All
                </button>
                <button 
                  onClick={() => handleFilterChange('type', 'service')}
