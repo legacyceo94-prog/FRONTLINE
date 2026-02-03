@@ -13,7 +13,8 @@ import {
   PlusCircleIcon,
   ShoppingBagIcon,
   UserIcon,
-  RocketLaunchIcon
+  RocketLaunchIcon,
+  ClockIcon
 } from '@heroicons/react/24/outline'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -28,6 +29,7 @@ import Dashboard from './pages/Dashboard'
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
 import Choice from './pages/Choice';
+import History from './pages/History';
 import api from './utils/api';
 import CourseCard from './components/CourseCard' // Added CourseCard import
 
@@ -190,7 +192,7 @@ function BottomNav({ user }) {
     { label: 'Home', icon: HomeIcon, path: '/', active: location.pathname === '/' },
     { label: 'Market', icon: MagnifyingGlassIcon, path: '/marketplace', active: location.pathname === '/marketplace' },
     { label: 'Pulse', icon: UserGroupIcon, path: '/communities', active: location.pathname === '/communities' },
-    { label: user?.role === 'seller' ? 'Engine' : 'You', icon: user?.role === 'seller' ? RocketLaunchIcon : UserIcon, path: user?.role === 'seller' ? '/dashboard' : '/settings', active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/settings' },
+    { label: user?.role === 'seller' ? 'Engine' : (user ? 'History' : 'You'), icon: user?.role === 'seller' ? RocketLaunchIcon : (user ? ClockIcon : UserIcon), path: user?.role === 'seller' ? '/dashboard' : (user ? '/history' : '/login'), active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/history' || location.pathname === '/login' },
   ];
 
   return (
@@ -403,6 +405,7 @@ function App() {
           <Route path="/communities/:id" element={<CommunityFeed />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/settings" element={<AccountSettings />} />
+          <Route path="/history" element={<History />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/choice" element={<Choice />} />
           <Route path="/create-course" element={<CreateCourse />} />

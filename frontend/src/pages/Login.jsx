@@ -5,7 +5,7 @@ import { EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/react/24/outli
 
 export default function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -13,9 +13,9 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem('rememberedEmail');
-    if (savedEmail) {
-      setEmail(savedEmail);
+    const savedUsername = localStorage.getItem('rememberedUsername');
+    if (savedUsername) {
+      setUsername(savedUsername);
       setRememberMe(true);
     }
   }, []);
@@ -26,7 +26,7 @@ export default function Login() {
     setError('');
     
     try {
-      const res = await api.post('/api/auth/login', { email, password });
+      const res = await api.post('/api/auth/login', { username, password });
       const storage = rememberMe ? localStorage : sessionStorage;
       
       storage.setItem('token', res.data.token);
@@ -35,9 +35,9 @@ export default function Login() {
       storage.setItem('role', res.data.user.role || 'user');
       
       if (rememberMe) {
-        localStorage.setItem('rememberedEmail', email);
+        localStorage.setItem('rememberedUsername', username);
       } else {
-        localStorage.removeItem('rememberedEmail');
+        localStorage.removeItem('rememberedUsername');
       }
       
       if (res.data.user.role === 'seller') {
@@ -87,15 +87,15 @@ export default function Login() {
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             
-            {/* Email Input */}
+            {/* Username Input */}
             <div className="group">
               <input
-                type="email"
+                type="text"
                 required
                 className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-bold italic"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 

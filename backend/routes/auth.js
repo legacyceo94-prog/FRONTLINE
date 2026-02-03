@@ -80,7 +80,7 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'Please include a valid email').isEmail(),
+    check('username', 'Username is required').notEmpty(),
     check('password', 'Password is required').exists()
   ],
   async (req, res) => {
@@ -89,11 +89,11 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-      // Check if user exists
-      let user = await User.findOne({ email });
+      // Check if user exists by username (case-insensitive)
+      let user = await User.findOne({ username: { $regex: new RegExp(`^${username}$`, 'i') } });
       if (!user) {
         return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
