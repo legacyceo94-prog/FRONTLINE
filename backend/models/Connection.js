@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 const ConnectionSchema = new mongoose.Schema({
   buyer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
     required: true
   },
   seller: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
     required: true
   },
   item: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'course',
+    ref: 'Course',
     required: true
   },
   purpose: {
@@ -32,4 +32,4 @@ const ConnectionSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('connection', ConnectionSchema);
+module.exports = mongoose.model('Connection', ConnectionSchema);
