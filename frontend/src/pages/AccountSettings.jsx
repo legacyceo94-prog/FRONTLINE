@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserCircleIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon, ShieldCheckIcon, ClockIcon, StarIcon } from '@heroicons/react/24/outline';
+import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
 export default function AccountSettings() {
   const [user, setUser] = useState(null);
@@ -331,7 +332,45 @@ export default function AccountSettings() {
               </div>
             ) : (
               <div className="text-center py-12 bg-white dark:bg-slate-950 rounded-[2rem] border-2 border-dashed border-slate-100 dark:border-white/5">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">Static Silence: No Hubs Joined.</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">No Hubs Joined.</p>
+              </div>
+            )}
+          </div>
+
+          {/* Your Activity / History Section */}
+          <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-8 md:p-12 border border-slate-100 dark:border-white/5">
+            <div className="flex items-center gap-3 mb-8">
+              <ClockIcon className="w-6 h-6 text-blue-500" />
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Your Activity</h2>
+            </div>
+            
+            {user.ratings && user.ratings.length > 0 ? (
+              <div className="space-y-4">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Reviews You've Given</p>
+                {user.ratings.slice(0, 5).map((rating, idx) => (
+                  <div key={idx} className="p-5 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 font-bold text-sm">
+                        {rating.seller?.username?.charAt(0).toUpperCase() || '?'}
+                      </div>
+                      <div>
+                        <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tighter">{rating.seller?.username || 'Seller'}</p>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{new Date(rating.createdAt).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      {[1,2,3,4,5].map(s => (
+                        <StarIconSolid key={s} className={`w-4 h-4 ${s <= rating.stars ? 'text-blue-500' : 'text-slate-200 dark:text-slate-800'}`} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-white dark:bg-slate-950 rounded-[2rem] border-2 border-dashed border-slate-100 dark:border-white/5">
+                <StarIcon className="w-12 h-12 text-slate-200 dark:text-slate-800 mx-auto mb-3" />
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">No reviews given yet.</p>
+                <p className="text-[9px] text-slate-400 mt-1">Rate sellers to build trust on the network.</p>
               </div>
             )}
           </div>
