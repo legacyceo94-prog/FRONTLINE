@@ -23,7 +23,7 @@ const api = axios.create({
 // Request Interceptor: Automatically attach the token to every verified request.
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`; // Note: Removed 'x-auth-token' legacy header if present
     }

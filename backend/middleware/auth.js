@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 module.exports = function(req, res, next) {
   // Get token from header
-  consttoken = req.header('x-auth-token');
   const bearerToken = req.header('Authorization');
 
   let token;
