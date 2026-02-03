@@ -10,8 +10,11 @@ export default function CourseCard({ course }) {
   
   return (
     <div className="bg-white dark:bg-slate-900 rounded-[2rem] md:rounded-[2.5rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 overflow-hidden flex flex-col h-full group hover:border-blue-500/30 transition-all duration-500">
-      {/* Flyer Image Area */}
-      <div className="relative h-48 md:h-56 overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+      {/* Flyer Image Area - Clickable Gateway */}
+      <div 
+        onClick={() => setModalOpen(true)}
+        className="relative h-48 md:h-56 overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center cursor-pointer"
+      >
         {flyerImage ? (
           <>
             <img 
@@ -44,7 +47,10 @@ export default function CourseCard({ course }) {
 
       {/* Content Area */}
       <div className="p-6 md:p-8 flex-1 flex flex-col">
-        <div className="mb-4">
+        <div 
+          onClick={() => setModalOpen(true)}
+          className="mb-4 cursor-pointer"
+        >
            <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">{course.category}</span>
            <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white line-clamp-2 uppercase tracking-tighter italic leading-tight group-hover:text-blue-600 transition-colors mt-2">
              {course.title}
@@ -74,7 +80,10 @@ export default function CourseCard({ course }) {
 
         {/* Pricing & Logistics */}
         <div className="mt-auto pt-6 border-t border-slate-50 dark:border-white/5">
-           <div className="flex items-center justify-between mb-6">
+           <div 
+             onClick={() => setModalOpen(true)}
+             className="flex items-center justify-between mb-6 cursor-pointer"
+           >
               <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
                  {course.type === 'product' ? <CubeIcon className="w-4 h-4" /> : <ClockIcon className="w-4 h-4" />}
                  <span className="text-[10px] font-black uppercase tracking-widest">{course.type === 'product' ? 'In Stock' : (course.skuDetails?.duration || 'Flexible')}</span>

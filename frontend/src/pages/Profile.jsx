@@ -3,6 +3,7 @@ import api from '../utils/api';
 import { useParams, Link } from 'react-router-dom';
 import { UserCircleIcon, CheckBadgeIcon, MapPinIcon, BriefcaseIcon, PhotoIcon, InformationCircleIcon } from '@heroicons/react/24/solid';
 import PostCard from '../components/PostCard';
+import SyncModal from '../components/SyncModal';
 
 export default function Profile() {
   const { id } = useParams();
@@ -12,6 +13,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [hoverRating, setHoverRating] = useState(0);
   const [isRating, setIsRating] = useState(false);
+  const [selectedListing, setSelectedListing] = useState(null);
 
   const handleRate = async (stars) => {
     try {
@@ -253,13 +255,17 @@ export default function Profile() {
 
             {activeTab === 'portfolio' && (
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  {posts.filter(p => p.type === 'product' || p.type === 'service').length > 0 ? (
+                   {posts.filter(p => p.type === 'product' || p.type === 'service').length > 0 ? (
                     posts.filter(p => p.type === 'product' || p.type === 'service').map((post) => (
-                      <Link key={post._id} to={`/communities/${post.community?._id || 'global'}`} className="block group">
+                      <div 
+                        key={post._id} 
+                        onClick={() => setSelectedListing({ ...post, seller: profile })}
+                        className="block group cursor-pointer"
+                      >
                         <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] overflow-hidden border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all hover:-translate-y-2 hover:border-blue-500/20">
                           <div className="h-56 overflow-hidden relative">
-                            {post.media?.[0] ? (
-                              <img src={post.media[0]} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
+                            {post.media?.[0] || post.media?.flyerImage ? (
+                              <img src={post.media?.[0] || post.media?.flyerImage} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-950 text-slate-300 dark:text-slate-800">
                                  <PhotoIcon className="w-16 h-16" />
@@ -273,14 +279,14 @@ export default function Profile() {
                           </div>
                           <div className="p-8">
                             <h4 className="font-black text-slate-900 dark:text-white mb-3 uppercase tracking-tighter text-xl italic leading-tight truncate">{post.title}</h4>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-6 italic font-medium leading-relaxed">"{post.content || 'No description provided.'}"</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-6 italic font-medium leading-relaxed">"{post.content || post.description || 'No description provided.'}"</p>
                             <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-white/5">
                                <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{post.category || 'Category'}</span>
                                <span className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
                             </div>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     ))
                   ) : (
                     <div className="col-span-full py-24 text-center bg-slate-50 dark:bg-slate-900 rounded-[4rem] border-2 border-dashed border-slate-200 dark:border-white/5">
@@ -321,6 +327,12 @@ export default function Profile() {
 
         </div>
       </div>
+
+      <SyncModal 
+        isOpen={!!selectedListing} 
+        onClose={() => setSelectedListing(null)} 
+        course={selectedListing} 
+      />
     </div>
   );
 }
