@@ -27,11 +27,13 @@ export default function Vanguard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Master-only protocol
-    const userId = localStorage.getItem('userId');
-    if (!userId) return navigate('/login');
-    // for now we'll allow the session user if they have 'seller' role at least, 
-    // but ideally we hardcode your 'Publisher' ID here.
+    // Imperial Gatekeeper: Absolute Master Username Lock
+    const masterKey = localStorage.getItem('username');
+    if (masterKey !== 'daniel' && masterKey !== 'legacyceo94') {
+      console.error("Vanguard Protocol Violation: Illegal Access Attempt Recorded.");
+      navigate('/');
+      return;
+    }
     
     const fetchMasterData = async () => {
       try {

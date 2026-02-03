@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, Route, Routes, useNavigate, useLocation } from 'react-router-dom'
+import { Link, Route, Routes, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { 
   SunIcon, 
   MoonIcon, 
@@ -193,8 +193,8 @@ function BottomNav({ user }) {
     { label: 'Market', icon: MagnifyingGlassIcon, path: '/marketplace', active: location.pathname === '/marketplace' },
     { label: 'Pulse', icon: UserGroupIcon, path: '/communities', active: location.pathname === '/communities' },
     { label: user?.role === 'seller' ? 'Engine' : 'You', icon: user?.role === 'seller' ? RocketLaunchIcon : UserIcon, path: user?.role === 'seller' ? '/dashboard' : (user ? '/settings' : '/login'), active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/settings' || location.pathname === '/login' },
-    // Hidden Master Command for the Publisher
-    ...(user && (user.username === 'daniel' || user.username === 'legacyceo94' || localStorage.getItem('username') === 'daniel') ? [
+    // Hidden Master Command - Absolute Privilege Only
+    ...(user && (user.username === 'daniel' || user.username === 'legacyceo94') ? [
       { label: 'Vanguard', icon: ShieldCheckIcon, path: '/vanguard', active: location.pathname === '/vanguard' }
     ] : [])
   ];
@@ -410,7 +410,14 @@ function App() {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/settings" element={<AccountSettings />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/vanguard" element={<Vanguard />} />
+          <Route 
+            path="/vanguard" 
+            element={
+              (localStorage.getItem('username') === 'daniel' || localStorage.getItem('username') === 'legacyceo94') 
+              ? <Vanguard /> 
+              : <Navigate to="/" replace />
+            } 
+          />
           <Route path="/choice" element={<Choice />} />
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/about" element={<About />} />
