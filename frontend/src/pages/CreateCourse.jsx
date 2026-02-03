@@ -198,7 +198,7 @@ export default function CreateCourse() {
                 rows={4}
                 required
                 className="block w-full rounded-[2rem] border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-6 px-8 font-medium italic leading-relaxed"
-                placeholder="Describe the value proposition of this asset..."
+                placeholder="Describe what you are selling..."
                 value={formData.description}
                 onChange={handleChange}
               />

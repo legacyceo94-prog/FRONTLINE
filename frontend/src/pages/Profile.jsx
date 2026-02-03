@@ -57,7 +57,7 @@ export default function Profile() {
 
   if (loading) return <div className="min-h-screen pt-24 flex flex-col items-center justify-center bg-white dark:bg-slate-950">
     <div className="w-12 h-12 border-b-2 border-blue-500 rounded-full animate-spin mb-4"></div>
-    <span className="font-black uppercase text-[10px] tracking-widest text-slate-400">Synchronizing Identity...</span>
+    <span className="font-black uppercase text-[10px] tracking-widest text-slate-400">Loading Profile...</span>
   </div>;
 
   if (!profile) return <div className="min-h-screen pt-24 text-center bg-white dark:bg-slate-950 font-black uppercase text-xs tracking-widest text-slate-400">User Not Found.</div>;
@@ -74,7 +74,7 @@ export default function Profile() {
              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-slate-200 dark:to-slate-900 animate-pulse"></div>
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
              <div className="absolute bottom-6 right-8 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                <span className="text-[10px] font-black text-white uppercase tracking-widest italic">Identity Hub</span>
+                <span className="text-[10px] font-black text-white uppercase tracking-widest italic">Profile</span>
              </div>
           </div>
 
@@ -112,7 +112,7 @@ export default function Profile() {
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-black uppercase tracking-widest text-slate-400">
                   {profile.role === 'seller' && (
                     <span className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 px-3 py-1.5 rounded-full border border-blue-500/20">
-                      {profile.businessType === 'product' ? 'Merchant Pilot' : 'Service Architect'}
+                      {profile.businessType === 'product' ? 'Seller' : 'Service Provider'}
                     </span>
                   )}
                   
@@ -151,7 +151,7 @@ export default function Profile() {
                      to="/dashboard"
                      className="px-8 py-3.5 bg-slate-900 dark:bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-blue-500/10 active:scale-95 hover:bg-blue-700"
                     >
-                      Access Cockpit
+                      Go to Dashboard
                     </Link>
                   ) : (
                     <>
@@ -162,7 +162,7 @@ export default function Profile() {
                          onClick={() => {
                             if (profile?.sellerProfile?.phone) {
                               const cleanPhone = profile.sellerProfile.phone.replace(/\D/g, '').replace(/^0/, '254');
-                              window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Protocol Sync: interested in your professional signals on Frontline.`)}`, '_blank');
+                              window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hi, I found your profile on Frontline.`)}`, '_blank');
                             } else {
                              // Contact protocol intentionally silent if missing
 
@@ -170,7 +170,7 @@ export default function Profile() {
                          }}
                          className="px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl active:scale-95"
                        >
-                          Pulse Sync
+                          Chat
                        </button>
                     </>
                   )}
@@ -181,7 +181,7 @@ export default function Profile() {
             <div className="flex gap-10 border-t border-slate-50 dark:border-white/5 mt-10 overflow-x-auto no-scrollbar justify-center md:justify-start">
               {[
                 { id: 'timeline', label: 'Timeline' },
-                { id: 'portfolio', label: profile.businessType === 'product' ? 'Inventory' : 'Assets' },
+                { id: 'portfolio', label: profile.businessType === 'product' ? 'Inventory' : 'Listings' },
                 { id: 'about', label: 'About' }
               ].map(tab => (
                 <button 
@@ -204,20 +204,20 @@ export default function Profile() {
           {/* Sidebar Stats */}
           <div className="lg:col-span-4 space-y-6 hidden lg:block">
             <div className="bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none">
-               <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-8 italic">Personnel Data</h3>
+               <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-8 italic">Details</h3>
                <div className="space-y-6 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
                   <div className="flex items-center gap-4">
                      <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-blue-600 border border-slate-100 dark:border-white/5 shadow-lg">
                         <BriefcaseIcon className="w-5 h-5" />
                      </div>
-                     <p><span className="text-slate-900 dark:text-white block text-xs">Network Role</span> {profile.role}</p>
+                     <p><span className="text-slate-900 dark:text-white block text-xs">Role</span> {profile.role}</p>
                   </div>
                   {profile.location && (
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-950 flex items-center justify-center text-blue-600 border border-slate-100 dark:border-white/5 shadow-lg">
                            <MapPinIcon className="w-5 h-5" />
                         </div>
-                        <p><span className="text-slate-900 dark:text-white block text-xs">Origin Hub</span> {profile.location}</p>
+                        <p><span className="text-slate-900 dark:text-white block text-xs">Location</span> {profile.location}</p>
                     </div>
                   )}
                </div>
@@ -226,7 +226,7 @@ export default function Profile() {
             {/* Skills List */}
             {profile.competence?.skills?.length > 0 && (
               <div className="bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5">
-                <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-8 italic">Signal Types</h3>
+                <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-8 italic">Skills</h3>
                 <div className="flex flex-wrap gap-2">
                   {profile.competence.skills.map(skill => (
                     <span key={skill} className="px-4 py-2 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-white/5 shadow-sm">
@@ -244,7 +244,7 @@ export default function Profile() {
               <div className="space-y-8">
                 {posts.length === 0 ? (
                   <div className="text-center py-24 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-slate-900 rounded-[3rem] border border-dashed border-slate-200 dark:border-white/5 italic">
-                    Static Silence: No Broadcasts Detected.
+                    No posts yet.
                   </div>
                 ) : (
                   posts.map(post => {
@@ -271,7 +271,7 @@ export default function Profile() {
                             )}
                             <div className="absolute top-6 left-6 px-4 py-1.5 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-500/20">
                                <span className="text-[9px] font-black uppercase tracking-widest">
-                                 {profile.businessType === 'product' ? 'Merchant Asset' : 'Expert Service'}
+                                 {profile.businessType === 'product' ? 'Product' : 'Service'}
                                </span>
                             </div>
                           </div>
@@ -279,7 +279,7 @@ export default function Profile() {
                             <h4 className="font-black text-slate-900 dark:text-white mb-3 uppercase tracking-tighter text-xl italic leading-tight truncate">{post.title}</h4>
                             <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-6 italic font-medium leading-relaxed">"{post.content || 'No description provided.'}"</p>
                             <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-white/5">
-                               <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{post.category || 'Competence'}</span>
+                               <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{post.category || 'Category'}</span>
                                <span className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
                             </div>
                           </div>
@@ -289,7 +289,7 @@ export default function Profile() {
                   ) : (
                     <div className="col-span-full py-24 text-center bg-slate-50 dark:bg-slate-900 rounded-[4rem] border-2 border-dashed border-slate-200 dark:border-white/5">
                       <BriefcaseIcon className="w-20 h-20 mx-auto mb-6 text-slate-200 dark:text-slate-800" />
-                      <p className="font-black uppercase tracking-tighter text-2xl italic text-slate-300 dark:text-slate-700">Mirror Empty</p>
+                      <p className="font-black uppercase tracking-tighter text-2xl italic text-slate-300 dark:text-slate-700">No listings</p>
                       <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">No posts yet.</p>
                     </div>
                   )}
@@ -301,16 +301,16 @@ export default function Profile() {
                  <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-10 md:p-12 border border-slate-100 dark:border-white/5 shadow-xl">
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[10px] font-black uppercase tracking-widest mb-8">
                        <InformationCircleIcon className="w-4 h-4" />
-                       Manifesto & Mission
+                       About
                     </div>
                     <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-6">About <span className="text-blue-600">Me.</span></h2>
                     <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-medium italic mb-10">
-                      {profile.sellerProfile?.bio || "This participant has not yet transmitted their professional mission signal. They operate within the network as a verified entity."}
+                      {profile.sellerProfile?.bio || "This user hasn't written a bio yet."}
                     </p>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 border-t border-slate-100 dark:border-white/5">
                        <div>
-                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] block mb-2">Network Origin</span>
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] block mb-2">Location</span>
                           <span className="text-sm font-black text-slate-900 dark:text-white uppercase italic">{profile.location || 'Unknown Hub'}</span>
                        </div>
                        <div>
