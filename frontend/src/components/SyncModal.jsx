@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { XMarkIcon, ShieldCheckIcon, RocketLaunchIcon, CubeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import api from '../utils/api';
@@ -7,19 +7,13 @@ export default function SyncModal({ isOpen, onClose, course }) {
   const navigate = useNavigate();
   const [purpose, setPurpose] = useState('Inquiry');
   const [step, setStep] = useState(1); // 1: Form, 2: Logging, 3: Contact
-  const [isAuth, setIsAuth] = useState(true);
-
-  useEffect(() => {
-    if (isOpen) {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      setIsAuth(!!token);
-    }
-  }, [isOpen]);
+  
+  // DRIVEN CALCULATION: Derived auth status eliminates cascading renders
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  const isAuth = !!token;
 
   const handleSync = async () => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    if (!token) {
-       setIsAuth(false);
+    if (!isAuth) {
        navigate('/login');
        return;
     }
