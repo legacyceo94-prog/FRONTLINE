@@ -172,7 +172,7 @@ export default function Vanguard() {
             </div>
             <div>
               <h1 className="text-xl font-black text-white uppercase tracking-tighter italic leading-none">Vanguard <span className="text-blue-500">Console.</span></h1>
-              <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mt-1">Publisher Master Command</p>
+              <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mt-1">MASTER COMMANDER // ENEMY OF THE STATE</p>
             </div>
           </div>
           

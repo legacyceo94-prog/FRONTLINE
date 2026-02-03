@@ -442,9 +442,9 @@ export default function AccountSettings() {
                 >
                   <span className="flex items-center gap-4">
                     <ShieldCheckIcon className="w-6 h-6 text-blue-500" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-white">Imperial Vanguard</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white">MASTER COMMANDER</span>
                   </span>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-600 italic">Master Console</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-600 italic">ENEMY OF THE STATE</span>
                 </button>
               )}
 
