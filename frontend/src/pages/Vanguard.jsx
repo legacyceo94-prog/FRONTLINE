@@ -25,7 +25,50 @@ export default function Vanguard() {
   const [user, setUser] = useState(null);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
   const navigate = useNavigate();
+
+  const handleExportReport = () => {
+    setExporting(true);
+    
+    // Constructing the Imperial Data Matrix
+    const data = [
+      ['FRONTLINE NETWORK - PROJECT ACCOUNTABILITY REPORT'],
+      [`TIMESTAMP: ${new Date().toLocaleString()}`],
+      [''],
+      ['NETWORK CORE METRICS'],
+      ['Protocol', 'Value', 'Status'],
+      ['Total Citizens', stats.users, 'Optimal'],
+      ['Active Hubs', stats.hubs, 'Active'],
+      ['Network Listings', stats.listings, 'Vibrant'],
+      ['Trust Handshakes', stats.trustVolume, 'Verified'],
+      [''],
+      ['GROWTH INDEX ANALYTICS'],
+      ['Metric', 'Index', 'Classification'],
+      ['Marketplace Attraction', `${((stats.listings / (stats.users || 1)) * 10).toFixed(1)}%`, 'Dominant'],
+      ['Trust Handshake Velocity', `${((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}%`, 'Scaling'],
+      ['Community Intrusion', `${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}%`, 'Aggressive'],
+      [''],
+      ['CONFIDENTIAL: FOR PUBLISHER/INVESTOR OVERSIGHT ONLY']
+    ];
+
+    const csvContent = data.map(row => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Frontline_Imperial_Report_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setTimeout(() => {
+      setExporting(false);
+      setLogs(prev => [{ t: 'SYSTEM', m: 'Imperial Report Exported Successfully.', d: new Date() }, ...prev]);
+    }, 1000);
+  };
 
   useEffect(() => {
     // Imperial Gatekeeper: Absolute Master Identity Lock (Username or Email)
@@ -152,9 +195,13 @@ export default function Vanguard() {
                   <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Project Accountability</h2>
                   <p className="text-xs text-slate-500 font-medium italic">Data-driven oversight for investors and expansion.</p>
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 transition-all active:scale-95">
+                <button 
+                  onClick={handleExportReport}
+                  disabled={exporting}
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 transition-all active:scale-95 disabled:opacity-50"
+                >
                   <ArrowDownTrayIcon className="w-4 h-4" />
-                  Generate Excel Report
+                  {exporting ? 'Compiling Matrix...' : 'Generate Excel Report'}
                 </button>
               </div>
               
