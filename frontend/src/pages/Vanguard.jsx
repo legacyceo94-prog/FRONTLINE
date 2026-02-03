@@ -27,6 +27,7 @@ export default function Vanguard() {
   const [commanders, setCommanders] = useState([]);
   const [frictionPoints, setFrictionPoints] = useState([]);
   const [recentSyncs, setRecentSyncs] = useState([]);
+  const [masterInventory, setMasterInventory] = useState([]);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
@@ -42,7 +43,7 @@ export default function Vanguard() {
       [''],
       ['NETWORK CORE METRICS'],
       ['Protocol', 'Value', 'Status'],
-      ['Total Citizens', stats.users, 'Optimal'],
+      ['Total Buyers', stats.users, 'Optimal'],
       ['Active Hubs', stats.hubs, 'Active'],
       ['Network Listings', stats.listings, 'Vibrant'],
       ['Trust Handshakes', stats.trustVolume, 'Verified'],
@@ -53,7 +54,7 @@ export default function Vanguard() {
       ['Trust Handshake Velocity', `${((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}%`, 'Scaling'],
       ['Community Intrusion', `${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}%`, 'Aggressive'],
       [''],
-      ['CITIZEN OVERSIGHT & HUB COMMANDERS'],
+      ['BUYER OVERSIGHT & HUB COMMANDERS'],
       ['Hub Name', 'Commander', 'WhatsApp Sync', 'Contact Email'],
       ...commanders.map(c => [c.hub, c.commander, c.whatsapp, c.email]),
       [''],
@@ -118,6 +119,7 @@ export default function Vanguard() {
         setCommanders(analyticsRes.data.commanders || []);
         setFrictionPoints(analyticsRes.data.frictionPoints || []);
         setRecentSyncs(analyticsRes.data.recentSyncs || []);
+        setMasterInventory(pRes.data || []);
         
         setStats({
           users: uRes.data.length || 0,
@@ -309,6 +311,60 @@ export default function Vanguard() {
                     {recentSyncs.length === 0 && (
                       <tr>
                         <td colSpan="4" className="py-10 text-center text-slate-600 uppercase tracking-widest text-[10px]">Static Silence: No Live Handshakes Detected.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="mt-10"></div>
+
+            {/* Master Network Inventory - Locating every Asset with Price */}
+            <div className="bg-white/5 rounded-[3rem] border border-white/5 p-10">
+              <div className="flex items-center justify-between mb-10">
+                <div>
+                  <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Master Network Inventory</h2>
+                  <p className="text-xs text-slate-500 font-medium italic">Full ledger of assets, KRA records, and priced listings.</p>
+                </div>
+                <div className="px-4 py-2 bg-yellow-500/10 rounded-full border border-yellow-500/20">
+                   <span className="text-[9px] font-black text-yellow-500 uppercase tracking-widest">{stats.listings} Assets Live</span>
+                </div>
+              </div>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/5 font-mono text-[10px] uppercase tracking-widest text-slate-500">
+                      <th className="pb-4 pt-4 px-4">Asset / Item</th>
+                      <th className="pb-4 pt-4 px-4">Provider (Seller)</th>
+                      <th className="pb-4 pt-4 px-4">Price (KES)</th>
+                      <th className="pb-4 pt-4 px-4">Category</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-xs font-bold uppercase tracking-tight italic">
+                    {masterInventory.slice(0, 10).map((item, i) => (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td className="py-6 px-4 text-white">
+                           <div className="flex flex-col">
+                              <span>{item.title}</span>
+                              <span className="text-[9px] text-slate-600 lowercase tracking-normal">{item.type}</span>
+                           </div>
+                        </td>
+                        <td className="py-6 px-4 text-blue-500">@{item.seller?.username}</td>
+                        <td className="py-6 px-4 text-yellow-500 font-mono">
+                           {item.skuDetails?.price?.toLocaleString()} /-
+                        </td>
+                        <td className="py-6 px-4">
+                           <span className="px-2 py-1 bg-white/5 text-slate-400 rounded text-[9px] font-black uppercase">
+                             {item.category}
+                           </span>
+                        </td>
+                      </tr>
+                    ))}
+                    {masterInventory.length === 0 && (
+                      <tr>
+                        <td colSpan="4" className="py-10 text-center text-slate-600 uppercase tracking-widest text-[10px]">Depleted Stock: No Assets identified in the matrix.</td>
                       </tr>
                     )}
                   </tbody>
