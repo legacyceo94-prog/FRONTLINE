@@ -431,7 +431,7 @@ export default function AccountSettings() {
                 <span className="text-[9px] font-black uppercase tracking-widest text-red-400 hidden sm:block">Secure Logout</span>
               </button>
 
-              {/* Hidden Master Command Entry - Accessible via Username or Email (Google Login) */}
+              {/* Hidden Master Command Entry - Accessible via Master Identity Verification */}
               {(localStorage.getItem('username') === 'daniel' || 
                 localStorage.getItem('username') === 'legacyceo94' ||
                 localStorage.getItem('email')?.includes('daniel') ||

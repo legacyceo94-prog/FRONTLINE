@@ -31,6 +31,7 @@ export default function Vanguard() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
   const navigate = useNavigate();
 
   const handleExportReport = () => {
@@ -153,6 +154,12 @@ export default function Vanguard() {
     };
 
     fetchMasterData();
+
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 60000);
+
+    return () => clearInterval(timer);
   }, [navigate]);
 
   if (loading) return (
@@ -181,7 +188,7 @@ export default function Vanguard() {
           <div className="flex items-center gap-6">
             <div className="hidden md:flex flex-col items-end">
               <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Empire Status</span>
-              <span className="text-xs font-mono text-slate-400">08:00 AM - Optimal</span>
+              <span className="text-xs font-mono text-slate-400">{currentTime} - Optimal</span>
             </div>
             
             <button 

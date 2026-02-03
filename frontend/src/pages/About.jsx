@@ -115,7 +115,7 @@ export default function About() {
            <div className="flex justify-center gap-6">
               <Link to="/signup" className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline">Create Account</Link>
               <span className="text-slate-200 dark:text-slate-800">|</span>
-              <a href="https://wa.me/254712345678" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">Contact Support</a>
+              <a href="mailto:support@frontline.com" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">Contact Support</a>
            </div>
         </div>
 

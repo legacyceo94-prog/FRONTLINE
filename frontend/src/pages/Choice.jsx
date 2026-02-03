@@ -26,7 +26,7 @@ export default function Choice() {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       localStorage.setItem('businessType', type);
-      window.location.href = '/dashboard';
+      navigate('/dashboard');
     } catch (err) {
       console.error(err);
       alert('Something went wrong. Please try again.');

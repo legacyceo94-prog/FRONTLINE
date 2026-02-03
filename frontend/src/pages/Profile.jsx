@@ -155,22 +155,18 @@ export default function Profile() {
                     </Link>
                   ) : (
                     <>
-                      <button className="px-8 py-3.5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-blue-500/20 hover:bg-blue-700 active:scale-95">
-                        Connect
-                      </button>
                       <button 
                          onClick={() => {
                             if (profile?.sellerProfile?.phone) {
-                              const cleanPhone = profile.sellerProfile.phone.replace(/\D/g, '').replace(/^0/, '254');
-                              window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hi, I found your profile on Frontline.`)}`, '_blank');
+                               const cleanPhone = profile.sellerProfile.phone.replace(/\D/g, '').replace(/^0/, '254');
+                               window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hi @${profile.username}, I found your professional profile on Frontline.`)}`, '_blank');
                             } else {
-                             // Contact protocol intentionally silent if missing
-
-                           }
+                               alert("This provider has not synchronized their WhatsApp connection yet.");
+                            }
                          }}
-                         className="px-8 py-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 text-slate-900 dark:text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl active:scale-95"
+                         className="px-12 py-3.5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all shadow-xl shadow-blue-500/20 hover:bg-blue-700 active:scale-95"
                        >
-                          Chat
+                          Chat with Seller
                        </button>
                     </>
                   )}

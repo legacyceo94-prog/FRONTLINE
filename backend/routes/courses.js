@@ -85,7 +85,6 @@ router.post('/:id/contact', async (req, res) => {
 // @access  Private (Seller only)
 router.post('/', auth, async (req, res) => {
   try {
-    // TODO: Verify user is a seller?
     const { title, description, category, price, duration, skillLevel, flyerImage, curriculum, type } = req.body;
 
     // Verify Role (Source of Truth check)
