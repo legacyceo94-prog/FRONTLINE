@@ -112,8 +112,8 @@ function Home() {
             <div className="lg:w-3/4">
                <div className="mb-10 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-1">Live Feed</span>
-                    <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">The <span className="text-blue-600">Marketplace.</span></h2>
+                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-1">Open Source</span>
+                    <h2 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">The <span className="text-blue-600">Showcase.</span></h2>
                   </div>
                   <Link to="/marketplace" className="text-[10px] font-black text-slate-400 hover:text-blue-600 uppercase tracking-widest transition-colors flex items-center gap-2">
                      Browse Work
