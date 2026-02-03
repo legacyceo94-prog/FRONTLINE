@@ -22,6 +22,7 @@ export default function Vanguard() {
     complaints: 0,
     conversations: 0
   });
+  const [user, setUser] = useState(null);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function Vanguard() {
   useEffect(() => {
     // Imperial Gatekeeper: Absolute Master Username Lock
     const masterKey = localStorage.getItem('username');
+    const userId = localStorage.getItem('userId');
     if (masterKey !== 'daniel' && masterKey !== 'legacyceo94') {
       console.error("Vanguard Protocol Violation: Illegal Access Attempt Recorded.");
       navigate('/');
@@ -40,12 +42,14 @@ export default function Vanguard() {
         // Fetching global metrics for the Publisher
         // Note: Real backend would need a specific 'admin' or 'vanguard' endpoint
         // For now we aggregate and simulate the Imperial oversight
-        const [uRes, cRes, pRes] = await Promise.all([
+        const [uRes, cRes, pRes, masterRes] = await Promise.all([
           api.get('/api/users'),
           api.get('/api/communities'),
-          api.get('/api/communities/global/posts')
+          api.get('/api/communities/global/posts'),
+          api.get(`/api/users/${userId}`)
         ]);
 
+        setUser(masterRes.data);
         setStats({
           users: uRes.data.length || 0,
           hubs: cRes.data.length || 0,
@@ -256,16 +260,35 @@ export default function Vanguard() {
               </div>
             </div>
 
-            {/* Master Credentials */}
+            {/* Master Credentials & Personal Dossier */}
             <div className="bg-blue-600 rounded-[2.5rem] p-8 shadow-2xl shadow-blue-500/20">
-               <h3 className="text-sm font-black text-white uppercase tracking-widest italic mb-4">Command Identity</h3>
-               <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center font-black text-white text-xl">
+               <h3 className="text-sm font-black text-white uppercase tracking-widest italic mb-6 border-b border-white/20 pb-2">Master Command Identity</h3>
+               <div className="flex items-center gap-4 mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center font-black text-white text-2xl border border-white/30 shadow-inner">
                     {localStorage.getItem('username')?.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-black text-white uppercase tracking-tighter text-lg italic">{localStorage.getItem('username')}</p>
-                    <p className="text-[9px] font-black text-white/60 uppercase tracking-widest">Master General Key</p>
+                    <p className="font-black text-white uppercase tracking-tighter text-xl italic leading-none">{localStorage.getItem('username')}</p>
+                    <p className="text-[10px] font-black text-blue-200 uppercase tracking-widest mt-1">Sovereign Publisher</p>
+                  </div>
+               </div>
+
+               <div className="space-y-4 pt-4 border-t border-white/10">
+                  <div className="flex justify-between items-center text-[10px] uppercase font-black tracking-widest">
+                     <span className="text-white/60">Imperial Email</span>
+                     <span className="text-white italic">{user?.email || 'master@frontline.net'}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[10px] uppercase font-black tracking-widest">
+                     <span className="text-white/60">Sovereign Since</span>
+                     <span className="text-white italic">{user?.createdAt ? new Date(user.createdAt).getFullYear() : '2026'}</span>
+                    </div>
+                  <div className="flex justify-between items-center text-[10px] uppercase font-black tracking-widest">
+                     <span className="text-white/60">Network Status</span>
+                     <span className="text-white italic">God Mode [Active]</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[10px] uppercase font-black tracking-widest">
+                     <span className="text-white/60">Linked Assets</span>
+                     <span className="text-white italic">Repo/Vercel/Railway ✓</span>
                   </div>
                </div>
             </div>
