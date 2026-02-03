@@ -156,7 +156,7 @@ function Home() {
             <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8">
               The <span className="blue-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400">Social Network</span> for<br />
               <span className="relative inline-block mt-2">
-                Trusted Pros
+                Real Competence
                 <div className="absolute -bottom-2 left-0 w-full h-2 bg-blue-200 dark:bg-blue-900/30 -z-10 rounded-full"></div>
               </span>
             </h1>
@@ -164,13 +164,13 @@ function Home() {
 
           <div className="flex justify-center gap-4">
             <Link to="/communities" className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-2xl shadow-blue-500/30 transition-all transform hover:scale-105 active:scale-95">
-              Find Services
+              Explore
             </Link>
             <Link 
               to="/dashboard"
               className="px-8 py-3.5 text-base font-black uppercase tracking-widest text-blue-600 bg-white dark:bg-slate-800 border-2 border-blue-50 dark:border-white/5 hover:border-blue-500 rounded-full transition-all shadow-xl shadow-slate-200/50 dark:shadow-none"
             >
-              Join as a Pro
+              Join the Network
             </Link>
           </div>
         </div>
@@ -419,14 +419,11 @@ function App() {
           <div className="max-w-7xl mx-auto px-6">
              <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
-                   THE SOCIAL NETWORK FOR REAL COMPETENCE
+                   © {new Date().getFullYear()} Art of Proof
                 </div>
                 
                 <div className="flex items-center gap-8">
                    <Link to="/about" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">About</Link>
-                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
-                     © {new Date().getFullYear()} Art of Proof
-                   </span>
                 </div>
              </div>
           </div>
