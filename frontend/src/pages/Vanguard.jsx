@@ -269,6 +269,55 @@ export default function Vanguard() {
               </div>
             </div>
 
+            {/* Live Connection Oversight - Locating every 'Connect' Handshake */}
+            <div className="bg-white/5 rounded-[3rem] border border-white/5 p-10">
+              <div className="flex items-center justify-between mb-10">
+                <div>
+                  <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Live Connection Oversight</h2>
+                  <p className="text-xs text-slate-500 font-medium italic">Tracking live 'Connect' protocols across the network.</p>
+                </div>
+                <div className="px-4 py-2 bg-blue-500/10 rounded-full border border-blue-500/20">
+                   <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest">{recentSyncs.length} Active Handshakes</span>
+                </div>
+              </div>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/5 font-mono text-[10px] uppercase tracking-widest text-slate-500">
+                      <th className="pb-4 pt-4 px-4">Interacting Buyer</th>
+                      <th className="pb-4 pt-4 px-4">Target Seller</th>
+                      <th className="pb-4 pt-4 px-4">Asset / Item</th>
+                      <th className="pb-4 pt-4 px-4">Purpose</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-xs font-bold uppercase tracking-tight italic">
+                    {recentSyncs.slice(0, 5).map((sync, i) => (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td className="py-6 px-4 text-white">@{sync.buyer?.username}</td>
+                        <td className="py-6 px-4 text-blue-500">@{sync.seller?.username}</td>
+                        <td className="py-6 px-4 text-slate-300">
+                           <div className="line-clamp-1 max-w-[200px]">{sync.item?.title}</div>
+                        </td>
+                        <td className="py-6 px-4">
+                           <span className="px-2 py-1 bg-blue-500/10 text-blue-500 rounded text-[9px] font-black uppercase">
+                             {sync.purpose}
+                           </span>
+                        </td>
+                      </tr>
+                    ))}
+                    {recentSyncs.length === 0 && (
+                      <tr>
+                        <td colSpan="4" className="py-10 text-center text-slate-600 uppercase tracking-widest text-[10px]">Static Silence: No Live Handshakes Detected.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="mt-10"></div>
+
             {/* Master Log Matrix */}
             <div className="bg-black/80 rounded-[3rem] border border-white/5 p-10 font-mono">
               <div className="flex items-center justify-between mb-8">
