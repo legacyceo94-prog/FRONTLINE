@@ -413,21 +413,25 @@ function App() {
       </main>
 
       {/* Footer Section */}
-      <footer className="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 py-12 pb-32 md:pb-12">
-        <div className="max-w-7xl mx-auto px-6">
-           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
-                 © {new Date().getFullYear()} Art of Proof
-              </div>
-              
-              <div className="flex items-center gap-8">
-                 <Link to="/about" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">About</Link>
-              </div>
-
-              <div className="hidden md:block w-32"></div> {/* Spacer for symmetry */}
-           </div>
-        </div>
-      </footer>
+      {/* Footer Section */}
+      {location.pathname === '/' && (
+        <footer className="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 py-12 pb-32 md:pb-12">
+          <div className="max-w-7xl mx-auto px-6">
+             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
+                   THE SOCIAL NETWORK FOR REAL COMPETENCE
+                </div>
+                
+                <div className="flex items-center gap-8">
+                   <Link to="/about" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">About</Link>
+                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
+                     © {new Date().getFullYear()} Art of Proof
+                   </span>
+                </div>
+             </div>
+          </div>
+        </footer>
+      )}
 
       {/* Mobile-First Navigation Layer */}
       <BottomNav user={user} />
