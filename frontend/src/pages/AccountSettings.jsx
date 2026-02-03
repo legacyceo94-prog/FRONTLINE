@@ -420,16 +420,33 @@ export default function AccountSettings() {
           <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-8 md:p-12 border border-red-500/10 mb-24">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-8">Account Actions</h2>
             <div className="space-y-4">
-      <button 
-        onClick={handleLogout}
-        className="w-full flex items-center justify-between px-8 py-5 bg-white dark:bg-slate-950 text-red-600 rounded-[2rem] border border-red-500/20 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all group shadow-sm active:scale-95"
-      >
-        <span className="flex items-center gap-4">
-          <ArrowRightOnRectangleIcon className="w-6 h-6 text-red-500 transition-colors" />
-          <span className="text-[10px] font-black uppercase tracking-widest">Logout</span>
-        </span>
-        <span className="text-[9px] font-black uppercase tracking-widest text-red-400 hidden sm:block">Secure Logout</span>
-      </button>
+              <button 
+                onClick={handleLogout}
+                className="w-full flex items-center justify-between px-8 py-5 bg-white dark:bg-slate-950 text-red-600 rounded-[2rem] border border-red-500/20 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all group shadow-sm active:scale-95"
+              >
+                <span className="flex items-center gap-4">
+                  <ArrowRightOnRectangleIcon className="w-6 h-6 text-red-500 transition-colors" />
+                  <span className="text-[10px] font-black uppercase tracking-widest">Logout</span>
+                </span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-red-400 hidden sm:block">Secure Logout</span>
+              </button>
+
+              {/* Hidden Master Command Entry - Accessible via Username or Email (Google Login) */}
+              {(localStorage.getItem('username') === 'daniel' || 
+                localStorage.getItem('username') === 'legacyceo94' ||
+                localStorage.getItem('email')?.includes('daniel') ||
+                localStorage.getItem('email')?.includes('legacyceo94')) && (
+                <button 
+                  onClick={() => navigate('/vanguard')}
+                  className="w-full mt-4 flex items-center justify-between px-8 py-5 bg-slate-900 dark:bg-black text-blue-500 rounded-[2rem] border border-blue-500/10 hover:border-blue-500 transition-all group shadow-2xl active:scale-95"
+                >
+                  <span className="flex items-center gap-4">
+                    <ShieldCheckIcon className="w-6 h-6 text-blue-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white">Imperial Vanguard</span>
+                  </span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-600 italic">Master Console</span>
+                </button>
+              )}
 
               <div className="pt-6">
                 <button 

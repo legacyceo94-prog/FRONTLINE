@@ -99,8 +99,8 @@ function Home() {
                    </div>
                    <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-950 rounded-full overflow-hidden">
                       <div className="h-full bg-blue-600 rounded-full" style={{ width: `${user?.trustScore || 85}%` }}></div>
-                   </div>
-                </div>
+                    </div>
+                 </div>
 
                 <div className="mt-10">
                    <Link to="/communities" className="block w-full py-4 bg-slate-900 dark:bg-slate-950 text-white text-center text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl active:scale-95">
@@ -193,10 +193,6 @@ function BottomNav({ user }) {
     { label: 'Market', icon: MagnifyingGlassIcon, path: '/marketplace', active: location.pathname === '/marketplace' },
     { label: 'Pulse', icon: UserGroupIcon, path: '/communities', active: location.pathname === '/communities' },
     { label: user?.role === 'seller' ? 'Engine' : 'You', icon: user?.role === 'seller' ? RocketLaunchIcon : UserIcon, path: user?.role === 'seller' ? '/dashboard' : (user ? '/settings' : '/login'), active: user?.role === 'seller' ? location.pathname === '/dashboard' : location.pathname === '/settings' || location.pathname === '/login' },
-    // Hidden Master Command - Absolute Privilege Only
-    ...(user && (user.username === 'daniel' || user.username === 'legacyceo94') ? [
-      { label: 'Vanguard', icon: ShieldCheckIcon, path: '/vanguard', active: location.pathname === '/vanguard' }
-    ] : [])
   ];
 
   return (
@@ -413,7 +409,10 @@ function App() {
           <Route 
             path="/vanguard" 
             element={
-              (localStorage.getItem('username') === 'daniel' || localStorage.getItem('username') === 'legacyceo94') 
+              (localStorage.getItem('username') === 'daniel' || 
+               localStorage.getItem('username') === 'legacyceo94' || 
+               localStorage.getItem('email')?.includes('daniel') ||
+               localStorage.getItem('email')?.includes('legacyceo94')) 
               ? <Vanguard /> 
               : <Navigate to="/" replace />
             } 

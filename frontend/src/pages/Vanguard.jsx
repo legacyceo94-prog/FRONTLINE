@@ -28,10 +28,17 @@ export default function Vanguard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Imperial Gatekeeper: Absolute Master Username Lock
-    const masterKey = localStorage.getItem('username');
+    // Imperial Gatekeeper: Absolute Master Identity Lock (Username or Email)
+    const masterUser = localStorage.getItem('username');
+    const masterEmail = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
-    if (masterKey !== 'daniel' && masterKey !== 'legacyceo94') {
+
+    if (
+      masterUser !== 'daniel' && 
+      masterUser !== 'legacyceo94' && 
+      !masterEmail?.includes('daniel') && 
+      !masterEmail?.includes('legacyceo94')
+    ) {
       console.error("Vanguard Protocol Violation: Illegal Access Attempt Recorded.");
       navigate('/');
       return;
