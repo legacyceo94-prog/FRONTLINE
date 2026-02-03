@@ -596,6 +596,8 @@ export default function Dashboard() {
                             <div className="flex-1 min-w-0">
                                <h6 className="font-bold text-slate-900 dark:text-white truncate uppercase tracking-tight">{post.title}</h6>
                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Type: {post.type}</span>
+                                  <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
                                </div>
                             </div>
