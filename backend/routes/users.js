@@ -281,8 +281,19 @@ router.get('/vanguard/analytics', async (req, res) => {
       return [...acc, ...negativeRatings];
     }, []);
 
-    // REAL MATH: Universal Handshakes (All Ratings)
-    const totalHandshakes = users.reduce((acc, user) => acc + (user.ratings?.length || 0), 0);
+    // REAL MATH: Universal Handshakes (All Ratings + Sync Connections)
+    const Connection = require('../models/Connection');
+    const [connectionsCount, recentConnections] = await Promise.all([
+      Connection.countDocuments(),
+      Connection.find()
+        .populate('buyer', 'username')
+        .populate('seller', 'username')
+        .populate('item', 'title')
+        .sort({ createdAt: -1 })
+        .limit(5)
+    ]);
+
+    const totalHandshakes = users.reduce((acc, user) => acc + (user.ratings?.length || 0), 0) + connectionsCount;
 
     // REAL MATH: Pulse Conversations (All Post Comments)
     const allPosts = await Post.find();
@@ -294,7 +305,8 @@ router.get('/vanguard/analytics', async (req, res) => {
       totalUsers: users.length,
       totalHubs: communities.length,
       totalHandshakes,
-      totalConversations
+      totalConversations,
+      recentSyncs: recentConnections
     });
   } catch (err) {
     console.error(err.message);

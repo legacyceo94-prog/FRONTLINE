@@ -29,6 +29,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/courses', require('./routes/courses'));
 app.use('/api/communities', require('./routes/communities'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/connections', require('./routes/connections'));
 
 console.log('✅ All routes mounted successfully');
 

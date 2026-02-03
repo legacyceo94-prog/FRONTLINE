@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckBadgeIcon, RocketLaunchIcon, CubeIcon } from '@heroicons/react/24/solid';
 import { UserIcon, ClockIcon } from '@heroicons/react/24/outline';
+import SyncModal from './SyncModal';
 
 export default function CourseCard({ course }) {
+  const [modalOpen, setModalOpen] = useState(false);
   const flyerImage = course.media?.flyerImage;
   
   return (
@@ -84,17 +87,20 @@ export default function CourseCard({ course }) {
            </div>
 
            {course.seller?.sellerProfile?.phone && (
-             <a 
-               href={`https://wa.me/${course.seller.sellerProfile.phone.replace(/\D/g, '').replace(/^0/, '254')}?text=${encodeURIComponent(`Protocol Check: interested in Asset "${course.title}". Confirm status?`)}`}
-               target="_blank"
-               rel="noreferrer"
+             <button 
+               onClick={() => setModalOpen(true)}
                className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-center text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-500/20 active:scale-95"
              >
                Sync Protocol
-             </a>
+             </button>
            )}
         </div>
       </div>
+      <SyncModal 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        course={course} 
+      />
     </div>
   );
 }

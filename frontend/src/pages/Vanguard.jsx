@@ -26,6 +26,7 @@ export default function Vanguard() {
   const [user, setUser] = useState(null);
   const [commanders, setCommanders] = useState([]);
   const [frictionPoints, setFrictionPoints] = useState([]);
+  const [recentSyncs, setRecentSyncs] = useState([]);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
@@ -59,6 +60,10 @@ export default function Vanguard() {
       ['NETWORK FRICTION & COMPLAINTS'],
       ['Target User', 'Stars', 'Comment', 'WA Contact'],
       ...frictionPoints.map(f => [f.targetUser, f.stars, f.comment, f.whatsapp || 'No Sync']),
+      [''],
+      ['NETWORK SYNC PROTOCOLS (LIVE HANDSHAKES)'],
+      ['Timestamp', 'Buyer', 'Seller', 'Asset Interacted', 'Purpose'],
+      ...recentSyncs.map(s => [new Date(s.createdAt).toLocaleString(), s.buyer?.username, s.seller?.username, s.item?.title, s.purpose]),
       [''],
       ['CONFIDENTIAL: FOR PUBLISHER/INVESTOR OVERSIGHT ONLY']
     ];
@@ -112,6 +117,7 @@ export default function Vanguard() {
         setUser(masterRes.data);
         setCommanders(analyticsRes.data.commanders || []);
         setFrictionPoints(analyticsRes.data.frictionPoints || []);
+        setRecentSyncs(analyticsRes.data.recentSyncs || []);
         
         setStats({
           users: uRes.data.length || 0,
@@ -123,8 +129,15 @@ export default function Vanguard() {
         });
 
         // Generate Master Logs
+        const syncLogs = (analyticsRes.data.recentSyncs || []).map(sync => ({
+           t: 'SYNC',
+           m: `Structural Handshake: ${sync.buyer?.username} sync'd with ${sync.seller?.username} for "${sync.item?.title}"`,
+           d: sync.createdAt
+        }));
+
         setLogs([
           { t: 'NETWORK', m: `Imperial Sync Complete. ${uRes.data.length} citizens across ${cRes.data.length} hubs active.`, d: new Date() },
+          ...syncLogs,
           { t: 'SECURITY', m: `${(analyticsRes.data.frictionPoints || []).length} Friction points detected. Intervention recommended.`, d: new Date() },
           { t: 'MARKET', m: 'Community-driven marketing intrusion at 88% efficiency.', d: new Date() },
           { t: 'HUSTLE', m: 'Commanders updated with latest WhatsApp protocol sync.', d: new Date() }
