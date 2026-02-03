@@ -116,9 +116,9 @@ export default function Vanguard() {
           users: uRes.data.length || 0,
           hubs: cRes.data.length || 0,
           listings: pRes.data.length || 0,
-          trustVolume: Math.floor(Math.random() * 5000) + 1200, 
+          trustVolume: analyticsRes.data.totalHandshakes || 0, 
           complaints: (analyticsRes.data.frictionPoints || []).length, 
-          conversations: Math.floor(Math.random() * 450) + 50
+          conversations: analyticsRes.data.totalConversations || 0
         });
 
         // Generate Master Logs
@@ -178,10 +178,10 @@ export default function Vanguard() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
-            { label: 'Total Citizens', val: stats.users, detail: 'Network Population', icon: UserGroupIcon, color: 'blue' },
-            { label: 'Active Hubs', val: stats.hubs, detail: `+${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}% Saturation`, icon: ChartBarIcon, color: 'blue' },
-            { label: 'Network Listings', val: stats.listings, detail: `+${((stats.listings / (stats.users || 1)) * 10).toFixed(1)}% Attraction`, icon: BoltIcon, color: 'yellow' },
-            { label: 'Trust Handshakes', val: stats.trustVolume, detail: `+${((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}% Velocity`, icon: StarIcon, color: 'blue' }
+            { label: 'Total Citizens', val: stats.users, detail: 'Global Network Population', icon: UserGroupIcon, color: 'blue' },
+            { label: 'Active Hubs', val: stats.hubs, detail: `${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)} Hubs per 100 citizens`, icon: ChartBarIcon, color: 'blue' },
+            { label: 'Network Listings', val: stats.listings, detail: `${(stats.listings / (stats.users || 1)).toFixed(1)} Listings per citizen`, icon: BoltIcon, color: 'yellow' },
+            { label: 'Trust Handshakes', val: stats.trustVolume, detail: `${(stats.trustVolume / (stats.users || 1)).toFixed(1)} Reviews per citizen`, icon: StarIcon, color: 'blue' }
           ].map((s, i) => (
             <div key={i} className="bg-white/5 border border-white/5 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all group">
               <div className={`w-12 h-12 rounded-2xl bg-${s.color}-600/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>

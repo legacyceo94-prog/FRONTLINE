@@ -281,11 +281,20 @@ router.get('/vanguard/analytics', async (req, res) => {
       return [...acc, ...negativeRatings];
     }, []);
 
+    // REAL MATH: Universal Handshakes (All Ratings)
+    const totalHandshakes = users.reduce((acc, user) => acc + (user.ratings?.length || 0), 0);
+
+    // REAL MATH: Pulse Conversations (All Post Comments)
+    const allPosts = await Post.find();
+    const totalConversations = allPosts.reduce((acc, post) => acc + (post.comments?.length || 0), 0);
+
     res.json({
       commanders,
       frictionPoints,
       totalUsers: users.length,
-      totalHubs: communities.length
+      totalHubs: communities.length,
+      totalHandshakes,
+      totalConversations
     });
   } catch (err) {
     console.error(err.message);
