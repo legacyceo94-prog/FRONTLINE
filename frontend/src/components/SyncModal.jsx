@@ -1,12 +1,29 @@
-import { useState } from 'react';
-import { XMarkIcon, ShieldCheckIcon, RocketLaunchIcon, CubeIcon } from '@heroicons/react/24/outline';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { XMarkIcon, ShieldCheckIcon, RocketLaunchIcon, CubeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import api from '../utils/api';
 
 export default function SyncModal({ isOpen, onClose, course }) {
+  const navigate = useNavigate();
   const [purpose, setPurpose] = useState('Inquiry');
   const [step, setStep] = useState(1); // 1: Form, 2: Logging, 3: Contact
+  const [isAuth, setIsAuth] = useState(true);
+
+  useEffect(() => {
+    if (isOpen) {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      setIsAuth(!!token);
+    }
+  }, [isOpen]);
 
   const handleSync = async () => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!token) {
+       setIsAuth(false);
+       navigate('/login');
+       return;
+    }
+
     setStep(2);
     try {
       // Log the Handshake in the structural layer
@@ -21,6 +38,10 @@ export default function SyncModal({ isOpen, onClose, course }) {
       }, 1500); // Simulated "logging" for UX impact
     } catch (err) {
       console.error(err);
+      if (err.response?.status === 401) {
+         // App will reload via api.js interceptor
+         return;
+      }
       setStep(1);
       alert("Sync Protocol Interrupted. Please check connectivity.");
     }
@@ -50,7 +71,22 @@ export default function SyncModal({ isOpen, onClose, course }) {
 
         {/* Modal Body */}
         <div className="p-10">
-          {step === 1 && (
+          {!isAuth ? (
+            <div className="text-center animate-in fade-in slide-in-from-bottom-4">
+               <div className="w-20 h-20 bg-blue-500/10 rounded-[2rem] flex items-center justify-center mx-auto mb-8 text-blue-500">
+                  <LockClosedIcon className="w-10 h-10" />
+               </div>
+               <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-2">Login Required.</h4>
+               <p className="text-xs text-slate-500 italic mb-10">You must be a verified citizen to sync with sellers.</p>
+               
+               <button 
+                 onClick={() => navigate('/login')}
+                 className="block w-full py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-blue-500/20 active:scale-95"
+               >
+                 Go to Login Protocol
+               </button>
+            </div>
+          ) : step === 1 ? (
             <div className="animate-in fade-in slide-in-from-bottom-4">
               <div className="mb-8">
                 <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-4">Verification Layer</span>
@@ -79,7 +115,7 @@ export default function SyncModal({ isOpen, onClose, course }) {
                 Authenticate Handshake
               </button>
             </div>
-          )}
+          ) : null}
 
           {step === 2 && (
             <div className="py-12 text-center animate-in zoom-in-95 duration-500">

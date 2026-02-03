@@ -39,8 +39,9 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       // Token expired or invalid - Clean Slate protocol
       localStorage.clear(); 
-      // Optional: Redirect to login if using a router outside a component context
-      // window.location.href = '/login'; 
+      sessionStorage.clear();
+      // Force app refresh to reset all user states and redirect to login if necessary
+      window.location.reload();
     }
     return Promise.reject(error);
   }
