@@ -80,8 +80,13 @@ router.post(
 router.post(
   '/login',
   [
-    check('username', 'Username is required').notEmpty(),
-    check('password', 'Password is required').exists()
+    check('password', 'Password is required').exists(),
+    check('username').custom((value, { req }) => {
+      if (!value && !req.body.email) {
+        throw new Error('Username or Email is required');
+      }
+      return true;
+    })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -89,11 +94,18 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, password } = req.body;
+    const identity = req.body.username || req.body.email;
+    const { password } = req.body;
 
     try {
-      // Check if user exists by username (case-insensitive)
-      let user = await User.findOne({ username: { $regex: new RegExp(`^${username}$`, 'i') } });
+      // Check if user exists by identity (case-insensitive)
+      let user = await User.findOne({
+        $or: [
+          { username: { $regex: new RegExp(`^${identity}$`, 'i') } },
+          { email: { $regex: new RegExp(`^${identity}$`, 'i') } }
+        ]
+      });
+      
       if (!user) {
         return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
