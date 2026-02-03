@@ -378,7 +378,6 @@ export default function Dashboard() {
                        <div className="flex-1 min-w-0">
                           <h4 className="font-black text-slate-900 dark:text-white truncate uppercase tracking-tighter text-lg">{hub.name}</h4>
                           <div className="flex items-center gap-2 mt-1">
-                             <span className="text-[10px] text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest">{hub.category}</span>
                              <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Member / Admin</span>
                           </div>
