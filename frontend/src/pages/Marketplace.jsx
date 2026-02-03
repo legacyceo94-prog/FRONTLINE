@@ -15,9 +15,9 @@ export default function Marketplace() {
   const categories = ['Engineering', 'Design', 'Technology', 'Business', 'Other'];
 
   const studioInsights = {
-    '': 'Scanning the Global Stream: A cross-pollination of professional services and performance products.',
-    'service': 'Service Studio Hub: Accessing elite competence, consultations, and scalable labor solutions.',
-    'product': 'Product Store Hub: Procuring verified assets, physical components, and digital blueprints.'
+    '': 'Browse all: A mix of professional services and products.',
+    'service': 'Services: Hire experts and consultants.',
+    'product': 'Products: Buy items and digital goods.'
   };
 
   useEffect(() => {
@@ -58,10 +58,10 @@ export default function Marketplace() {
             <div>
                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest mb-6 border border-blue-500/10">
                   <SparklesIcon className="w-4 h-4" />
-                  Inventory Scan Protocol
+                  Marketplace
                </div>
                <h1 className="text-5xl md:text-8xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter italic uppercase leading-[0.8]">
-                 Scan <span className="text-blue-600">Assets.</span>
+                 Browse <span className="text-blue-600">Market.</span>
                </h1>
                <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl font-medium italic">
                  {studioInsights[filters.type]}
@@ -74,21 +74,21 @@ export default function Marketplace() {
                  onClick={() => handleFilterChange('type', '')}
                  className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${filters.type === '' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
                >
-                 Global Stream
+                 All Items
                </button>
                <button 
                  onClick={() => handleFilterChange('type', 'service')}
                  className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${filters.type === 'service' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
                >
                  <RocketLaunchIcon className="w-4 h-4" />
-                 Service Studio
+                 Services
                </button>
                <button 
                  onClick={() => handleFilterChange('type', 'product')}
                  className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${filters.type === 'product' ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
                >
                  <CubeIcon className="w-4 h-4" />
-                 Product Store
+                 Products
                </button>
             </div>
           </div>
@@ -102,7 +102,7 @@ export default function Marketplace() {
               <input
                 type="text"
                 className="block w-full pl-16 pr-6 py-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 placeholder-slate-400 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-sm font-bold shadow-xl shadow-slate-200/50 dark:shadow-none"
-                placeholder="Synchronize with Sellers, Skills, or Results..."
+                placeholder="Search for sellers, skills, or items..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
               />
@@ -115,7 +115,7 @@ export default function Marketplace() {
                 value={filters.category}
                 onChange={(e) => handleFilterChange('category', e.target.value)}
               >
-                <option value="">All Category Nodes</option>
+                <option value="">All Categories</option>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
               <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-30">
@@ -129,15 +129,15 @@ export default function Marketplace() {
         {loading ? (
              <div className="text-center py-32">
                <div className="w-16 h-16 border-b-2 border-blue-500 rounded-full animate-spin mx-auto mb-6"></div>
-               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 animate-pulse">Syncing Network Inventory...</p>
+               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 animate-pulse">Loading...</p>
              </div>
         ) : (
           <>
             {courses.length === 0 ? (
               <div className="text-center py-32 bg-slate-50 dark:bg-slate-900/50 rounded-[4rem] border-2 border-dashed border-slate-100 dark:border-white/5 animate-in fade-in duration-700">
                 <FunnelIcon className="mx-auto h-16 w-16 text-slate-200 dark:text-slate-800 mb-6" />
-                <h3 className="text-3xl font-black text-slate-300 dark:text-slate-700 uppercase tracking-tighter italic">Signal Lost: No Matches Located</h3>
-                <p className="mt-4 text-[10px] text-slate-400 font-black uppercase tracking-widest italic">Try recalibrating your search parameters to find available assets.</p>
+                <h3 className="text-3xl font-black text-slate-300 dark:text-slate-700 uppercase tracking-tighter italic">No items found</h3>
+                <p className="mt-4 text-[10px] text-slate-400 font-black uppercase tracking-widest italic">Try adjusting your search.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 animate-in fade-in slide-in-from-bottom-6 duration-1000">

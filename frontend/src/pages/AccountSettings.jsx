@@ -61,7 +61,7 @@ export default function AccountSettings() {
         });
         
         localStorage.setItem('role', 'seller');
-        alert(`✅ ${typeLabel} Launched! Entering your private cockpit...`);
+        alert(`✅ ${typeLabel} Created! Opening your dashboard...`);
         window.location.reload();
       } catch (err) {
         alert('Failed to upgrade account. Please try again.');
@@ -147,17 +147,17 @@ export default function AccountSettings() {
         <div className="mb-12">
            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[10px] font-black uppercase tracking-widest mb-4">
               <Cog6ToothIcon className="w-4 h-4" />
-              Pulse Calibration
+              Account Settings
            </div>
-           <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-2">Protocol <span className="text-blue-600">Settings.</span></h1>
-           <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">Manage your professional identity and network preferences.</p>
+           <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-2">My <span className="text-blue-600">Profile.</span></h1>
+           <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">Manage your account details and preferences.</p>
         </div>
 
         <div className="space-y-10">
           {/* Profile Section */}
           <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-8 md:p-12 border border-slate-100 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none">
             <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Identity Profile</h2>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Your Details</h2>
               <Link 
                 to={`/profile/${user._id}`}
                 className="px-6 py-2 bg-white dark:bg-slate-950 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-blue-500/20 hover:bg-blue-500 hover:text-white transition-all shadow-lg"
@@ -184,8 +184,8 @@ export default function AccountSettings() {
                   </div>
                 </div>
                 <div className="text-center md:text-left">
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-2 italic">Signal Avatar</h3>
-                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-6">High fidelity face of your profile</p>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-2 italic">Profile Picture</h3>
+                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-6">Your public image</p>
                   <label className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-black uppercase tracking-widest rounded-full transition-all cursor-pointer inline-block shadow-xl shadow-blue-500/20 active:scale-95">
                     Choose Image
                     <input 
@@ -201,14 +201,14 @@ export default function AccountSettings() {
               <div className="border-t border-slate-200 dark:border-white/5 pt-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Username Identifier</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Username</label>
                     <div className="px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 text-slate-900 dark:text-white font-black italic">
                       {user.username}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Current Role</label>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Account Type</label>
                     <div className="px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5 flex flex-col space-y-2">
                        <span className="text-blue-600 font-black uppercase tracking-widest text-xs italic">
                         {user.role} Hub
@@ -227,7 +227,7 @@ export default function AccountSettings() {
                         <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-1">Network Trust Score</label>
                         <div className="px-6 py-4 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-white/5">
                            <span className="text-blue-600 font-black text-lg italic">
-                            {user.trustScore || 0}% <span className="text-[10px] uppercase tracking-widest">Integrity</span>
+                            {user.trustScore || 0}% <span className="text-[10px] uppercase tracking-widest">Trust Points</span>
                           </span>
                         </div>
                       </div>
@@ -239,7 +239,7 @@ export default function AccountSettings() {
                               ? 'text-blue-500' 
                               : 'text-slate-400'
                           }`}>
-                            {user.isVerified ? 'VERIFIED IDENTITY ✓' : 'UNVERIFIED PROTOCOL'}
+                            {user.isVerified ? 'VERIFIED ✓' : 'NOT VERIFIED'}
                           </span>
                         </div>
                       </div>
@@ -299,7 +299,7 @@ export default function AccountSettings() {
                         : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/20'
                     }`}
                   >
-                    {saving === 'done' ? 'Protocol Captured ✓' : saving ? 'Transmitting Data...' : 'Commit Profile Changes'}
+                    {saving === 'done' ? 'Saved ✓' : saving ? 'Saving...' : 'Save Changes'}
                   </button>
                 </div>
               )}
@@ -342,12 +342,12 @@ export default function AccountSettings() {
               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
               <div className="relative z-10">
                 <h2 className="text-3xl font-black text-white uppercase tracking-tighter italic mb-4">
-                  {user.role === 'seller' ? 'Calibrate Your Identity' : 'Launch Your Cockpit'}
+                  {user.role === 'seller' ? 'Complete Your Profile' : 'Start Selling'}
                 </h2>
                 <p className="text-slate-400 font-medium italic mb-10 max-w-xl">
                   {user.role === 'seller' 
                     ? 'Your identity is recognized. Choose your specialized cockpit to unlock the core tools of the network.'
-                    : 'Choose your merchant identity to begin scaling your professional signals on Frontline.'}
+                    : 'Choose your account type to get started.'}
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -379,7 +379,7 @@ export default function AccountSettings() {
 
           {/* Danger Zone */}
           <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-8 md:p-12 border border-red-500/10 mb-24">
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-8">Danger Protocol</h2>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-8">Account Actions</h2>
             <div className="space-y-4">
       <button 
         onClick={handleLogout}
@@ -387,9 +387,9 @@ export default function AccountSettings() {
       >
         <span className="flex items-center gap-4">
           <ArrowRightOnRectangleIcon className="w-6 h-6 text-red-500 transition-colors" />
-          <span className="text-[10px] font-black uppercase tracking-widest">Terminate Session</span>
+          <span className="text-[10px] font-black uppercase tracking-widest">Logout</span>
         </span>
-        <span className="text-[9px] font-black uppercase tracking-widest text-red-400 hidden sm:block">Logout Protocol</span>
+        <span className="text-[9px] font-black uppercase tracking-widest text-red-400 hidden sm:block">Secure Logout</span>
       </button>
 
               <div className="pt-6">
@@ -401,9 +401,9 @@ export default function AccountSettings() {
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                    <span className="text-[10px] font-black uppercase tracking-widest">Purge Identity</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">Delete Account</span>
                   </span>
-                  <span className="text-[9px] font-black uppercase tracking-widest opacity-60 hidden sm:block italic">Caution: Irreversible Action</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest opacity-60 hidden sm:block italic">This cannot be undone</span>
                 </button>
               </div>
             </div>

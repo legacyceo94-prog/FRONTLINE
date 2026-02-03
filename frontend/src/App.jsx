@@ -307,16 +307,16 @@ function App() {
             <div className="hidden md:flex items-center space-x-10">
               <Link to="/marketplace" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 flex items-center gap-2 ${location.pathname === '/marketplace' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                 <ShoppingBagIcon className="w-4 h-4" />
-                Inventory Scan
+                Marketplace
               </Link>
               <Link to="/communities" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 flex items-center gap-2 ${location.pathname === '/communities' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                 <UserGroupIcon className="w-4 h-4" />
-                Community Pulse
+                Communities
               </Link>
               {user && user.role === 'seller' && (
                 <Link to="/dashboard" className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-blue-600 flex items-center gap-2 ${location.pathname === '/dashboard' ? 'text-blue-600' : 'text-slate-500 dark:text-slate-400'}`}>
                   <RocketLaunchIcon className="w-4 h-4" />
-                  Cockpit
+                  Dashboard
                 </Link>
               )}
             </div>
@@ -385,7 +385,7 @@ function App() {
                    onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
                    className="w-full py-4 text-center rounded-2xl font-black uppercase tracking-widest text-xs bg-red-50 dark:bg-red-900/20 text-red-600 border border-red-100 dark:border-red-900/30"
                  >
-                   Terminate Session
+                   Logout
                  </button>
                )}
             </div>

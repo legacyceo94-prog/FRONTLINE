@@ -130,12 +130,12 @@ export default function Dashboard() {
                <span className="px-3 py-1 bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-md">Chapter One: The Foundation</span>
             </div>
             <h1 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
-              {user?.businessType === 'product' ? 'Store Warehouse' : 'Seller Cockpit'}
+              {user?.businessType === 'product' ? 'My Dashboard' : 'My Dashboard'}
             </h1>
             <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-2xl text-lg">
               {user?.businessType === 'product' 
-                ? 'Manage your inventory, track shipping, and scale your product reach.'
-                : 'Build trust within your network. Create your work environment and scale your brand.'}
+                ? 'Manage your stock, track orders, and grow your sales.'
+                : 'Build trust, find work, and grow your reputation.'}
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -222,7 +222,7 @@ export default function Dashboard() {
               </div>
 
               <div className="mt-8 pt-8 border-t border-slate-50 dark:border-white/5">
-                 <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 italic">Public Mirror</h4>
+                 <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 italic">Public Profile</h4>
                   <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all">
                     <div className="flex items-center gap-3">
                        <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
@@ -314,8 +314,8 @@ export default function Dashboard() {
                >
                   <div className="relative z-10">
                     <RocketLaunchIcon className="w-12 h-12 mb-6 text-blue-400 dark:text-white/80" />
-                    <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Launch Hub</h3>
-                    <p className="text-slate-400 dark:text-white/60 text-xs italic leading-relaxed">Establish your professional territory on the network.</p>
+                    <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Create Hub</h3>
+                    <p className="text-slate-400 dark:text-white/60 text-xs italic leading-relaxed">Start your own community.</p>
                   </div>
                   <div className="absolute -bottom-8 -right-8 opacity-10 group-hover:scale-125 transition-transform group-hover:-rotate-12">
                     <UserGroupIcon className="w-48 h-48" />
@@ -360,9 +360,9 @@ export default function Dashboard() {
               {myHubs.length === 0 ? (
                 <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border-4 border-dashed border-slate-200 dark:border-slate-800 p-16 text-center">
                   <Square3Stack3DIcon className="w-16 h-16 text-slate-300 dark:text-slate-700 mx-auto mb-6" />
-                  <p className="text-slate-600 dark:text-slate-400 font-black uppercase tracking-tighter text-xl">No Active Territories</p>
-                  <p className="text-sm text-slate-400 mb-8 italic">You are currently operating without a dedicated Hub.</p>
-                  <button onClick={() => setIsHubModalOpen(true)} className="px-8 py-3 bg-slate-900 dark:bg-slate-700 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-600 transition-all">Claim your territory</button>
+                  <p className="text-slate-600 dark:text-slate-400 font-black uppercase tracking-tighter text-xl">No Active Communities</p>
+                  <p className="text-sm text-slate-400 mb-8 italic">You haven't joined or created any communities.</p>
+                  <button onClick={() => setIsHubModalOpen(true)} className="px-8 py-3 bg-slate-900 dark:bg-slate-700 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-600 transition-all">Create Community</button>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -396,8 +396,8 @@ export default function Dashboard() {
              <div className="bg-white dark:bg-slate-800/50 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 p-8 shadow-sm">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex flex-col">
-                    <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Network Signals</h3>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Reception status from the network</span>
+                    <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Recent Activity</h3>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Latest feedback</span>
                   </div>
                   <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shadow-sm border border-blue-100 dark:border-blue-900/50">
                     <StarIconSolid className="w-5 h-5" />
@@ -444,7 +444,7 @@ export default function Dashboard() {
                                   </div>
                                </div>
                                <p className="text-xs text-slate-600 dark:text-slate-400 italic leading-relaxed font-bold">
-                                  "{rating.comment || 'Validated this competence without comment.'}"
+                                  "{rating.comment || 'Verified without comment.'}"
                                 </p>
                                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-2">{new Date(rating.createdAt).toLocaleDateString()}</div>
                             </div>
@@ -466,7 +466,7 @@ export default function Dashboard() {
                           if (allComments.length === 0) {
                              return (
                                 <div className="py-12 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
-                                   <p className="text-sm text-slate-400 italic font-medium">No discussion pulses on your assets yet.</p>
+                                   <p className="text-sm text-slate-400 italic font-medium">No comments on your posts yet.</p>
                                 </div>
                              );
                           }
@@ -514,10 +514,9 @@ export default function Dashboard() {
                      <ShieldCheckIcon className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-black text-blue-900 dark:text-white uppercase tracking-tighter mb-2 italic">Infrastructure of Trust</h4>
+                    <h4 className="font-black text-blue-900 dark:text-white uppercase tracking-tighter mb-2 italic">Trust System</h4>
                     <p className="text-blue-800/60 dark:text-slate-500 text-xs leading-relaxed max-w-lg">
-                      Frontline operates on **Zero-Base Truth**. Your visibility on the Pulse is tied strictly to your earned trust. 
-                      Launch Hubs, engage with members, and upload high-fidelity competence assets to scale from 0 to 99%.
+                      Gain trust by collecting verified reviews. Create communities and list your services to increase your rating.
                     </p>
                   </div>
                </div>
@@ -536,11 +535,11 @@ export default function Dashboard() {
                   <div className="flex items-center gap-2 mb-1">
                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                       {user?.businessType === 'product' ? 'Inventory Control' : 'Asset Management'}
+                       {user?.businessType === 'product' ? 'Inventory' : 'My Assets'}
                      </span>
                   </div>
                   <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
-                    {user?.businessType === 'product' ? 'Warehouse Manager' : 'Competence Studio'}
+                    {user?.businessType === 'product' ? 'My Store' : 'My Portfolio'}
                   </h3>
                </div>
                <button 
@@ -559,14 +558,14 @@ export default function Dashboard() {
                   <div className="absolute top-0 right-0 p-6 opacity-10">
                     <PlusCircleIcon className="w-24 h-24" />
                   </div>
-                  <h4 className="text-xl font-black uppercase tracking-tighter mb-2">New Proof of Work</h4>
-                  <p className="text-slate-400 text-xs mb-6 italic leading-relaxed">Upload blueprints, certificates, or project results to earn Trust weight.</p>
+                  <h4 className="text-xl font-black uppercase tracking-tighter mb-2">New Listing</h4>
+                  <p className="text-slate-400 text-xs mb-6 italic leading-relaxed">List a new service or product.</p>
                   <button 
                     onClick={() => navigate('/create-course')}
                     className="flex items-center gap-2 px-6 py-3 bg-white text-slate-900 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-blue-500 hover:text-white transition-all shadow-xl shadow-black/20"
                   >
                     <ArrowUpCircleIcon className="w-4 h-4" />
-                    Upload Expert Asset
+                    Create Listing
                   </button>
                </div>
 
@@ -574,7 +573,7 @@ export default function Dashboard() {
                <div>
                   <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-6 flex items-center gap-2">
                      <div className="w-4 h-[1px] bg-slate-200 dark:bg-slate-800"></div>
-                     Live Assets on Network
+                     Active Listings
                   </h5>
                   
                   {(!Array.isArray(myPosts) || myPosts.length === 0) ? (
@@ -616,11 +615,11 @@ export default function Dashboard() {
             {/* Trust Forecast Footer */}
             <div className="p-8 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-white/5">
                 <div className="flex items-center justify-between mb-2">
-                   <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Asset Trust Weight</p>
-                   <p className="text-sm font-black text-blue-500">+{myPosts.length * 0.1}% Power</p>
+                   <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Trust Growth</p>
+                   <p className="text-sm font-black text-blue-500">+{myPosts.length * 0.1}% Growth</p>
                 </div>
                 <p className="text-[11px] text-slate-500 italic leading-relaxed">
-                   Expert Assets generate continuous trust by providing verifiable proof of your technical competence to searching buyers.
+                   Listing quality services helps you build trust with customers.
                 </p>
             </div>
          </div>
@@ -638,9 +637,9 @@ export default function Dashboard() {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                        <RocketLaunchIcon className="w-3 h-3 text-blue-500" />
-                       <span className="text-[10px] font-black uppercase text-blue-500 tracking-widest">Identity Construction</span>
+                       <span className="text-[10px] font-black uppercase text-blue-500 tracking-widest">Create Community</span>
                     </div>
-                    <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic" id="modal-title">Launch Territory</h3>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic" id="modal-title">Create Community</h3>
                   </div>
                   <button onClick={() => setIsHubModalOpen(false)} className="p-3 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 transition-colors">
                     <XMarkIcon className="w-6 h-6" />
@@ -649,10 +648,10 @@ export default function Dashboard() {
                 
                 <form id="create-hub-form" onSubmit={handleCreateHub} className="mt-8 space-y-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1 italic">Hub Designation</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1 italic">Community Name</label>
                     <input 
                       type="text" 
-                      placeholder="e.g. Mombasa Engineering Core" 
+                      placeholder="e.g. Nairobi Designers" 
                       className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
                       value={newHub.name}
                       onChange={e => setNewHub({...newHub, name: e.target.value})}
@@ -662,7 +661,7 @@ export default function Dashboard() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                      <div className="space-y-2">
-                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Classification</label>
+                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Category</label>
                        <select 
                          className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold"
                          value={newHub.category}
@@ -676,11 +675,11 @@ export default function Dashboard() {
                        </select>
                      </div>
                      <div className="space-y-2">
-                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Visual ID</label>
+                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Image</label>
                        <label className="w-full flex items-center gap-3 px-6 py-4 rounded-[1.5rem] bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 cursor-pointer hover:bg-blue-500 hover:text-white transition-all">
                          <PhotoIcon className="h-5 w-5 opacity-50" />
                          <span className="text-xs font-bold uppercase truncate">
-                           {newHub.image ? 'ID Loaded ✓' : 'Add Image'}
+                           {newHub.image ? 'Image Loaded ✓' : 'Add Image'}
                          </span>
                          <input 
                            type="file" 
@@ -702,10 +701,10 @@ export default function Dashboard() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">The Mission</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Description</label>
                     <textarea 
                       rows={3} 
-                      placeholder="Define the specific problem your hub solves." 
+                      placeholder="Describe your community." 
                       className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
                       value={newHub.description}
                       onChange={e => setNewHub({...newHub, description: e.target.value})}
@@ -721,9 +720,9 @@ export default function Dashboard() {
                   disabled={creating}
                   className="w-full py-5 bg-gradient-to-r from-blue-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-full hover:scale-[1.02] active:scale-98 transition-all shadow-2xl shadow-blue-500/20 disabled:opacity-50"
                 >
-                  {creating ? 'CONSTRUCTING...' : 'CONFIRM LIVE LAUNCH'}
+                  {creating ? 'CREATING...' : 'CREATE COMMUNITY'}
                 </button>
-                <p className="text-[10px] text-slate-400 text-center italic">Territories are permanent proof of your professional leadership.</p>
+                <p className="text-[10px] text-slate-400 text-center italic">Communities let you connect with others.</p>
               </div>
             </div>
           </div>

@@ -18,10 +18,10 @@ export default function PostCard({ post }) {
   const handleRateAuthor = async (stars) => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) return alert('Please sign in to establish trust.');
+      if (!token) return alert('Please sign in to rate.');
       
       const userId = localStorage.getItem('userId');
-      if (userId === post.author?._id) return alert('Self-calibration not allowed.');
+      if (userId === post.author?._id) return alert('You cannot rate yourself.');
 
       setIsRating(true);
       const res = await api.post(`/api/users/${post.author?._id}/rate`, { stars });
@@ -29,7 +29,7 @@ export default function PostCard({ post }) {
       setAvgRating(res.data.averageRating);
       setRatingCount(res.data.count);
     } catch (err) {
-      alert(err.response?.data?.msg || 'Feedback transmission failed.');
+      alert(err.response?.data?.msg || 'Failed to submit review.');
     } finally {
       setIsRating(false);
     }
@@ -41,7 +41,7 @@ export default function PostCard({ post }) {
 
     try {
       const token = localStorage.getItem('token');
-      if (!token) return alert('Please sign in to participate in the handshake.');
+      if (!token) return alert('Please sign in to comment.');
 
       setIsCommenting(true);
       const res = await api.post(`/api/communities/posts/${post._id}/comment`, { text: commentText });
@@ -49,7 +49,7 @@ export default function PostCard({ post }) {
       setComments(Array.isArray(res.data) ? res.data : []);
       setCommentText('');
     } catch (err) {
-      alert(err.response?.data?.msg || 'Handshake failed.');
+      alert(err.response?.data?.msg || 'Comment failed.');
     } finally {
       setIsCommenting(false);
     }
@@ -80,7 +80,7 @@ export default function PostCard({ post }) {
               </h4>
             </Link>
             <div className="flex items-center gap-2 mt-2">
-              <span className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] italic">Origin Signal</span>
+              <span className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] italic">Community</span>
               {post.community && (
                 <>
                   <div className="w-1 h-1 rounded-full bg-blue-500"></div>
@@ -143,7 +143,7 @@ export default function PostCard({ post }) {
           className={`flex items-center gap-4 transition-all ${showComments ? 'text-blue-600' : 'text-slate-400 hover:text-blue-500'}`}
         >
           <ChatBubbleLeftIcon className={`w-7 h-7 ${showComments ? 'stroke-[2.5px]' : ''}`} />
-          <span className="text-[10px] font-black uppercase tracking-[0.3em]">{comments.length > 0 ? `${comments.length} Syncs` : 'Synchronize'}</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.3em]">{comments.length > 0 ? `${comments.length} Comments` : 'Comment'}</span>
         </button>
         
          <div className="flex gap-4">
@@ -158,7 +158,7 @@ export default function PostCard({ post }) {
              }}
              className="px-8 py-3.5 bg-slate-900 dark:bg-slate-950 border border-white/10 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl active:scale-95"
            >
-             Negotiate
+             Chat
            </button>
            {isFlyer && (
              <button 
@@ -166,13 +166,13 @@ export default function PostCard({ post }) {
                   const phone = post.author?.sellerProfile?.phone || '';
                   if (!phone) return;
                   const cleanPhone = phone.replace(/\D/g, '').replace(/^0/, '254');
-                  const message = `Protocol Check: interested in Asset "${post.title}" on Frontline. Confirm availability?`;
+                  const message = `Hi, I'm interested in "${post.title}" on Frontline. Is it available?`;
                   const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
                   window.open(url, '_blank');
                }}
                className="px-8 py-3.5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
              >
-               Acquire
+               Buy
              </button>
            )}
          </div>
@@ -192,7 +192,7 @@ export default function PostCard({ post }) {
             <div className="flex-1 flex gap-3">
               <input 
                 type="text" 
-                placeholder="Broadcast your signal..."
+                placeholder="Write a comment..."
                 className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 rounded-2xl px-6 py-4 text-sm outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-slate-900 dark:text-white font-bold italic"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
@@ -203,7 +203,7 @@ export default function PostCard({ post }) {
                 disabled={isCommenting || !commentText.trim()}
                 className="px-8 py-4 bg-blue-600 text-white font-black uppercase tracking-widest text-[10px] rounded-2xl hover:bg-blue-700 active:scale-95 disabled:opacity-50 transition-all shadow-xl shadow-blue-500/20"
               >
-                Sync
+                Post
               </button>
             </div>
           </form>
@@ -211,7 +211,7 @@ export default function PostCard({ post }) {
           <div className="space-y-8 max-h-[500px] overflow-y-auto pr-6 custom-scrollbar">
             {comments.length === 0 ? (
               <div className="text-center py-16 opacity-40">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 italic">No Synchronization Events Detected</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 italic">No comments yet</p>
               </div>
             ) : (
               comments.map((c, i) => (
@@ -227,13 +227,13 @@ export default function PostCard({ post }) {
                       <div className="flex items-center justify-between mb-3">
                          <div className="flex items-center gap-3">
                             <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
-                               {c.author?.username || 'Signal 00'}
+                               {c.author?.username || 'Anonymous'}
                             </span>
                             {c.author?.isVerified && (
                               <span className="text-[8px] font-black text-blue-500 border border-blue-500/20 px-2 py-0.5 rounded-full uppercase">Verified</span>
                             )}
                          </div>
-                         <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Live Signal</span>
+                         <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Recent</span>
                       </div>
                       <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-semibold italic">"{c.text}"</p>
                    </div>

@@ -75,7 +75,7 @@ export default function Login() {
               Welcome <span className="text-blue-600">Back.</span>
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">
-              Access your network competence portal.
+              Log in to your account.
             </p>
           </div>
 
@@ -133,7 +133,7 @@ export default function Login() {
                 <span>Stay Active</span>
               </label>
               <Link to="/forgot-password" size="sm" className="text-blue-600 hover:text-blue-500 transition-colors">
-                Lost Key?
+                Forgot Password?
               </Link>
             </div>
 
@@ -143,10 +143,10 @@ export default function Login() {
               className="w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-500/30 transform hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-6 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
-                <span className="animate-pulse italic">Authenticating...</span>
+                <span className="animate-pulse italic">Logging in...</span>
               ) : (
                 <>
-                  Resume Protocol <ArrowRightIcon className="w-4 h-4" />
+                  Login <ArrowRightIcon className="w-4 h-4" />
                 </>
               )}
             </button>
@@ -155,7 +155,7 @@ export default function Login() {
           <p className="mt-10 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
             New to the Frontline? {' '}
             <Link to="/signup" className="text-blue-600 hover:text-blue-500 transition-colors">
-              Initialize Account
+              Create Account
             </Link>
           </p>
         </div>

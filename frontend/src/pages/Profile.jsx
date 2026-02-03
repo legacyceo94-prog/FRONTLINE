@@ -60,7 +60,7 @@ export default function Profile() {
     <span className="font-black uppercase text-[10px] tracking-widest text-slate-400">Synchronizing Identity...</span>
   </div>;
 
-  if (!profile) return <div className="min-h-screen pt-24 text-center bg-white dark:bg-slate-950 font-black uppercase text-xs tracking-widest text-slate-400">Protocol Error: Identity Not Found.</div>;
+  if (!profile) return <div className="min-h-screen pt-24 text-center bg-white dark:bg-slate-950 font-black uppercase text-xs tracking-widest text-slate-400">User Not Found.</div>;
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 pt-16 transition-colors duration-500 selection:bg-blue-500 selection:text-white pb-24">
@@ -182,7 +182,7 @@ export default function Profile() {
               {[
                 { id: 'timeline', label: 'Timeline' },
                 { id: 'portfolio', label: profile.businessType === 'product' ? 'Inventory' : 'Assets' },
-                { id: 'about', label: 'Competence' }
+                { id: 'about', label: 'About' }
               ].map(tab => (
                 <button 
                   key={tab.id}
@@ -290,7 +290,7 @@ export default function Profile() {
                     <div className="col-span-full py-24 text-center bg-slate-50 dark:bg-slate-900 rounded-[4rem] border-2 border-dashed border-slate-200 dark:border-white/5">
                       <BriefcaseIcon className="w-20 h-20 mx-auto mb-6 text-slate-200 dark:text-slate-800" />
                       <p className="font-black uppercase tracking-tighter text-2xl italic text-slate-300 dark:text-slate-700">Mirror Empty</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">Zero competence broadcasts detected.</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">No posts yet.</p>
                     </div>
                   )}
                </div>
@@ -303,7 +303,7 @@ export default function Profile() {
                        <InformationCircleIcon className="w-4 h-4" />
                        Manifesto & Mission
                     </div>
-                    <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-6">The <span className="text-blue-600">Competence</span> Baseline.</h2>
+                    <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-6">About <span className="text-blue-600">Me.</span></h2>
                     <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-medium italic mb-10">
                       {profile.sellerProfile?.bio || "This participant has not yet transmitted their professional mission signal. They operate within the network as a verified entity."}
                     </p>

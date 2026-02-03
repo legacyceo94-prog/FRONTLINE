@@ -83,10 +83,10 @@ const Communities = () => {
                      <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em]">Live Network Broadcast</span>
                   </div>
                   <h1 className="text-5xl sm:text-6xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none mb-4 italic">
-                     Seller <span className="text-blue-600">Hubs.</span>
+                     All <span className="text-blue-600">Communities.</span>
                   </h1>
                   <p className="text-lg text-slate-500 dark:text-slate-400 font-medium max-w-lg leading-relaxed">
-                     The social discovery zone for real competence. Explore hubs of expertise and witness live proof-of-work across the network.
+                     Connect with experts and see their work.
                   </p>
                </div>
                
@@ -97,7 +97,7 @@ const Communities = () => {
                     </div>
                     <input 
                       type="text"
-                      placeholder="Search for Hubs..."
+                      placeholder="Search Communities..."
                       className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/5 shadow-inner focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none dark:text-white transition-all font-bold italic"
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
@@ -115,7 +115,7 @@ const Communities = () => {
                 <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${activeTab === 'hubs' ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
                    <UserGroupIcon className="w-3 h-3" />
                 </div>
-                Seller Hubs
+                Communities
                 {activeTab === 'hubs' && <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 rounded-t-full"></div>}
               </button>
               <button 
@@ -135,7 +135,7 @@ const Communities = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex items-center justify-between mb-8">
               <h2 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em] italic">
-                {activeTab === 'hubs' ? 'Active Territories' : 'Recent Proofs of Work'}
+                {activeTab === 'hubs' ? 'Active Communities' : 'Recent Posts'}
               </h2>
               {(localStorage.getItem('role') === 'seller' || localStorage.getItem('role') === 'admin') && (
                 <button 
@@ -143,7 +143,7 @@ const Communities = () => {
                   className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full hover:scale-105 active:scale-95 transition-all shadow-xl shadow-blue-500/20"
                 >
                   <PlusCircleIcon className="w-4 h-4" />
-                  Launch Territory
+                  Create Community
                 </button>
               )}
         </div>
@@ -157,7 +157,7 @@ const Communities = () => {
               ).length === 0 ? (
                 <div className="col-span-full text-center py-24 bg-white dark:bg-slate-900 rounded-[3rem] border border-dashed border-slate-200 dark:border-white/10">
                   <RocketLaunchIcon className="w-20 h-20 mx-auto text-blue-500/20 mb-6" />
-                  <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">No Territories Located</p>
+                  <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">No Communities Found</p>
                 </div>
               ) : (
                 communities
@@ -204,7 +204,7 @@ const Communities = () => {
             ) : (
                 <div className="text-center py-24 bg-white dark:bg-slate-900 rounded-[3rem] border border-dashed border-slate-200 dark:border-white/10">
                   <FireIcon className="w-20 h-20 mx-auto text-blue-500/20 mb-6" />
-                  <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Pulse is Silent</p>
+                  <p className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">No posts yet</p>
                 </div>
             )}
           </div>
@@ -217,11 +217,11 @@ const Communities = () => {
            <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
            <div className="bg-white dark:bg-slate-950 w-full max-w-lg rounded-[2.5rem] relative overflow-hidden shadow-2xl border border-white/40 dark:border-white/5">
               <div className="p-8">
-                 <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-8">Launch Hub</h3>
+                 <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-8">Create Community</h3>
                  <form onSubmit={handleCreateSubmit} className="space-y-6">
                     <input 
                       type="text" 
-                      placeholder="Hub Identity" 
+                      placeholder="Community Name" 
                       className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 outline-none text-slate-900 dark:text-white font-bold italic"
                       value={newCommunity.name}
                       onChange={e => setNewCommunity({...newCommunity, name: e.target.value})}
@@ -235,7 +235,7 @@ const Communities = () => {
                       {['Engineering', 'Technology', 'Business', 'Creative', 'General'].map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                     <textarea 
-                      placeholder="Manifesto" 
+                      placeholder="Description" 
                       rows={3}
                       className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 outline-none text-slate-900 dark:text-white font-bold italic"
                       value={newCommunity.description}
@@ -244,10 +244,10 @@ const Communities = () => {
                     />
                     <div className="flex gap-4">
                        <button type="submit" disabled={creating} className="flex-1 py-4 bg-blue-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl shadow-blue-500/20 active:scale-95 transition-all">
-                          {creating ? 'Initializing...' : 'Confirm Launch'}
+                          {creating ? 'Creating...' : 'Create'}
                        </button>
                        <button type="button" onClick={() => setIsModalOpen(false)} className="px-8 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 font-black uppercase tracking-widest text-xs rounded-2xl active:scale-95 transition-all">
-                          Abort
+                          Cancel
                        </button>
                     </div>
                  </form>

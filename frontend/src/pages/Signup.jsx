@@ -78,7 +78,7 @@ export default function Signup() {
               Join <span className="text-blue-600">Frontline.</span>
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic">
-              Plug into the premier social commerce network.
+              Create an account to get started.
             </p>
           </div>
 
@@ -123,14 +123,14 @@ export default function Signup() {
                 onClick={() => setFormData({...formData, role: 'user'})}
                 className={userBtnClass}
               >
-                I want to be a Buyer
+                I want to Buy
               </button>
               <button
                 type="button"
                 onClick={() => setFormData({...formData, role: 'seller'})}
                 className={sellerBtnClass}
               >
-                I want to be a Seller
+                I want to Sell
               </button>
             </div>
 
@@ -163,12 +163,12 @@ export default function Signup() {
               disabled={loading}
               className="w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-500/30 transform hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-6"
             >
-              {loading ? 'Initializing...' : 'Join the Network'}
+              {loading ? 'Creating Account...' : 'Create Account'}
             </button>
           </form>
 
           <p className="mt-10 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Identity already active?{' '}
+            Already have an account?{' '}
             <Link to="/login" className="text-blue-600 hover:text-blue-500 transition-colors">
               Sign In
             </Link>

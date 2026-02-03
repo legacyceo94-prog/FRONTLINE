@@ -47,7 +47,7 @@ export default function CreateCourse() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        setError('Authorization Required: Sign in to broadcast assets.');
+        setError('Please sign in to create a listing.');
         setLoading(false);
         return;
       }
@@ -69,7 +69,7 @@ export default function CreateCourse() {
       navigate('/marketplace');
     } catch (err) {
        console.error(err);
-       setError(err.response?.data?.msg || 'Broadcast Interrupted: Protocol Error.');
+       setError(err.response?.data?.msg || 'Error creating listing.');
     } finally {
       setLoading(false);
     }
@@ -83,20 +83,20 @@ export default function CreateCourse() {
         <div className="text-center mb-16">
            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full border border-blue-500/10 text-[10px] font-black uppercase tracking-widest mb-6">
               <SparklesIcon className="w-4 h-4" />
-              Asset Calibration Flow
+              Create Listing
            </div>
            <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none mb-6">
-             Broadcast <span className="text-blue-600">Competence.</span>
+             Create <span className="text-blue-600">Listing.</span>
            </h1>
            <p className="text-lg text-slate-500 dark:text-slate-400 font-medium italic">
-             Formalize your professional output into the global inventory stream.
+             List your services or products on the marketplace.
            </p>
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 overflow-hidden">
           <div className="px-10 py-8 border-b border-slate-50 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/50 flex items-center justify-between">
             <h2 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
-              {user?.businessType === 'product' ? 'Product Specification' : 'Service Manifest'}
+              {user?.businessType === 'product' ? 'Product Details' : 'Service Details'}
             </h2>
             <div className="flex items-center gap-2">
                {user?.businessType === 'product' ? <CubeIcon className="w-5 h-5 text-blue-600" /> : <RocketLaunchIcon className="w-5 h-5 text-blue-600" />}
@@ -114,7 +114,7 @@ export default function CreateCourse() {
             {/* Basic Info Matrix */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="md:col-span-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Identity Title</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Title</label>
                 <input
                   type="text"
                   name="title"
@@ -127,7 +127,7 @@ export default function CreateCourse() {
               </div>
 
               <div className={user?.businessType === 'product' ? 'md:col-span-2' : ''}>
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Network Sector</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Category</label>
                 <select
                   name="category"
                   className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-bold italic appearance-none cursor-pointer"
@@ -144,7 +144,7 @@ export default function CreateCourse() {
 
               {user?.businessType !== 'product' && (
                 <div>
-                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Competence Level</label>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Skill Level</label>
                   <select
                     name="skillLevel"
                     className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-bold italic appearance-none cursor-pointer"
@@ -163,7 +163,7 @@ export default function CreateCourse() {
             {/* Pricing Matrix */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div>
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Monetary Value (KES)</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Price (KES)</label>
                 <input
                   type="number"
                   name="price"
@@ -176,7 +176,7 @@ export default function CreateCourse() {
               </div>
                <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">
-                  {user?.businessType === 'product' ? 'Deployment / Stock' : 'Cycle Duration'}
+                  {user?.businessType === 'product' ? 'Stock' : 'Duration'}
                 </label>
                 <input
                   type="text"
@@ -192,7 +192,7 @@ export default function CreateCourse() {
             
             {/* Context Transmission */}
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Asset Mission (Description)</label>
+              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Description</label>
               <textarea
                 name="description"
                 rows={4}
@@ -207,7 +207,7 @@ export default function CreateCourse() {
             {/* Specifications Matrix */}
             <div>
               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">
-                {user?.businessType === 'product' ? 'Technical Specs' : 'Service Roadmap'} (One per line)
+                {user?.businessType === 'product' ? 'Specs' : 'Roadmap'} (One per line)
               </label>
               <textarea
                 name="curriculum"
@@ -221,14 +221,14 @@ export default function CreateCourse() {
 
             {/* Visual Signal (Flyer) */}
              <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Visual Transmission (Flyer)</label>
+               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Image</label>
               <div className="mt-2 flex flex-col md:flex-row items-center gap-8">
                 <label className="w-full h-40 flex flex-col items-center justify-center gap-4 rounded-[2.5rem] border-2 border-dashed border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer transition-all group/upload">
                   <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center text-slate-300 group-hover/upload:bg-blue-600 group-hover/upload:text-white transition-all shadow-lg shadow-black/5">
                      <PhotoIcon className="h-6 w-6" />
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover/upload:text-blue-600 transition-colors">
-                    {formData.flyerImage ? 'Signal Captured ✓' : 'Upload Broadcast Image'}
+                    {formData.flyerImage ? 'Image Uploaded ✓' : 'Upload Image'}
                   </span>
                   <input
                     type="file"
@@ -252,7 +252,7 @@ export default function CreateCourse() {
                   </div>
                 )}
               </div>
-              <p className="mt-6 text-[9px] font-black text-slate-400 uppercase tracking-widest italic text-center md:text-left">Upload your high-fidelity pricing asset (MAX 5MB)</p>
+              <p className="mt-6 text-[9px] font-black text-slate-400 uppercase tracking-widest italic text-center md:text-left">Upload your image (MAX 5MB)</p>
             </div>
 
             <div className="pt-10 border-t border-slate-50 dark:border-white/5 flex justify-end">
@@ -261,7 +261,7 @@ export default function CreateCourse() {
                 disabled={loading}
                 className="w-full md:w-auto px-12 py-5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.3em] rounded-2xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-500/30 active:scale-95 disabled:opacity-50"
               >
-                {loading ? 'Transmitting...' : 'Initiate Broadcast'}
+                {loading ? 'Saving...' : 'Create Listing'}
               </button>
             </div>
           </form>
