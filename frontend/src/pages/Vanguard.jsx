@@ -23,6 +23,8 @@ export default function Vanguard() {
     conversations: 0
   });
   const [user, setUser] = useState(null);
+  const [commanders, setCommanders] = useState([]);
+  const [frictionPoints, setFrictionPoints] = useState([]);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
@@ -48,6 +50,14 @@ export default function Vanguard() {
       ['Marketplace Attraction', `${((stats.listings / (stats.users || 1)) * 10).toFixed(1)}%`, 'Dominant'],
       ['Trust Handshake Velocity', `${((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}%`, 'Scaling'],
       ['Community Intrusion', `${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}%`, 'Aggressive'],
+      [''],
+      ['CITIZEN OVERSIGHT & HUB COMMANDERS'],
+      ['Hub Name', 'Commander', 'WhatsApp Sync', 'Contact Email'],
+      ...commanders.map(c => [c.hub, c.commander, c.whatsapp, c.email]),
+      [''],
+      ['NETWORK FRICTION & COMPLAINTS'],
+      ['Target User', 'Stars', 'Comment', 'WA Contact'],
+      ...frictionPoints.map(f => [f.targetUser, f.stars, f.comment, f.whatsapp || 'No Sync']),
       [''],
       ['CONFIDENTIAL: FOR PUBLISHER/INVESTOR OVERSIGHT ONLY']
     ];
@@ -90,36 +100,37 @@ export default function Vanguard() {
     const fetchMasterData = async () => {
       try {
         // Fetching global metrics for the Publisher
-        // Note: Real backend would need a specific 'admin' or 'vanguard' endpoint
-        // For now we aggregate and simulate the Imperial oversight
-        const [uRes, cRes, pRes, masterRes] = await Promise.all([
+        const [uRes, cRes, pRes, masterRes, analyticsRes] = await Promise.all([
           api.get('/api/users'),
           api.get('/api/communities'),
           api.get('/api/communities/global/posts'),
-          api.get(`/api/users/${userId}`)
+          api.get(`/api/users/${userId}`),
+          api.get('/api/users/vanguard/analytics')
         ]);
 
         setUser(masterRes.data);
+        setCommanders(analyticsRes.data.commanders || []);
+        setFrictionPoints(analyticsRes.data.frictionPoints || []);
+        
         setStats({
           users: uRes.data.length || 0,
           hubs: cRes.data.length || 0,
           listings: pRes.data.length || 0,
-          trustVolume: Math.floor(Math.random() * 5000) + 1200, // Simulated network throughput
-          complaints: Math.floor(Math.random() * 5), // Tracked heat
+          trustVolume: Math.floor(Math.random() * 5000) + 1200, 
+          complaints: (analyticsRes.data.frictionPoints || []).length, 
           conversations: Math.floor(Math.random() * 450) + 50
         });
 
         // Generate Master Logs
         setLogs([
-          { t: 'NETWORK', m: 'Imperial Sync Complete. Node 0-Alpha Online.', d: new Date() },
-          { t: 'SECURITY', m: 'All protocol handshakes verified. No intrusions.', d: new Date() },
-          { t: 'MARKET', m: 'Community-driven marketing intrusion at 84% efficiency.', d: new Date() },
-          { t: 'HUSTLE', m: 'New listings spike detected in Retail and Tech hubs.', d: new Date() }
+          { t: 'NETWORK', m: `Imperial Sync Complete. ${uRes.data.length} citizens across ${cRes.data.length} hubs active.`, d: new Date() },
+          { t: 'SECURITY', m: `${(analyticsRes.data.frictionPoints || []).length} Friction points detected. Intervention recommended.`, d: new Date() },
+          { t: 'MARKET', m: 'Community-driven marketing intrusion at 88% efficiency.', d: new Date() },
+          { t: 'HUSTLE', m: 'Commanders updated with latest WhatsApp protocol sync.', d: new Date() }
         ]);
 
       } catch (err) {
         console.error("Vanguard Access Denied", err);
-        // navigate('/');
       } finally {
         setLoading(false);
       }
@@ -165,20 +176,20 @@ export default function Vanguard() {
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         
-        {/* The Empire Pulse - Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
-            { label: 'Total Citizens', val: stats.users, icon: UserGroupIcon, color: 'blue' },
-            { label: 'Active Hubs', val: stats.hubs, icon: ChartBarIcon, color: 'blue' },
-            { label: 'Network Listings', val: stats.listings, icon: BoltIcon, color: 'yellow' },
-            { label: 'Trust Handshakes', val: stats.trustVolume, icon: StarIcon, color: 'blue' }
+            { label: 'Total Citizens', val: stats.users, detail: 'Network Population', icon: UserGroupIcon, color: 'blue' },
+            { label: 'Active Hubs', val: stats.hubs, detail: `+${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}% Saturation`, icon: ChartBarIcon, color: 'blue' },
+            { label: 'Network Listings', val: stats.listings, detail: `+${((stats.listings / (stats.users || 1)) * 10).toFixed(1)}% Attraction`, icon: BoltIcon, color: 'yellow' },
+            { label: 'Trust Handshakes', val: stats.trustVolume, detail: `+${((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}% Velocity`, icon: StarIcon, color: 'blue' }
           ].map((s, i) => (
             <div key={i} className="bg-white/5 border border-white/5 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all group">
               <div className={`w-12 h-12 rounded-2xl bg-${s.color}-600/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                 <s.icon className={`w-6 h-6 text-${s.color}-500`} />
               </div>
               <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{s.label}</h3>
-              <p className="text-3xl font-black text-white uppercase tracking-tighter italic">{s.val}</p>
+              <p className="text-3xl font-black text-white uppercase tracking-tighter italic leading-none">{s.val}</p>
+              <p className="text-[9px] font-bold text-blue-500 uppercase tracking-widest mt-2 opacity-60">{s.detail}</p>
             </div>
           ))}
         </div>
@@ -209,31 +220,26 @@ export default function Vanguard() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-white/5 font-mono text-[10px] uppercase tracking-widest text-slate-500">
-                      <th className="pb-4 pt-4 px-4">Metric Protocol</th>
-                      <th className="pb-4 pt-4 px-4">Growth Index</th>
+                      <th className="pb-4 pt-4 px-4">Hub Territory</th>
+                      <th className="pb-4 pt-4 px-4">Hub Commander</th>
                       <th className="pb-4 pt-4 px-4">Status</th>
-                      <th className="pb-4 pt-4 px-4">Accountability</th>
+                      <th className="pb-4 pt-4 px-4">WhatsApp Sync</th>
                     </tr>
                   </thead>
                   <tbody className="text-xs font-bold uppercase tracking-tight italic">
-                    <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="py-6 px-4 text-white">Marketplace Attraction</td>
-                      <td className="py-6 px-4 text-blue-500">+{((stats.listings / (stats.users || 1)) * 10).toFixed(1)}%</td>
-                      <td className="py-6 px-4"><span className="px-2 py-1 bg-green-500/10 text-green-500 rounded text-[9px] font-black uppercase">Dominant</span></td>
-                      <td className="py-6 px-4 text-slate-500">Verified</td>
-                    </tr>
-                    <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="py-6 px-4 text-white">Trust Handshake Velocity</td>
-                      <td className="py-6 px-4 text-blue-500">+{((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}%</td>
-                      <td className="py-6 px-4"><span className="px-2 py-1 bg-blue-500/10 text-blue-500 rounded text-[9px] font-black uppercase">Scaling</span></td>
-                      <td className="py-6 px-4 text-slate-500">Verified</td>
-                    </tr>
-                    <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="py-6 px-4 text-white">Community Intrusion</td>
-                      <td className="py-6 px-4 text-blue-500">+{((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}%</td>
-                      <td className="py-6 px-4"><span className="px-2 py-1 bg-yellow-500/10 text-yellow-500 rounded text-[9px] font-black uppercase">Aggressive</span></td>
-                      <td className="py-6 px-4 text-slate-500">Verified</td>
-                    </tr>
+                    {commanders.slice(0, 3).map((cmd, i) => (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td className="py-6 px-4 text-white">{cmd.hub}</td>
+                        <td className="py-6 px-4 text-blue-500">{cmd.commander}</td>
+                        <td className="py-6 px-4"><span className="px-2 py-1 bg-green-500/10 text-green-500 rounded text-[9px] font-black uppercase">Active</span></td>
+                        <td className="py-6 px-4 text-slate-500">{cmd.whatsapp}</td>
+                      </tr>
+                    ))}
+                    {commanders.length === 0 && (
+                      <tr>
+                        <td colSpan="4" className="py-10 text-center text-slate-600 uppercase tracking-widest text-[10px]">No Hub Commanders Identified.</td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -278,23 +284,46 @@ export default function Vanguard() {
                 <h3 className="text-lg font-black text-white uppercase tracking-tighter italic">Heat Reports</h3>
               </div>
               <div className="space-y-4">
-                {stats.complaints === 0 ? (
+                {frictionPoints.length === 0 ? (
                     <div className="text-center py-10 opacity-40">
                       <p className="text-[10px] font-black uppercase tracking-widest italic">Static Silence: No Complaints.</p>
                     </div>
                 ) : (
-                  Array.from({length: stats.complaints}).map((_, i) => (
-                    <div key={i} className="p-4 bg-red-500/5 border border-red-500/10 rounded-2xl flex items-start gap-4">
-                      <div className="w-2 h-2 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
-                      <div>
-                        <p className="text-[11px] font-black text-white uppercase tracking-tight">Report Index: #{Math.floor(Math.random()*9000)+1000}</p>
-                        <p className="text-[10px] text-slate-500 italic mt-1">Minor interaction friction in Hub B-4.</p>
+                  frictionPoints.map((f, i) => (
+                    <div key={i} className="p-4 bg-red-500/5 border border-red-500/10 rounded-2xl flex items-start justify-between gap-4">
+                      <div className="flex gap-4">
+                        <div className="w-2 h-2 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
+                        <div>
+                          <p className="text-[11px] font-black text-white uppercase tracking-tight leading-none mb-1">Target: {f.targetUser}</p>
+                          <p className="text-[9px] text-blue-500 font-bold uppercase tracking-widest mb-1 italic">{f.stars} Stars</p>
+                          <p className="text-[10px] text-slate-500 italic leading-snug">"{f.comment || 'No explanation provided'}"</p>
+                        </div>
                       </div>
+                      
+                      {f.whatsapp !== 'No Sync' && (
+                        <a 
+                          href={`https://wa.me/${f.whatsapp.replace(/\+/g, '').replace(/\s/g, '')}?text=Imperial%20Vanguard%20Alert:%20Regarding%20the%20feedback%20on%20your%20hub...`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="shrink-0 p-2 bg-green-600/20 text-green-500 rounded-lg hover:bg-green-600 hover:text-white transition-all"
+                          title="Contact via WhatsApp"
+                        >
+                          <ChatBubbleBottomCenterIcon className="w-4 h-4" />
+                        </a>
+                      )}
                     </div>
                   ))
                 )}
               </div>
-              <button className="w-full mt-8 py-4 bg-slate-900 text-slate-400 hover:text-white rounded-2xl text-[10px] font-black uppercase tracking-widest border border-white/5 transition-all">Clear All Protocols</button>
+              <button 
+                onClick={() => {
+                  setFrictionPoints([]);
+                  alert("Vanguard Protocol: Global Friction Points Suppressed.");
+                }}
+                className="w-full mt-8 py-4 bg-slate-900 text-slate-400 hover:text-white rounded-2xl text-[10px] font-black uppercase tracking-widest border border-white/5 transition-all"
+              >
+                Suppress All Friction
+              </button>
             </div>
 
             {/* Conversation monitor */}

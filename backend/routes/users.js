@@ -250,4 +250,47 @@ router.post('/:id/rate', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/users/vanguard/analytics
+// @desc    Deep-dive analytics for the Publisher (Commanders, WA contacts, Friction)
+// @access  Public (Should be admin-protected in production)
+router.get('/vanguard/analytics', async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    const Community = require('../models/Community');
+    const communities = await Community.find().populate('creator', 'username email sellerProfile');
+    
+    // Extract Hub Commanders (Sellers with Hubs)
+    const commanders = communities.map(c => ({
+      hub: c.name,
+      commander: c.creator?.username || 'Unknown',
+      whatsapp: c.creator?.sellerProfile?.phone || 'No Sync',
+      email: c.creator?.email || 'N/A'
+    }));
+
+    // Extract Friction Points (Ratings <= 2 stars)
+    const frictionPoints = users.reduce((acc, user) => {
+      const negativeRatings = user.ratings
+        .filter(r => r.stars <= 2)
+        .map(r => ({
+          targetUser: user.username,
+          stars: r.stars,
+          comment: r.comment,
+          whatsapp: user.sellerProfile?.phone || 'No Sync',
+          date: r.createdAt
+        }));
+      return [...acc, ...negativeRatings];
+    }, []);
+
+    res.json({
+      commanders,
+      frictionPoints,
+      totalUsers: users.length,
+      totalHubs: communities.length
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
