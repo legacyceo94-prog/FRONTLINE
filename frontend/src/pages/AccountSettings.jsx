@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserCircleIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon, ShieldCheckIcon, ClockIcon, StarIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon, ShieldCheckIcon, ClockIcon, StarIcon, BriefcaseIcon, BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
 export default function AccountSettings() {
