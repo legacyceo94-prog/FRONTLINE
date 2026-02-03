@@ -71,7 +71,7 @@ export default function SyncModal({ isOpen, onClose, course }) {
                   <LockClosedIcon className="w-10 h-10" />
                </div>
                <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic mb-2">Login Required.</h4>
-               <p className="text-xs text-slate-500 italic mb-10">You must be a verified citizen to sync with sellers.</p>
+               <p className="text-xs text-slate-500 italic mb-10">You must be a verified buyer to sync with sellers.</p>
                
                <button 
                  onClick={() => navigate('/login')}

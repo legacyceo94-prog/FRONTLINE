@@ -136,7 +136,7 @@ export default function Vanguard() {
         }));
 
         setLogs([
-          { t: 'NETWORK', m: `Imperial Sync Complete. ${uRes.data.length} citizens across ${cRes.data.length} hubs active.`, d: new Date() },
+          { t: 'NETWORK', m: `Imperial Sync Complete. ${uRes.data.length} buyers across ${cRes.data.length} hubs active.`, d: new Date() },
           ...syncLogs,
           { t: 'SECURITY', m: `${(analyticsRes.data.frictionPoints || []).length} Friction points detected. Intervention recommended.`, d: new Date() },
           { t: 'MARKET', m: 'Community-driven marketing intrusion at 88% efficiency.', d: new Date() },
@@ -202,10 +202,10 @@ export default function Vanguard() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
-            { label: 'Total Citizens', val: stats.users, detail: 'Global Network Population', icon: UserGroupIcon, color: 'blue' },
-            { label: 'Active Hubs', val: stats.hubs, detail: `${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)} Hubs per 100 citizens`, icon: ChartBarIcon, color: 'blue' },
-            { label: 'Network Listings', val: stats.listings, detail: `${(stats.listings / (stats.users || 1)).toFixed(1)} Listings per citizen`, icon: BoltIcon, color: 'yellow' },
-            { label: 'Trust Handshakes', val: stats.trustVolume, detail: `${(stats.trustVolume / (stats.users || 1)).toFixed(1)} Reviews per citizen`, icon: StarIcon, color: 'blue' }
+            { label: 'Total Buyers', val: stats.users, detail: 'Global Network Population', icon: UserGroupIcon, color: 'blue' },
+            { label: 'Active Hubs', val: stats.hubs, detail: `${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)} Hubs per 100 buyers`, icon: ChartBarIcon, color: 'blue' },
+            { label: 'Network Listings', val: stats.listings, detail: `${(stats.listings / (stats.users || 1)).toFixed(1)} Listings per buyer`, icon: BoltIcon, color: 'yellow' },
+            { label: 'Trust Handshakes', val: stats.trustVolume, detail: `${(stats.trustVolume / (stats.users || 1)).toFixed(1)} Reviews per buyer`, icon: StarIcon, color: 'blue' }
           ].map((s, i) => (
             <div key={i} className="bg-white/5 border border-white/5 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all group">
               <div className={`w-12 h-12 rounded-2xl bg-${s.color}-600/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
