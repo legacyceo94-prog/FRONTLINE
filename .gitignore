@@ -31,3 +31,16 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Internal Documentation & Sensitive Assets (Local Only)
+Documentation/
+ARCHITECTURE.md
+BREAKTHROUGH_INSIGHTS.md
+README.md
+Seminar.txt
+The progress.txt
+VISION.md
+Voice 260118 165946.txt
+frontend/README.md
+progress.txt
+WhatsApp Image 2026-01-21 at 11.34.58.jpeg
