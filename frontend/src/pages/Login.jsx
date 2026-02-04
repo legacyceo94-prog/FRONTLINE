@@ -48,7 +48,13 @@ export default function Login() {
       }
       window.location.reload();
     } catch (err) {
-      setError(err.response?.data?.errors?.[0]?.msg || 'Invalid credentials');
+      const errorMsg = 
+        err.response?.data?.errors?.[0]?.msg || 
+        err.response?.data?.msg || 
+        (typeof err.response?.data === 'string' ? err.response?.data : null) ||
+        err.message || 
+        'Login Failed';
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
