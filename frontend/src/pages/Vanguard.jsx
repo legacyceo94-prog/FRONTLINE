@@ -158,7 +158,7 @@ export default function Vanguard() {
         // Generate Master Logs
         const syncLogs = (analyticsRes.data.recentSyncs || []).map(sync => ({
            t: 'SYNC',
-           m: `Structural Handshake: ${sync.buyer?.username} sync'd with ${sync.seller?.username} for "${sync.item?.title}"`,
+           m: `Structural Handshake: ${sync.buyer?.username} sync'd with ${sync.seller?.username} for "${sync.item?.title || 'Asset'}"`,
            d: sync.createdAt
         }));
 
@@ -187,35 +187,46 @@ export default function Vanguard() {
   }, [navigate]);
 
   const handlePurgeAsset = async (assetId) => {
-    if (!window.confirm("Imperial Purge: Decommission this marketplace asset from the network?")) return;
+    const asset = masterInventory.find(a => a._id === assetId);
+    if (!window.confirm(`Imperial Purge: Decommission asset "${asset?.title || 'this item'}" from the network?`)) return;
     try {
       await api.delete(`/api/courses/${assetId}`);
       setMasterInventory(prev => prev.filter(a => a._id !== assetId));
+      setStats(prev => ({ ...prev, listings: prev.listings - 1 }));
+      setLogs(prev => [{ t: 'SECURITY', m: `Imperial Purge: Marketplace Asset "${asset?.title || assetId}" decommissioned.`, d: new Date() }, ...prev]);
     } catch (err) {
       alert("Purge Failed: " + (err.response?.data?.msg || "Unauthorized"));
     }
   };
 
   const handlePurgeHub = async (hubId) => {
-    if (!window.confirm("Imperial Dissolution: Permanently eradicate this Hub and all its broadcasts?")) return;
+    const hub = allHubs.find(h => h._id === hubId);
+    if (!window.confirm(`Imperial Dissolution: Permanently eradicate hub "${hub?.name || 'this territory'}" and all its broadcasts?`)) return;
     try {
       await api.delete(`/api/communities/${hubId}`);
       setAllHubs(prev => prev.filter(h => h._id !== hubId));
+      setStats(prev => ({ ...prev, hubs: prev.hubs - 1 }));
+      setLogs(prev => [{ t: 'SECURITY', m: `Imperial Dissolution: Hub Territory "${hub?.name || hubId}" eradicated.`, d: new Date() }, ...prev]);
     } catch (err) {
       alert("Dissolution Failed: " + (err.response?.data?.msg || "Unauthorized"));
     }
   };
 
   const handleEradicateUser = async (userId) => {
-    if (!window.confirm("Imperial Deep Wipe: Permanently eradicate this identity and all its structural records (posts, hubs, listings) from the network? This is IRREVERSIBLE.")) return;
+    const identify = [...merchantCommanders, ...serviceCommanders, ...bystanders].find(u => u._id === userId);
+    if (!window.confirm(`Imperial Deep Wipe: Permanently eradicate identity @${identify?.username || 'this user'} and all structural records? This is IRREVERSIBLE.`)) return;
     try {
       await api.delete(`/api/users/${userId}`);
       
-      // Update local state to reflect the erasure
-      setMerchantCommanders(prev => prev.filter(u => u.id !== userId));
-      setServiceCommanders(prev => prev.filter(u => u.id !== userId));
-      setBystanders(prev => prev.filter(u => u.id !== userId));
-      setFreshConverts(prev => prev.filter(u => u.id !== userId));
+      setMerchantCommanders(prev => prev.filter(u => u._id !== userId));
+      setServiceCommanders(prev => prev.filter(u => u._id !== userId));
+      setBystanders(prev => prev.filter(u => u._id !== userId));
+      setFreshConverts(prev => prev.filter(u => u._id !== userId));
+      
+      // Holistic Stat Update (since wipe removes all their content)
+      setUser(prev => prev); // Trigger re-render of current stats
+      setStats(prev => ({ ...prev, users: prev.users - 1 }));
+      setLogs(prev => [{ t: 'SECURITY', m: `Imperial Deep Wipe: Identity @${identify?.username || userId} erased from history.`, d: new Date() }, ...prev]);
       
       alert("Identity Eradicated. Clean slate achieved.");
     } catch (err) {
@@ -314,10 +325,10 @@ export default function Vanguard() {
                   {/* Personnel Tabs */}
                   <div className="flex p-1 bg-black/40 rounded-xl border border-white/10">
                      {[
-                        { id: 'merchants', label: 'Merchants' },
-                        { id: 'service', label: 'Service' },
-                        { id: 'audience', label: 'Audience' },
-                        { id: 'targets', label: 'Targets' },
+                        { id: 'merchants', label: `Merchants (${merchantCommanders.length})` },
+                        { id: 'service', label: `Service (${serviceCommanders.length})` },
+                        { id: 'audience', label: `Audience (${bystanders.length})` },
+                        { id: 'targets', label: `Targets (${freshConverts.length})` },
                      ].map(tab => (
                        <button
                          key={tab.id}
@@ -356,7 +367,7 @@ export default function Vanguard() {
                         <td className="py-6 px-4 text-slate-500 font-mono">{cmd.whatsapp}</td>
                         <td className="py-6 px-4">
                            <button 
-                             onClick={() => handleEradicateUser(cmd.id)}
+                             onClick={() => handleEradicateUser(cmd._id)}
                              className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
                            >
                              Eradicate
@@ -374,7 +385,7 @@ export default function Vanguard() {
                         <td className="py-6 px-4 text-slate-500 font-mono">{cmd.whatsapp}</td>
                         <td className="py-6 px-4">
                            <button 
-                             onClick={() => handleEradicateUser(cmd.id)}
+                             onClick={() => handleEradicateUser(cmd._id)}
                              className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
                            >
                              Eradicate
@@ -392,7 +403,7 @@ export default function Vanguard() {
                         <td className="py-6 px-4 text-slate-600">{user.email}</td>
                         <td className="py-6 px-4">
                            <button 
-                             onClick={() => handleEradicateUser(user.id)}
+                             onClick={() => handleEradicateUser(user._id)}
                              className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
                            >
                              Eradicate
@@ -414,7 +425,7 @@ export default function Vanguard() {
                         <td className="py-6 px-4 text-slate-500">{user.email}</td>
                         <td className="py-6 px-4">
                            <button 
-                             onClick={() => handleEradicateUser(user.id)}
+                             onClick={() => handleEradicateUser(user._id)}
                              className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
                            >
                              Eradicate
@@ -493,8 +504,8 @@ export default function Vanguard() {
                 {/* Inventory Tabs */}
                 <div className="flex p-1 bg-black/40 rounded-xl border border-white/10">
                    {[
-                      { id: 'marketplace', label: 'Marketplace Assets' },
-                      { id: 'hubs', label: 'Network Hubs' },
+                      { id: 'marketplace', label: `Marketplace Assets (${masterInventory.length})` },
+                      { id: 'hubs', label: `Network Hubs (${allHubs.length})` },
                    ].map(tab => (
                      <button
                        key={tab.id}

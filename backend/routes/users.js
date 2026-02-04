@@ -266,7 +266,7 @@ router.get('/vanguard/analytics', async (req, res) => {
     
     // 1. Group Commanders (Sellers) by Division
     const serviceCommanders = users.filter(u => u.role === 'seller' && u.businessType === 'service').map(u => ({
-      id: u._id,
+      _id: u._id,
       username: u.username,
       whatsapp: u.sellerProfile?.phone || 'No Sync',
       email: u.email,
@@ -275,7 +275,7 @@ router.get('/vanguard/analytics', async (req, res) => {
     }));
 
     const merchantCommanders = users.filter(u => u.role === 'seller' && u.businessType === 'product').map(u => ({
-      id: u._id,
+      _id: u._id,
       username: u.username,
       whatsapp: u.sellerProfile?.phone || 'No Sync',
       email: u.email,
@@ -285,7 +285,7 @@ router.get('/vanguard/analytics', async (req, res) => {
 
     // 2. Identify the Audience (Buyers)
     const bystanders = users.filter(u => u.role === 'user' || u.role === 'buyer').map(u => ({
-      id: u._id,
+      _id: u._id,
       username: u.username,
       email: u.email,
       joined: u.createdAt
@@ -297,7 +297,7 @@ router.get('/vanguard/analytics', async (req, res) => {
     
     // Logic: Users who are sellers AND (upgraded recently OR created account recently if no upgrade tag)
     const freshConverts = users.filter(u => u.role === 'seller' && new Date(u.upgradedAt || u.createdAt) > sevenDaysAgo).map(u => ({
-      id: u._id,
+      _id: u._id,
       username: u.username,
       type: u.businessType,
       email: u.email,
