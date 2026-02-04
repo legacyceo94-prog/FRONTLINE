@@ -92,18 +92,6 @@ function Home() {
                   </div>
                 </div>
 
-                <div className="space-y-4 pt-6 border-t border-slate-100 dark:border-white/5">
-                   <div className="flex justify-between items-end text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
-                      <span>Client Reputation</span>
-                      <span className={user?.trustScore > 0 ? "text-blue-500" : "text-slate-600"}>{user?.trustScore || 0}%</span>
-                   </div>
-                   <div className="w-full h-2 bg-slate-200 dark:bg-black rounded-full overflow-hidden border border-slate-100 dark:border-white/5">
-                      <div className={`h-full rounded-full transition-all duration-1000 ${user?.trustScore > 0 ? 'bg-blue-600' : 'bg-transparent'}`} style={{ width: `${Math.max(user?.trustScore || 0, 0)}%` }}></div>
-                    </div>
-                    {(!user?.trustScore || user.trustScore === 0) && (
-                      <p className="text-[9px] text-slate-500 text-center mt-2 italic">Rate producers to build your reputation.</p>
-                    )}
-                 </div>
 
                 <div className="mt-10">
                    <Link to="/communities" className="block w-full py-4 bg-slate-900 dark:bg-slate-950 text-white text-center text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl active:scale-95">
