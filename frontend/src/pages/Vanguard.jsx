@@ -35,6 +35,8 @@ export default function Vanguard() {
   const [masterInventory, setMasterInventory] = useState([]);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [allHubs, setAllHubs] = useState([]);
+  const [activeInventoryTab, setActiveInventoryTab] = useState('marketplace');
   const [exporting, setExporting] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
   const navigate = useNavigate();
@@ -138,6 +140,7 @@ export default function Vanguard() {
         setMerchantCommanders(analyticsRes.data.merchantCommanders || []);
         setBystanders(analyticsRes.data.bystanders || []);
         setFreshConverts(analyticsRes.data.freshConverts || []);
+        setAllHubs(analyticsRes.data.allHubs || []);
 
         setFrictionPoints(analyticsRes.data.frictionPoints || []);
         setRecentSyncs(analyticsRes.data.recentSyncs || []);
@@ -182,6 +185,26 @@ export default function Vanguard() {
 
     return () => clearInterval(timer);
   }, [navigate]);
+
+  const handlePurgeAsset = async (assetId) => {
+    if (!window.confirm("Imperial Purge: Decommission this marketplace asset from the network?")) return;
+    try {
+      await api.delete(`/api/courses/${assetId}`);
+      setMasterInventory(prev => prev.filter(a => a._id !== assetId));
+    } catch (err) {
+      alert("Purge Failed: " + (err.response?.data?.msg || "Unauthorized"));
+    }
+  };
+
+  const handlePurgeHub = async (hubId) => {
+    if (!window.confirm("Imperial Dissolution: Permanently eradicate this Hub and all its broadcasts?")) return;
+    try {
+      await api.delete(`/api/communities/${hubId}`);
+      setAllHubs(prev => prev.filter(h => h._id !== hubId));
+    } catch (err) {
+      alert("Dissolution Failed: " + (err.response?.data?.msg || "Unauthorized"));
+    }
+  };
 
   if (loading) return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center">
@@ -408,15 +431,28 @@ export default function Vanguard() {
 
             <div className="mt-10"></div>
 
-            {/* Master Network Inventory - Locating every Asset with Price */}
+            {/* Imperial Inventory Matrix (Moderator View) */}
             <div className="bg-white/5 rounded-[3rem] border border-white/5 p-10">
-              <div className="flex items-center justify-between mb-10">
+              <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
                 <div>
-                  <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Master Network Inventory</h2>
-                  <p className="text-xs text-slate-500 font-medium italic">Full ledger of assets, KRA records, and priced listings.</p>
+                  <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Imperial Inventory Matrix</h2>
+                  <p className="text-xs text-slate-500 font-medium italic">Master Ledger of all Assets and Territories.</p>
                 </div>
-                <div className="px-4 py-2 bg-yellow-500/10 rounded-full border border-yellow-500/20">
-                   <span className="text-[9px] font-black text-yellow-500 uppercase tracking-widest">{stats.listings} Assets Live</span>
+                
+                {/* Inventory Tabs */}
+                <div className="flex p-1 bg-black/40 rounded-xl border border-white/10">
+                   {[
+                      { id: 'marketplace', label: 'Marketplace Assets' },
+                      { id: 'hubs', label: 'Network Hubs' },
+                   ].map(tab => (
+                     <button
+                       key={tab.id}
+                       onClick={() => setActiveInventoryTab(tab.id)}
+                       className={`px-4 py-2 text-[9px] font-black uppercase tracking-widest rounded-lg transition-all ${activeInventoryTab === tab.id ? 'bg-yellow-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                     >
+                       {tab.label}
+                     </button>
+                   ))}
                 </div>
               </div>
               
@@ -424,14 +460,15 @@ export default function Vanguard() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-white/5 font-mono text-[10px] uppercase tracking-widest text-slate-500">
-                      <th className="pb-4 pt-4 px-4">Asset / Item</th>
-                      <th className="pb-4 pt-4 px-4">Provider (Seller)</th>
-                      <th className="pb-4 pt-4 px-4">Price (KES)</th>
-                      <th className="pb-4 pt-4 px-4">Category</th>
+                      <th className="pb-4 pt-4 px-4">{activeInventoryTab === 'marketplace' ? 'Asset Name' : 'Hub Territory'}</th>
+                      <th className="pb-4 pt-4 px-4">Provider / Creator</th>
+                      <th className="pb-4 pt-4 px-4">{activeInventoryTab === 'marketplace' ? 'Price / Category' : 'Members / Active'}</th>
+                      <th className="pb-4 pt-4 px-4">Purge Protocol</th>
                     </tr>
                   </thead>
                   <tbody className="text-xs font-bold uppercase tracking-tight italic">
-                    {masterInventory.slice(0, 10).map((item, i) => (
+                    {/* MARKETPLACE ASSETS */}
+                    {activeInventoryTab === 'marketplace' && masterInventory.map((item, i) => (
                       <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                         <td className="py-6 px-4 text-white">
                            <div className="flex flex-col">
@@ -441,19 +478,45 @@ export default function Vanguard() {
                         </td>
                         <td className="py-6 px-4 text-blue-500">@{item.seller?.username}</td>
                         <td className="py-6 px-4 text-yellow-500 font-mono">
-                           {item.skuDetails?.price?.toLocaleString()} /-
+                           {item.skuDetails?.price?.toLocaleString()} /- <br/>
+                           <span className="text-[8px] text-slate-600 uppercase tracking-widest">{item.category}</span>
                         </td>
                         <td className="py-6 px-4">
-                           <span className="px-2 py-1 bg-white/5 text-slate-400 rounded text-[9px] font-black uppercase">
-                             {item.category}
-                           </span>
+                           <button 
+                             onClick={() => handlePurgeAsset(item._id)}
+                             className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
+                           >
+                             Purge Asset
+                           </button>
                         </td>
                       </tr>
                     ))}
-                    {masterInventory.length === 0 && (
-                      <tr>
-                        <td colSpan="4" className="py-10 text-center text-slate-600 uppercase tracking-widest text-[10px]">Depleted Stock: No Assets identified in the matrix.</td>
+
+                    {/* NETWORK HUBS */}
+                    {activeInventoryTab === 'hubs' && allHubs.map((hub, i) => (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td className="py-6 px-4 text-white">{hub.name}</td>
+                        <td className="py-6 px-4 text-purple-500">@{hub.creator?.username}</td>
+                        <td className="py-6 px-4">
+                           <span className="text-white">{hub.members?.length || 0} Members</span> <br/>
+                           <span className="text-[8px] text-slate-600 uppercase tracking-widest">{hub.category} Hub</span>
+                        </td>
+                        <td className="py-6 px-4">
+                           <button 
+                             onClick={() => handlePurgeHub(hub._id)}
+                             className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
+                           >
+                              Dissolve Hub
+                           </button>
+                        </td>
                       </tr>
+                    ))}
+
+                    {masterInventory.length === 0 && activeInventoryTab === 'marketplace' && (
+                      <tr><td colSpan="4" className="py-10 text-center text-slate-600 italic">No Marketplace Assets Live.</td></tr>
+                    )}
+                    {allHubs.length === 0 && activeInventoryTab === 'hubs' && (
+                      <tr><td colSpan="4" className="py-10 text-center text-slate-600 italic">No Network Hubs Active.</td></tr>
                     )}
                   </tbody>
                 </table>

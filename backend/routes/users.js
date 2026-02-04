@@ -336,6 +336,7 @@ router.get('/vanguard/analytics', async (req, res) => {
       frictionPoints,
       totalUsers: users.length,
       totalHubs: communities.length,
+      allHubs: communities,
       totalHandshakes,
       totalConversations,
       recentSyncs: recentConnections
