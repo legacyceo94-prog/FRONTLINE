@@ -25,6 +25,22 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/connections/me
+// @desc    Get current user's (seller) incoming handshakes
+// @access  Private
+router.get('/me', auth, async (req, res) => {
+  try {
+    const connections = await Connection.find({ seller: req.user.id })
+      .populate('buyer', 'username profileImage email')
+      .populate('item', 'title')
+      .sort({ createdAt: -1 });
+    res.json(connections);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET api/connections/vanguard
 // @desc    Get all connections for Vanguard oversight
 // @access  Public (Should be admin/vanguard protected)

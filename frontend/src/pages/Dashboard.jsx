@@ -32,6 +32,7 @@ export default function Dashboard() {
   const [newHub, setNewHub] = useState({ name: '', description: '', category: 'General', image: '' });
   const [creating, setCreating] = useState(false);
   const [receptionType, setReceptionType] = useState('ratings'); // 'ratings' or 'comments'
+  const [myConnections, setMyConnections] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,10 +54,11 @@ export default function Dashboard() {
         
         // Execute all studio data fetches in parallel (Parallel Pulse)
         // Using centralized API: URLs are clean, Auth is automatic.
-        const [userRes, hubsRes, postsRes] = await Promise.all([
+        const [userRes, hubsRes, postsRes, connectionsRes] = await Promise.all([
           api.get(`/api/users/${userId}`),
           api.get('/api/communities/me'),
-          api.get(`/api/users/${userId}/posts`)
+          api.get(`/api/users/${userId}/posts`),
+          api.get('/api/connections/me')
         ]);
 
 
@@ -64,6 +66,7 @@ export default function Dashboard() {
         setUser(userRes.data);
         setMyHubs(Array.isArray(hubsRes.data) ? hubsRes.data : []);
         setMyPosts(Array.isArray(postsRes.data) ? postsRes.data : []);
+        setMyConnections(Array.isArray(connectionsRes.data) ? connectionsRes.data : []);
       } catch (err) {
         console.error("Dashboard data load error:", err);
         if (err.response?.status === 401 || err.response?.status === 404) {
@@ -145,6 +148,49 @@ export default function Dashboard() {
                 <div className="flex items-center gap-2 text-blue-500">
                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                    <span className="text-sm font-bold uppercase tracking-tighter">Operational</span>
+                </div>
+             </div>
+
+             {/* Incoming Handshake Ledger - Synchronized with Sync Protocol */}
+             <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-white/5 shadow-sm">
+                <div className="flex items-center justify-between mb-8">
+                   <div>
+                      <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest italic mb-2">Live Handshakes</h3>
+                      <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tighter">Sync Protocol Connectivity</p>
+                   </div>
+                   <div className="px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20">
+                      <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest">{myConnections.length} Protocols</span>
+                   </div>
+                </div>
+
+                <div className="space-y-4">
+                   {myConnections.slice(0, 5).map((sync, i) => (
+                      <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/50 border border-slate-100 dark:border-white/5 group hover:border-blue-500/20 transition-all">
+                         <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-900 flex items-center justify-center border border-slate-100 dark:border-white/10 shadow-sm">
+                            {sync.buyer?.profileImage ? (
+                               <img src={sync.buyer.profileImage} className="w-full h-full object-cover rounded-xl" alt="" />
+                            ) : (
+                               <UserGroupIcon className="w-5 h-5 text-slate-300" />
+                            )}
+                         </div>
+                         <div className="flex-1 min-w-0">
+                            <h4 className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tighter truncate">
+                               @{sync.buyer?.username} <span className="text-slate-400 font-bold lowercase tracking-normal">initiated a sync</span>
+                            </h4>
+                            <p className="text-[9px] font-black text-blue-500 uppercase tracking-widest mt-1">Ref: {sync.item?.title || 'Unknown Asset'}</p>
+                         </div>
+                         <div className="text-right">
+                            <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block">{new Date(sync.createdAt).toLocaleDateString()}</span>
+                            <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 rounded text-[7px] font-black uppercase tracking-widest mt-1 inline-block">{sync.purpose}</span>
+                         </div>
+                      </div>
+                   ))}
+                   {myConnections.length === 0 && (
+                      <div className="py-12 text-center bg-slate-50 dark:bg-slate-950/50 rounded-3xl border border-dashed border-slate-200 dark:border-white/5">
+                         <ShieldCheckIcon className="w-8 h-8 mx-auto mb-3 text-slate-200" />
+                         <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest italic tracking-widest">No Active Sync Protocols.</p>
+                      </div>
+                   )}
                 </div>
              </div>
           </div>
@@ -271,7 +317,7 @@ export default function Dashboard() {
                      </p>
                    </div>
                    <div className="flex flex-col">
-                     <p className="text-3xl font-black tracking-tighter text-blue-400">{user?.ratings?.length || 0}</p>
+                     <p className="text-3xl font-black tracking-tighter text-blue-400">{myConnections.length}</p>
                      <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mt-1">
                        {user?.businessType === 'product' ? 'Total Orders' : 'Total Handshakes'}
                      </p>
