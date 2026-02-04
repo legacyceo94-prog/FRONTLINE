@@ -118,4 +118,17 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/courses/me
+// @desc    Get current user's (seller) listed assets
+// @access  Private
+router.get('/me', auth, async (req, res) => {
+  try {
+    const courses = await Course.find({ seller: req.user.id }).sort({ createdAt: -1 });
+    res.json(courses);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

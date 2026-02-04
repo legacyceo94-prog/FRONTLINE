@@ -29,6 +29,7 @@ export default function Dashboard() {
   const [isHubModalOpen, setIsHubModalOpen] = useState(false);
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
   const [myPosts, setMyPosts] = useState([]);
+  const [myListings, setMyListings] = useState([]);
   const [newHub, setNewHub] = useState({ name: '', description: '', category: 'General', image: '' });
   const [creating, setCreating] = useState(false);
   const [receptionType, setReceptionType] = useState('ratings'); // 'ratings' or 'comments'
@@ -54,11 +55,12 @@ export default function Dashboard() {
         
         // Execute all studio data fetches in parallel (Parallel Pulse)
         // Using centralized API: URLs are clean, Auth is automatic.
-        const [userRes, hubsRes, postsRes, connectionsRes] = await Promise.all([
+        const [userRes, hubsRes, postsRes, connectionsRes, listingsRes] = await Promise.all([
           api.get(`/api/users/${userId}`),
           api.get('/api/communities/me'),
           api.get(`/api/users/${userId}/posts`),
-          api.get('/api/connections/me')
+          api.get('/api/connections/me'),
+          api.get('/api/courses/me')
         ]);
 
 
@@ -67,6 +69,7 @@ export default function Dashboard() {
         setMyHubs(Array.isArray(hubsRes.data) ? hubsRes.data : []);
         setMyPosts(Array.isArray(postsRes.data) ? postsRes.data : []);
         setMyConnections(Array.isArray(connectionsRes.data) ? connectionsRes.data : []);
+        setMyListings(Array.isArray(listingsRes.data) ? listingsRes.data : []);
       } catch (err) {
         console.error("Dashboard data load error:", err);
         if (err.response?.status === 401 || err.response?.status === 404) {
@@ -571,12 +574,13 @@ export default function Dashboard() {
                          <span className="animate-pulse">●</span> LIVE_RECEPTION_ACTIVE
                       </div>
                       <div className="space-y-2">
-                         {[
-                            ...(myPosts || []).map(p => ({ t: 'DEPLOY', msg: `Asset [${p.title}] verified and live.`, d: p.createdAt })),
-                            ...(user?.ratings || []).map(r => ({ t: 'FEEDBACK', msg: `Received ${r.stars}★ reception from client channel.`, d: r.createdAt })),
-                            ...(myHubs || []).map(h => ({ t: 'PROTOCOL', msg: `Hub [${h.name}] established on the network.`, d: h.createdAt || new Date() })),
-                            { t: 'SYSTEM', msg: `Network Trust: ${user?.trustScore || 0}% Authority Sync Complete.`, d: new Date() }
-                         ].sort((a,b) => new Date(b.d) - new Date(a.d)).map((log, i) => (
+                          {[
+                             ...(myPosts || []).map(p => ({ t: 'BROADCAST', msg: `Hub proof [${p.title}] live in ${p.community?.name || 'Network'}.`, d: p.createdAt })),
+                             ...(myListings || []).map(l => ({ t: 'ASSET', msg: `Marketplace Listing [${l.title}] verified.`, d: l.createdAt })),
+                             ...(user?.ratings || []).map(r => ({ t: 'FEEDBACK', msg: `Received ${r.stars}★ reception from client channel.`, d: r.createdAt })),
+                             ...(myHubs || []).map(h => ({ t: 'PROTOCOL', msg: `Hub [${h.name}] established on the network.`, d: h.createdAt || new Date() })),
+                             { t: 'SYSTEM', msg: `Network Trust: ${user?.trustScore || 0}% Authority Sync Complete.`, d: new Date() }
+                          ].sort((a,b) => new Date(b.d) - new Date(a.d)).map((log, i) => (
                             <div key={i} className="flex gap-3 text-slate-400 hover:text-white transition-colors">
                                <span className="text-slate-600">[{new Date(log.d).toLocaleTimeString()}]</span>
                                <span className="text-blue-500 font-bold">{log.t}:</span>
@@ -656,10 +660,50 @@ export default function Dashboard() {
 
                {/* Asset List */}
                <div>
-                  <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-6 flex items-center gap-2">
-                     <div className="w-4 h-[1px] bg-slate-200 dark:bg-slate-800"></div>
-                     Active Listings
-                  </h5>
+                      <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-6 flex items-center gap-2">
+                         <div className="w-4 h-[1px] bg-slate-200 dark:bg-slate-800"></div>
+                         Commercial Listings
+                      </h5>
+                      
+                      {(!Array.isArray(myListings) || myListings.length === 0) ? (
+                        <div className="py-12 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-[2rem] mb-10">
+                           <DocumentDuplicateIcon className="w-10 h-10 text-slate-200 dark:text-slate-800 mx-auto mb-4" />
+                           <p className="text-xs text-slate-400 font-bold italic">No active marketplace assets.</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-4 mb-10">
+                           {myListings.map(item => (
+                             <div key={item._id} className="p-5 rounded-3xl bg-blue-500/5 border border-blue-500/10 flex items-center gap-4 group hover:border-blue-500 transition-all">
+                                <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-800 overflow-hidden flex-shrink-0">
+                                   {item.media?.flyerImage ? (
+                                     <img src={item.media.flyerImage} alt="" className="w-full h-full object-cover" />
+                                   ) : (
+                                     <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                        <CubeIcon className="w-6 h-6" />
+                                     </div>
+                                   )}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                   <div className="flex items-center gap-2 mb-1">
+                                      <span className="text-[8px] font-black bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase tracking-widest">Marketplace</span>
+                                   </div>
+                                   <h6 className="font-bold text-slate-900 dark:text-white truncate uppercase tracking-tight">{item.title}</h6>
+                                   <div className="flex items-center gap-2 mt-1">
+                                      <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">KES {item.skuDetails?.price?.toLocaleString()}</span>
+                                   </div>
+                                </div>
+                                <button className="p-2 text-slate-300 hover:text-red-500 transition-colors">
+                                   <XMarkIcon className="w-5 h-5" />
+                                </button>
+                             </div>
+                           ))}
+                        </div>
+                      )}
+
+                      <h5 className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-6 flex items-center gap-2">
+                         <div className="w-4 h-[1px] bg-slate-200 dark:bg-slate-800"></div>
+                         Community Proofs
+                      </h5>
                   
                   {(!Array.isArray(myPosts) || myPosts.length === 0) ? (
                     <div className="py-20 text-center border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-[2rem]">
