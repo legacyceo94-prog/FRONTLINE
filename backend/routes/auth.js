@@ -231,6 +231,7 @@ router.post('/upgrade', auth, async (req, res) => {
 
     user.role = 'seller';
     user.businessType = businessType;
+    user.upgradedAt = Date.now();
     await user.save();
 
     // Return updated user (excluding password)

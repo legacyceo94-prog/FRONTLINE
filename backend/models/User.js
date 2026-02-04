@@ -26,6 +26,9 @@ const UserSchema = new mongoose.Schema({
     enum: ['service', 'product', 'none'],
     default: 'none'
   },
+  upgradedAt: {
+    type: Date
+  },
   location: {
     type: String,
     default: ''

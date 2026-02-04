@@ -24,7 +24,12 @@ export default function Vanguard() {
     conversations: 0
   });
   const [user, setUser] = useState(null);
-  const [commanders, setCommanders] = useState([]);
+  const [serviceCommanders, setServiceCommanders] = useState([]);
+  const [merchantCommanders, setMerchantCommanders] = useState([]);
+  const [bystanders, setBystanders] = useState([]);
+  const [freshConverts, setFreshConverts] = useState([]);
+  const [activePersonnelTab, setActivePersonnelTab] = useState('merchants');
+
   const [frictionPoints, setFrictionPoints] = useState([]);
   const [recentSyncs, setRecentSyncs] = useState([]);
   const [masterInventory, setMasterInventory] = useState([]);
@@ -55,9 +60,21 @@ export default function Vanguard() {
       ['Trust Handshake Velocity', `${((stats.trustVolume / (stats.users || 1)) / 10).toFixed(1)}%`, 'Scaling'],
       ['Community Intrusion', `${((stats.hubs / (stats.users || 1)) * 100).toFixed(1)}%`, 'Aggressive'],
       [''],
-      ['BUYER OVERSIGHT & HUB COMMANDERS'],
-      ['Hub Name', 'Commander', 'WhatsApp Sync', 'Contact Email'],
-      ...commanders.map(c => [c.hub, c.commander, c.whatsapp, c.email]),
+      ['STORE MERCHANTS (PRODUCT COMMANDERS)'],
+      ['Username', 'Trust Score', 'WhatsApp Sync', 'Contact Email'],
+      ...merchantCommanders.map(c => [c.username, c.trust + '%', c.whatsapp, c.email]),
+      [''],
+      ['SERVICE BUREAU (SPECIALIST COMMANDERS)'],
+      ['Username', 'Trust Score', 'WhatsApp Sync', 'Contact Email'],
+      ...serviceCommanders.map(c => [c.username, c.trust + '%', c.whatsapp, c.email]),
+      [''],
+      ['THE AUDIENCE (ACTIVE BUYERS)'],
+      ['Username', 'Joined Date', 'Contact Email'],
+      ...bystanders.map(c => [c.username, new Date(c.joined).toLocaleDateString(), c.email]),
+      [''],
+      ['GROWTH TARGETS (RECENT CONVERSIONS)'],
+      ['Username', 'Type', 'Joined Date', 'Contact Email'],
+      ...freshConverts.map(c => [c.username, c.type, new Date(c.joined).toLocaleDateString(), c.email]),
       [''],
       ['NETWORK FRICTION & COMPLAINTS'],
       ['Target User', 'Stars', 'Comment', 'WA Contact'],
@@ -117,7 +134,11 @@ export default function Vanguard() {
         ]);
 
         setUser(masterRes.data);
-        setCommanders(analyticsRes.data.commanders || []);
+        setServiceCommanders(analyticsRes.data.serviceCommanders || []);
+        setMerchantCommanders(analyticsRes.data.merchantCommanders || []);
+        setBystanders(analyticsRes.data.bystanders || []);
+        setFreshConverts(analyticsRes.data.freshConverts || []);
+
         setFrictionPoints(analyticsRes.data.frictionPoints || []);
         setRecentSyncs(analyticsRes.data.recentSyncs || []);
         setMasterInventory(pRes.data || []);
@@ -232,47 +253,107 @@ export default function Vanguard() {
           {/* Main Logs Area */}
           <div className="lg:col-span-8 space-y-10">
             
-            {/* Real-time Heat Analytics (Placeholder for report generation) */}
-            <div className="bg-white/5 rounded-[3rem] border border-white/5 p-10">
-              <div className="flex items-center justify-between mb-10">
+            {/* Imperial Personnel Matrix */}
+            <div className="bg-white/5 rounded-[3rem] border border-white/5 p-10 min-h-[500px]">
+              <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
                 <div>
-                  <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Project Accountability</h2>
-                  <p className="text-xs text-slate-500 font-medium italic">Data-driven oversight for investors and expansion.</p>
+                  <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Imperial Personnel Matrix</h2>
+                  <p className="text-xs text-slate-500 font-medium italic">Categorized hierarchy of all network participants.</p>
                 </div>
-                <button 
-                  onClick={handleExportReport}
-                  disabled={exporting}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 transition-all active:scale-95 disabled:opacity-50"
-                >
-                  <ArrowDownTrayIcon className="w-4 h-4" />
-                  {exporting ? 'Compiling Matrix...' : 'Generate Excel Report'}
-                </button>
+                
+                <div className="flex flex-col md:flex-row items-center gap-4">
+                  <button 
+                    onClick={handleExportReport}
+                    disabled={exporting}
+                    className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-slate-200 hover:text-white rounded-xl text-[9px] font-black uppercase tracking-widest border border-white/5 transition-all shadow-lg active:scale-95 disabled:opacity-50"
+                  >
+                    <ArrowDownTrayIcon className="w-4 h-4" />
+                    {exporting ? '...' : 'Export CSV'}
+                  </button>
+
+                  {/* Personnel Tabs */}
+                  <div className="flex p-1 bg-black/40 rounded-xl border border-white/10">
+                     {[
+                        { id: 'merchants', label: 'Merchants' },
+                        { id: 'service', label: 'Service' },
+                        { id: 'audience', label: 'Audience' },
+                        { id: 'targets', label: 'Targets' },
+                     ].map(tab => (
+                       <button
+                         key={tab.id}
+                         onClick={() => setActivePersonnelTab(tab.id)}
+                         className={`px-4 py-2 text-[9px] font-black uppercase tracking-widest rounded-lg transition-all ${activePersonnelTab === tab.id ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}
+                       >
+                         {tab.label}
+                       </button>
+                     ))}
+                  </div>
+                </div>
               </div>
               
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-white/5 font-mono text-[10px] uppercase tracking-widest text-slate-500">
-                      <th className="pb-4 pt-4 px-4">Hub Territory</th>
-                      <th className="pb-4 pt-4 px-4">Hub Commander</th>
-                      <th className="pb-4 pt-4 px-4">Status</th>
-                      <th className="pb-4 pt-4 px-4">WhatsApp Sync</th>
+                      <th className="pb-4 pt-4 px-4">Identity</th>
+                      <th className="pb-4 pt-4 px-4">
+                        {activePersonnelTab === 'audience' ? 'Join Date' : 'Trust Score'}
+                      </th>
+                      <th className="pb-4 pt-4 px-4">
+                        {activePersonnelTab === 'targets' ? 'Conversion Type' : 'Status'}
+                      </th>
+                      <th className="pb-4 pt-4 px-4">Contact Protocol</th>
                     </tr>
                   </thead>
                   <tbody className="text-xs font-bold uppercase tracking-tight italic">
-                    {commanders.slice(0, 3).map((cmd, i) => (
-                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                        <td className="py-6 px-4 text-white">{cmd.hub}</td>
-                        <td className="py-6 px-4 text-blue-500">{cmd.commander}</td>
-                        <td className="py-6 px-4"><span className="px-2 py-1 bg-green-500/10 text-green-500 rounded text-[9px] font-black uppercase">Active</span></td>
-                        <td className="py-6 px-4 text-slate-500">{cmd.whatsapp}</td>
+                    {/* MERCHANTS TAB */}
+                    {activePersonnelTab === 'merchants' && merchantCommanders.map((cmd, i) => (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                        <td className="py-6 px-4 text-white group-hover:text-blue-400 transition-colors">@{cmd.username}</td>
+                        <td className="py-6 px-4 text-blue-500">{cmd.trust}% Verification</td>
+                        <td className="py-6 px-4"><span className="px-2 py-1 bg-blue-500/10 text-blue-500 rounded text-[9px] font-black uppercase">Active Stock</span></td>
+                        <td className="py-6 px-4 text-slate-500 font-mono">{cmd.whatsapp}</td>
                       </tr>
                     ))}
-                    {commanders.length === 0 && (
-                      <tr>
-                        <td colSpan="4" className="py-10 text-center text-slate-600 uppercase tracking-widest text-[10px]">No Hub Commanders Identified.</td>
+
+                    {/* SERVICE TAB */}
+                    {activePersonnelTab === 'service' && serviceCommanders.map((cmd, i) => (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                        <td className="py-6 px-4 text-white group-hover:text-purple-400 transition-colors">@{cmd.username}</td>
+                        <td className="py-6 px-4 text-purple-500">{cmd.trust}% Competence</td>
+                        <td className="py-6 px-4"><span className="px-2 py-1 bg-purple-500/10 text-purple-500 rounded text-[9px] font-black uppercase">On Duty</span></td>
+                        <td className="py-6 px-4 text-slate-500 font-mono">{cmd.whatsapp}</td>
                       </tr>
-                    )}
+                    ))}
+
+                    {/* AUDIENCE TAB (BUYERS) */}
+                    {activePersonnelTab === 'audience' && bystanders.map((user, i) => (
+                       <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td className="py-6 px-4 text-slate-300">@{user.username}</td>
+                        <td className="py-6 px-4 text-slate-500">{new Date(user.joined).toLocaleDateString()}</td>
+                        <td className="py-6 px-4"><span className="px-2 py-1 bg-white/5 text-slate-500 rounded text-[9px] font-black uppercase">Consumer</span></td>
+                        <td className="py-6 px-4 text-slate-600">{user.email}</td>
+                      </tr>
+                    ))}
+
+                     {/* TARGETS TAB (RECENT CONVERSIONS) */}
+                     {activePersonnelTab === 'targets' && freshConverts.map((user, i) => (
+                       <tr key={i} className="border-b border-white/5 hover:bg-green-900/10 transition-colors">
+                        <td className="py-6 px-4 text-green-400">@{user.username}</td>
+                        <td className="py-6 px-4 text-slate-400">{new Date(user.joined).toLocaleDateString()}</td>
+                        <td className="py-6 px-4">
+                           <span className="px-2 py-1 bg-green-500/20 text-green-500 rounded text-[9px] font-black uppercase animate-pulse">
+                              {user.type === 'product' ? 'New Merchant' : 'New Specialist'}
+                           </span>
+                        </td>
+                        <td className="py-6 px-4 text-slate-500">{user.email}</td>
+                      </tr>
+                    ))}
+
+                    {/* EMPTY STATES */}
+                    {activePersonnelTab === 'merchants' && merchantCommanders.length === 0 && <tr><td colSpan="4" className="py-10 text-center text-slate-600">No Merchants Deployed.</td></tr>}
+                    {activePersonnelTab === 'service' && serviceCommanders.length === 0 && <tr><td colSpan="4" className="py-10 text-center text-slate-600">No Service Bureaus Active.</td></tr>}
+                    {activePersonnelTab === 'targets' && freshConverts.length === 0 && <tr><td colSpan="4" className="py-10 text-center text-slate-600">No Recent Conversions Detected.</td></tr>}
                   </tbody>
                 </table>
               </div>

@@ -85,6 +85,7 @@ router.patch('/:id/upgrade-seller', auth, async (req, res) => {
 
     // Upgrade to seller
     user.role = 'seller';
+    user.upgradedAt = Date.now();
     await user.save();
 
     res.json({ msg: 'Successfully upgraded to seller', role: 'seller' });
@@ -255,21 +256,49 @@ router.post('/:id/rate', auth, async (req, res) => {
 // @access  Public (Should be admin-protected in production)
 router.get('/vanguard/analytics', async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
     const Community = require('../models/Community');
     const communities = await Community.find().populate('creator', 'username email sellerProfile');
     
-    // Extract Hub Commanders (Sellers with Hubs)
-    const commanders = communities.map(c => ({
-      hub: c.name,
-      commander: c.creator?.username || 'Unknown',
-      whatsapp: c.creator?.sellerProfile?.phone || 'No Sync',
-      email: c.creator?.email || 'N/A'
+    // 1. Group Commanders (Sellers) by Division
+    const serviceCommanders = users.filter(u => u.role === 'seller' && u.businessType === 'service').map(u => ({
+      username: u.username,
+      whatsapp: u.sellerProfile?.phone || 'No Sync',
+      email: u.email,
+      trust: u.trustScore || 0,
+      joined: u.createdAt
     }));
 
+    const merchantCommanders = users.filter(u => u.role === 'seller' && u.businessType === 'product').map(u => ({
+      username: u.username,
+      whatsapp: u.sellerProfile?.phone || 'No Sync',
+      email: u.email,
+      trust: u.trustScore || 0,
+      joined: u.createdAt
+    }));
+
+    // 2. Identify the Audience (Buyers)
+    const bystanders = users.filter(u => u.role === 'user' || u.role === 'buyer').map(u => ({
+      username: u.username,
+      email: u.email,
+      joined: u.createdAt
+    }));
+
+    // 3. Track Recent Conversions (Targets who became Commanders in the last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    
+    // Logic: Users who are sellers AND (upgraded recently OR created account recently if no upgrade tag)
+    const freshConverts = users.filter(u => u.role === 'seller' && new Date(u.upgradedAt || u.createdAt) > sevenDaysAgo).map(u => ({
+      username: u.username,
+      type: u.businessType,
+      email: u.email,
+      joined: u.upgradedAt || u.createdAt
+    }));
+    
     // Extract Friction Points (Ratings <= 2 stars)
     const frictionPoints = users.reduce((acc, user) => {
-      const negativeRatings = user.ratings
+      const negativeRatings = (user.ratings || [])
         .filter(r => r.stars <= 2)
         .map(r => ({
           targetUser: user.username,
@@ -300,7 +329,10 @@ router.get('/vanguard/analytics', async (req, res) => {
     const totalConversations = allPosts.reduce((acc, post) => acc + (post.comments?.length || 0), 0);
 
     res.json({
-      commanders,
+      serviceCommanders,
+      merchantCommanders,
+      bystanders,
+      freshConverts,
       frictionPoints,
       totalUsers: users.length,
       totalHubs: communities.length,
