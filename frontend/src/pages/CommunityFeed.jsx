@@ -226,7 +226,11 @@ export default function CommunityFeed() {
 
         {/* Feed */}
         <div className="space-y-6">
-           {posts.length === 0 && <p className="text-center text-slate-500">No posts yet. Be the first!</p>}
+           {posts.length === 0 && (
+             <div className="py-20 text-center">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 italic">No broadcasts yet</p>
+             </div>
+           )}
            {posts.map(post => <PostCard key={post._id} post={post} />)}
         </div>
       </div>
