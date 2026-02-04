@@ -165,7 +165,7 @@ export default function CommunityFeed() {
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-slate-500 dark:text-slate-400 text-sm mt-1">
                   <div className="flex items-center gap-1.5">
                     <UserGroupIcon className="w-4 h-4" />
-                    <span>{community?.members?.length || 0} Buyers</span>
+                    <span>{community?.members?.length || 0} Synced Members</span>
                   </div>
                   {community?.creator && (
                     <Link to={`/profile/${community.creator._id || community.creator}`} className="flex items-center gap-1.5 hover:text-blue-500 transition-colors">
@@ -175,16 +175,18 @@ export default function CommunityFeed() {
                   )}
                 </div>
               </div>
-             <button 
-               onClick={handleJoin}
-               className={`px-6 py-2.5 font-semibold rounded-full shadow-lg transition-all ${
-                 isMember 
-                 ? 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300' 
-                 : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/30'
-               }`}
-             >
-               {isMember ? 'Buyer' : 'Join Community'}
-             </button>
+              <button 
+                onClick={handleJoin}
+                className={`px-6 py-2.5 font-black uppercase tracking-widest text-[10px] rounded-full shadow-lg transition-all ${
+                  isMember 
+                  ? 'bg-blue-600/10 text-blue-600 border border-blue-600/20 shadow-none' 
+                  : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/30'
+                }`}
+              >
+                {isMember 
+                  ? (localStorage.getItem('role') === 'seller' ? 'Authenticated Seller' : 'Verified Buyer') 
+                  : 'Join Community'}
+              </button>
           </div>
         </div>
       </div>
@@ -193,8 +195,16 @@ export default function CommunityFeed() {
         {/* Create Post Trigger (Sellers Only) */}
         {(localStorage.getItem('role') === 'seller' || localStorage.getItem('role') === 'admin') && (
           <div onClick={() => setIsModalOpen(true)} className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 mb-6 flex gap-4 items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-            <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex-shrink-0"></div>
-            <div className="flex-1 bg-slate-100 dark:bg-slate-900 h-10 rounded-full px-4 flex items-center text-slate-500 text-sm">Start a discussion or list a product...</div>
+            <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex-shrink-0 overflow-hidden">
+               {localStorage.getItem('profileImage') ? (
+                 <img src={localStorage.getItem('profileImage')} alt="" className="w-full h-full object-cover" />
+               ) : (
+                 <div className="w-full h-full flex items-center justify-center text-slate-400 font-bold text-xs">
+                    {localStorage.getItem('username')?.charAt(0).toUpperCase()}
+                 </div>
+               )}
+            </div>
+            <div className="flex-1 bg-slate-100 dark:bg-slate-900 h-10 rounded-full px-4 flex items-center text-slate-500 text-sm italic">Initiate a broadcast or provide professional proof...</div>
             <PencilSquareIcon className="w-6 h-6 text-slate-400" />
           </div>
         )}
@@ -243,11 +253,11 @@ export default function CommunityFeed() {
                       value={newPost.type}
                       onChange={e => setNewPost({...newPost, type: e.target.value})}
                     >
-                      <option value="discussion">Discussion</option>
+                      <option value="discussion">Broadcast (Discussion)</option>
                       {localStorage.getItem('role') === 'seller' && (
                         <>
-                          <option value="service">Service (Listing)</option>
-                          <option value="product">Product (Listing)</option>
+                          <option value="service">Service Asset (Proof of Work)</option>
+                          <option value="product">Retail Asset (Listing)</option>
                         </>
                       )}
                     </select>
@@ -292,9 +302,9 @@ export default function CommunityFeed() {
                   type="submit" 
                   form="post-form"
                   disabled={posting}
-                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
+                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-6 py-2 bg-blue-600 text-xs font-black uppercase tracking-widest text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto disabled:opacity-50 transition-all"
                 >
-                  {posting ? 'Posting...' : 'Post'}
+                  {posting ? 'SYNCHRONIZING...' : 'BROADCAST'}
                 </button>
                 <button 
                   type="button" 

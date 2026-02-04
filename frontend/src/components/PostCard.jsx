@@ -172,7 +172,7 @@ export default function PostCard({ post }) {
                }}
                className="px-8 py-3.5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
              >
-               Buy
+               Secure Asset
              </button>
            )}
          </div>
