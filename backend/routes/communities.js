@@ -113,8 +113,16 @@ router.get('/:id/posts', async (req, res) => {
 router.post('/:id/posts', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-    if (!user || (user.role !== 'seller' && user.role !== 'admin')) {
-      return res.status(403).json({ msg: 'Broadcast Restricted: Only verified Sellers can pilot new posts in this territory.' });
+    const community = await Community.findById(req.params.id);
+    
+    if (!community) return res.status(404).json({ msg: 'Hub not found.' });
+
+    // Sovereignty Check: Only the Hub Commander (Creator) or Imperial Admin can broadcast here.
+    const isCommander = community.creator.toString() === req.user.id;
+    const isAdmin = user.role === 'admin';
+
+    if (!isCommander && !isAdmin) {
+      return res.status(403).json({ msg: 'Broadcast Sovereignty Denial: You are in an external territory. Only the Hub Commander can pilot new broadcasts in this domain.' });
     }
 
     const { title, content, type, price, media, tier, category } = req.body; // media is array of URLs
@@ -130,11 +138,9 @@ router.post('/:id/posts', auth, async (req, res) => {
        community: req.params.id,
        author: req.user.id
      });
+     const post = await newPost.save();
 
-    const post = await newPost.save();
-
-    // Add to community's post list
-    const community = await Community.findById(req.params.id);
+    // Add to community's post list (Already found community in Sovereignty Check)
     community.posts.push(post.id);
     await community.save();
 

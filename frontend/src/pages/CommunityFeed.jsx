@@ -12,6 +12,7 @@ export default function CommunityFeed() {
   const [loading, setLoading] = useState(true);
   
   const [isMember, setIsMember] = useState(false);
+  const [canPost, setCanPost] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPost, setNewPost] = useState({ title: '', content: '', type: 'discussion', price: '', mediaUrl: '', tier: 'standard', category: '' });
   const [posting, setPosting] = useState(false);
@@ -23,6 +24,12 @@ export default function CommunityFeed() {
         try {
           const res = await api.get(`/api/communities/${id}`);
           setCommunity(res.data);
+          
+          // Sovereignty Calculation
+          const userId = localStorage.getItem('userId');
+          const isOwner = res.data.creator === userId || res.data.creator?._id === userId;
+          const isAdmin = localStorage.getItem('role') === 'admin';
+          setCanPost(isOwner || isAdmin);
         } catch (err) {
           console.error("Failed to fetch community info", err);
           setCommunity(null);
@@ -200,8 +207,8 @@ export default function CommunityFeed() {
       </div>
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-        {/* Create Post Trigger (Sellers Only) */}
-        {(localStorage.getItem('role') === 'seller' || localStorage.getItem('role') === 'admin') && (
+        {/* Create Post Trigger (Commanders Only) */}
+        {canPost && (
           <div onClick={() => setIsModalOpen(true)} className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 mb-6 flex gap-4 items-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
             <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex-shrink-0 overflow-hidden">
                {localStorage.getItem('profileImage') ? (
