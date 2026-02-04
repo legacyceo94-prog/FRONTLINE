@@ -13,8 +13,14 @@ const ConnectionSchema = new mongoose.Schema({
   },
   item: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course',
-    required: true
+    required: true,
+    refPath: 'itemModel'
+  },
+  itemModel: {
+    type: String,
+    required: true,
+    enum: ['Course', 'Post'],
+    default: 'Course'
   },
   purpose: {
     type: String,

@@ -24,6 +24,7 @@ export default function SyncModal({ isOpen, onClose, course }) {
       await api.post('/api/connections', {
         sellerId: course.seller?._id,
         itemId: course._id,
+        itemModel: 'Course',
         purpose
       });
       

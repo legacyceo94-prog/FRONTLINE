@@ -177,6 +177,7 @@ export default function PostCard({ post }) {
                     await api.post('/api/connections', {
                       sellerId: post.author._id,
                       itemId: post._id,
+                      itemModel: 'Post',
                       purpose: `Interest in ${post.title} [Broadcast Asset]`
                     });
                   } catch (e) {

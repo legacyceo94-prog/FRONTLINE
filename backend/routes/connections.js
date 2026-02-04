@@ -7,13 +7,14 @@ const Connection = require('../models/Connection');
 // @desc    Initialize a Sync Protocol (Handshake log)
 // @access  Private
 router.post('/', auth, async (req, res) => {
-  const { sellerId, itemId, purpose } = req.body;
+  const { sellerId, itemId, purpose, itemModel } = req.body;
 
   try {
     const newConnection = new Connection({
       buyer: req.user.id,
       seller: sellerId,
       item: itemId,
+      itemModel: itemModel || 'Course',
       purpose
     });
 
