@@ -150,6 +150,26 @@ export default function Dashboard() {
     }
   };
 
+  const handleDeleteListing = async (listingId) => {
+    if (!window.confirm("Purge Protocol: Decommission this market item?")) return;
+    try {
+      await api.delete(`/api/courses/${listingId}`);
+      setMyListings(prev => prev.filter(item => item._id !== listingId));
+    } catch (err) {
+      alert(err.response?.data?.msg || "Purge Failed.");
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    if (!window.confirm("Broadcast Purge: Erase this structural record?")) return;
+    try {
+      await api.delete(`/api/communities/posts/${postId}`);
+      setMyPosts(prev => prev.filter(post => post._id !== postId));
+    } catch (err) {
+      alert(err.response?.data?.msg || "Purge Failed.");
+    }
+  };
+
   if (loading) return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-24 flex justify-center items-center">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -796,9 +816,12 @@ export default function Dashboard() {
                                       <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">KES {item.skuDetails?.price?.toLocaleString()}</span>
                                    </div>
                                 </div>
-                                <button className="p-2 text-slate-300 hover:text-red-500 transition-colors">
-                                   <XMarkIcon className="w-5 h-5" />
-                                </button>
+                                 <button 
+                                   onClick={() => handleDeleteListing(item._id)}
+                                   className="p-2 text-slate-300 hover:text-red-500 transition-colors"
+                                 >
+                                    <XMarkIcon className="w-5 h-5" />
+                                 </button>
                              </div>
                            ))}
                         </div>
@@ -841,9 +864,12 @@ export default function Dashboard() {
                                   )}
                                </div>
                             </div>
-                            <button className="p-2 text-slate-300 hover:text-red-500 transition-colors">
-                               <XMarkIcon className="w-5 h-5" />
-                            </button>
+                             <button 
+                               onClick={() => handleDeletePost(post._id)}
+                               className="p-2 text-slate-300 hover:text-red-500 transition-colors"
+                             >
+                                <XMarkIcon className="w-5 h-5" />
+                             </button>
                          </div>
                        ))}
                     </div>

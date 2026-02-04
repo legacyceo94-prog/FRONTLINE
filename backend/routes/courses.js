@@ -135,4 +135,29 @@ router.post('/', auth, async (req, res) => {
 });
 
 
+// @route   DELETE api/courses/:id
+// @desc    Purge a listing (Asset Decommissioning)
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return res.status(404).json({ msg: 'Marketplace asset not found.' });
+
+    // Sovereignty Check: Only the original Provider or Imperial Admin can purge
+    const isAdmin = (await User.findById(req.user.id)).role === 'admin';
+    const isOwner = course.seller.toString() === req.user.id;
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ msg: 'Purge Denied: You do not have the clearance to decommission this asset.' });
+    }
+
+    await Course.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Asset Purged. Records removed from the marketplace.' });
+  } catch (err) {
+    console.error("Asset Purge Error:", err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 module.exports = router;

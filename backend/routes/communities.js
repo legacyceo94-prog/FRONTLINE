@@ -282,4 +282,38 @@ router.post('/posts/:id/comment', auth, async (req, res) => {
   }
 });
 
+// @route   DELETE api/communities/posts/:id
+// @desc    Purge a broadcast (Post Deletion)
+router.delete('/posts/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ msg: 'Broadcast records not found.' });
+
+    const community = await Community.findById(post.community);
+
+    // Sovereignty Check: Author, Hub Commander, or Admin
+    const isAdmin = (await User.findById(req.user.id)).role === 'admin';
+    const isAuthor = post.author.toString() === req.user.id;
+    const isCommander = community?.creator.toString() === req.user.id;
+
+    if (!isAuthor && !isCommander && !isAdmin) {
+      return res.status(403).json({ msg: 'Deletion Denied: You do not have the broadcast sovereignty to purge this record.' });
+    }
+
+    // 1. Remove reference from Community
+    if (community) {
+      community.posts = community.posts.filter(p => p.toString() !== req.params.id);
+      await community.save();
+    }
+
+    // 2. Erase the Post
+    await Post.findByIdAndDelete(req.params.id);
+
+    res.json({ msg: 'Broadcast Purged. Sync protocols updated.' });
+  } catch (err) {
+    console.error("Post Purge Error:", err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
