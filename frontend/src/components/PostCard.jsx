@@ -58,93 +58,94 @@ export default function PostCard({ post }) {
   return (
     <div className="bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-white/5 p-8 mb-8 transition-all group hover:border-blue-500/20">
       
-      {/* Header: Author Integrity */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-5">
-          <Link to={`/profile/${post.author?._id}`} className="block relative group">
-            <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-300 overflow-hidden ring-2 ring-transparent group-hover:ring-blue-500 transition-all shadow-inner">
-              {post.author?.profileImage ? (
-                 <img src={post.author.profileImage} alt={post.author.username} className="w-full h-full object-cover" />
-              ) : (
-                 <UserIcon className="w-7 h-7" />
-              )}
-            </div>
-          </Link>
-          <div>
-            <Link to={`/profile/${post.author?._id}`} className="hover:underline">
-              <h4 className="font-black text-slate-900 dark:text-white uppercase tracking-tighter italic text-lg leading-none">
-                {post.author?.username || 'Phantom'}
-                {post.author?.isVerified && (
-                   <span className="ml-2 text-blue-600 text-[8px] font-black uppercase tracking-widest bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-full border border-blue-500/20 align-middle">Verified</span>
-                )}
-              </h4>
-            </Link>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] italic">Community</span>
-              {post.community && (
-                <>
-                  <div className="w-1 h-1 rounded-full bg-blue-500"></div>
-                  <Link to={`/communities/${post.community?._id || 'global'}`} className="text-[10px] text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest hover:underline flex items-center gap-1 group">
-                     {post.community.name}
-                     <RocketLaunchIcon className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </>
-              )}
+      {/* Action Layer: Interaction & Trust Overlay */}
+      <div className="flex flex-col gap-6 relative">
+        {/* The Asset Hero (Media First) */}
+        {post.media && post.media.length > 0 && (
+          <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-100 dark:border-white/5 shadow-2xl group/media">
+              <img src={post.media[0]} alt="Imperial Proof" className="w-full h-auto max-h-[700px] object-cover group-hover/media:scale-105 transition-transform duration-[3s]" />
+              
+              {/* Info Overlay (Glass) */}
+              <div className="absolute top-6 left-6 flex flex-col gap-2">
+                 <div className="backdrop-blur-xl bg-blue-600/80 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-2xl border border-white/20">
+                    {post.type === 'discussion' ? 'Broadcast' : post.type === 'service' ? 'Professional Proof' : 'Retail Asset'}
+                 </div>
+                 {post.price && (
+                   <div className="backdrop-blur-xl bg-black/60 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl border border-white/10">
+                      KES {post.price.toLocaleString()}
+                   </div>
+                 )}
+              </div>
+
+              {/* Verified Author Tag (Absolute Mini) */}
+              <div className="absolute top-6 right-6">
+                 <div className="backdrop-blur-xl bg-white/10 text-white p-1 rounded-full border border-white/20">
+                    <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center overflow-hidden border-2 border-blue-500/50">
+                       {post.author?.profileImage ? (
+                          <img src={post.author.profileImage} className="w-full h-full object-cover" />
+                       ) : (
+                          <UserIcon className="w-5 h-5" />
+                       )}
+                    </div>
+                 </div>
+              </div>
+          </div>
+        )}
+
+        {/* The Intelligence Layer (Text & Narratives) */}
+        <div className="pt-2">
+          <div className="flex justify-between items-start mb-4">
+             <div>
+                <h3 className="font-black text-2xl text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none mb-2">{post.title}</h3>
+                <div className="flex items-center gap-2">
+                   <div className="w-4 h-[1.5px] bg-blue-500"></div>
+                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic leading-none truncate">
+                      @{post.author?.username} in {post.community?.name || 'Global Network'}
+                   </span>
+                </div>
+             </div>
+             {/* Dynamic Rating Matrix */}
+             <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-950 px-3 py-1.5 rounded-full border border-slate-100 dark:border-white/5">
+                <StarSolidIcon className="w-3 h-3 text-blue-500" />
+                <span className="text-[10px] font-black text-slate-900 dark:text-white">{avgRating?.toFixed(1)}</span>
+                <span className="text-[10px] font-black text-slate-400">({ratingCount})</span>
+             </div>
+          </div>
+          <p className="text-slate-500 dark:text-slate-400 whitespace-pre-wrap text-lg leading-relaxed font-medium italic mb-8">
+            "{post.content}"
+          </p>
+        </div>
+
+        {/* Interaction Interface */}
+        <div className="flex items-center justify-between pt-6 border-t border-slate-50 dark:border-white/5">
+          <div className="flex items-center gap-6">
+            <button 
+              onClick={() => setShowComments(!showComments)}
+              className={`flex items-center gap-2.5 transition-all group ${showComments ? 'text-blue-600' : 'text-slate-400 hover:text-blue-500'}`}
+            >
+              <div className={`p-2 rounded-xl transition-colors ${showComments ? 'bg-blue-50' : 'bg-slate-50 dark:bg-slate-950'}`}>
+                <ChatBubbleLeftIcon className={`w-5 h-5 ${showComments ? 'stroke-[2.5px]' : ''}`} />
+              </div>
+              <span className="text-[9px] font-black uppercase tracking-[0.3em]">{comments.length > 0 ? `${comments.length} Handshakes` : 'Handshake'}</span>
+            </button>
+            <div className="flex items-center gap-1" onMouseLeave={() => setHoverRating(0)}>
+                {[1, 2, 3, 4, 5].map((s) => {
+                  const hasAlreadyRated = post.author?.ratings?.some(r => r.author === localStorage.getItem('userId') || r.author?._id === localStorage.getItem('userId'));
+                  const isActive = s <= (hoverRating || avgRating);
+                  return (
+                    <button
+                      key={s}
+                      disabled={isRating || hasAlreadyRated}
+                      onClick={() => handleRateAuthor(s)}
+                      onMouseEnter={() => setHoverRating(s)}
+                      className="transition-transform hover:scale-125 disabled:cursor-not-allowed"
+                    >
+                      <StarSolidIcon className={`w-3.5 h-3.5 ${isActive ? 'text-blue-500' : 'text-slate-200 dark:text-slate-800'}`} />
+                    </button>
+                  );
+                })}
             </div>
           </div>
-        </div>
-        
-        {/* Trust Metric Dashboard */}
-        <div className="hidden sm:flex items-center bg-slate-50 dark:bg-slate-950 px-5 py-2.5 rounded-2xl border border-slate-100 dark:border-white/5 shadow-inner">
-             <div className="flex items-center gap-1" onMouseLeave={() => setHoverRating(0)}>
-               {[1, 2, 3, 4, 5].map((s) => {
-                 const hasAlreadyRated = post.author?.ratings?.some(r => r.author === localStorage.getItem('userId') || r.author?._id === localStorage.getItem('userId'));
-                 const isActive = s <= (hoverRating || avgRating);
-                 return (
-                   <button
-                     key={s}
-                     disabled={isRating || hasAlreadyRated}
-                     onClick={() => handleRateAuthor(s)}
-                     onMouseEnter={() => setHoverRating(s)}
-                     className="transition-transform hover:scale-150 disabled:cursor-not-allowed group/star"
-                   >
-                     {isActive ? (
-                       <StarSolidIcon className="w-4 h-4 text-blue-500 transition-colors" />
-                     ) : (
-                       <StarOutlineIcon className="w-4 h-4 text-slate-200 dark:text-slate-800 transition-colors group-hover/star:text-blue-300" />
-                     )}
-                   </button>
-                 );
-               })}
-             </div>
-             <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 ml-4 tracking-widest">
-                <span className="text-slate-900 dark:text-white">{avgRating?.toFixed(1) || '0.0'}</span> ({ratingCount})
-             </span>
-        </div>
-      </div>
-
-      {/* Content Engine */}
-      <div className="mb-8">
-        <h3 className="font-black text-2xl md:text-3xl text-slate-900 dark:text-white mb-4 uppercase tracking-tighter italic leading-tight">{post.title}</h3>
-        <p className="text-slate-500 dark:text-slate-400 whitespace-pre-wrap text-lg md:text-xl leading-relaxed font-medium italic">"{post.content}"</p>
-      </div>
-
-      {/* Visual Asset Area */}
-      {post.media && post.media.length > 0 && (
-        <div className="mb-10 rounded-[2.5rem] overflow-hidden bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 shadow-2xl">
-            <img src={post.media[0]} alt="Broadcast media" className="w-full h-auto max-h-[600px] object-cover group-hover:scale-110 transition-transform duration-[2s]" />
-        </div>
-      )}
-
-      {/* Interaction Matrix */}
-      <div className="flex items-center justify-between pt-8 border-t border-slate-50 dark:border-white/5">
-        <button 
-          onClick={() => setShowComments(!showComments)}
-          className={`flex items-center gap-4 transition-all ${showComments ? 'text-blue-600' : 'text-slate-400 hover:text-blue-500'}`}
-        >
-          <ChatBubbleLeftIcon className={`w-7 h-7 ${showComments ? 'stroke-[2.5px]' : ''}`} />
-          <span className="text-[10px] font-black uppercase tracking-[0.3em]">{comments.length > 0 ? `${comments.length} Comments` : 'Comment'}</span>
-        </button>
         
          <div className="flex gap-4">
            <button 
@@ -177,8 +178,9 @@ export default function PostCard({ post }) {
            )}
          </div>
       </div>
+    </div>
 
-      {/* Handshake Matrix (Comments) */}
+    {/* Handshake Matrix (Comments) */}
       {showComments && (
         <div className="mt-10 pt-10 border-t border-slate-50 dark:border-white/10 animate-in fade-in slide-in-from-top-6 duration-700">
           <form onSubmit={handleAddComment} className="flex gap-5 mb-10">
