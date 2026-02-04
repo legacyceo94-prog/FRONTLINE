@@ -109,6 +109,17 @@ export default function CommunityFeed() {
     }
   };
 
+  const handleDissolveHub = async () => {
+    if (!window.confirm("IMPERIAL DISSOLUTION: This will purge ALL data, broadcasts, and sync records for this territory. Proceed with Deep Wipe?")) return;
+    
+    try {
+      await api.delete(`/api/communities/${id}`);
+      navigate('/communities');
+    } catch (err) {
+      alert(err.response?.data?.msg || "Dissolution Failed.");
+    }
+  };
+
   if (loading) return <div className="min-h-screen pt-24 text-center">Loading...</div>;
 
   return (
@@ -190,18 +201,28 @@ export default function CommunityFeed() {
                   )}
                 </div>
               </div>
-              <button 
-                onClick={handleJoin}
-                className={`px-10 py-5 font-black uppercase tracking-[0.2em] text-[10px] rounded-full shadow-2xl transition-all active:scale-95 ${
-                  isMember 
-                  ? 'bg-blue-600/10 text-blue-600 border border-blue-600/20 shadow-none' 
-                  : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/30'
-                }`}
-              >
-                {isMember 
-                  ? (localStorage.getItem('role') === 'seller' ? 'Authenticated Seller' : 'Verified Buyer') 
-                  : 'Join Territory'}
-              </button>
+              <div className="flex items-center gap-4">
+                {canPost && (
+                  <button 
+                    onClick={handleDissolveHub}
+                    className="px-6 py-2.5 font-black uppercase tracking-widest text-[10px] text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20 rounded-full transition-all active:scale-95"
+                  >
+                    Dissolve Territory
+                  </button>
+                )}
+                <button 
+                  onClick={handleJoin}
+                  className={`px-10 py-5 font-black uppercase tracking-[0.2em] text-[10px] rounded-full shadow-2xl transition-all active:scale-95 ${
+                    isMember 
+                    ? 'bg-blue-600/10 text-blue-600 border border-blue-600/20 shadow-none' 
+                    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/30'
+                  }`}
+                >
+                  {isMember 
+                    ? (localStorage.getItem('role') === 'seller' ? 'Authenticated Seller' : 'Verified Buyer') 
+                    : 'Join Territory'}
+                </button>
+              </div>
           </div>
         </div>
       </div>

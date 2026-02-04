@@ -219,6 +219,41 @@ router.patch('/:id', auth, async (req, res) => {
   }
 });
 
+// @route   DELETE api/communities/:id
+// @desc    Dissolve Hub (Deep Wipe posts & memberships)
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const community = await Community.findById(req.params.id);
+    if (!community) return res.status(404).json({ msg: 'Hub not found.' });
+
+    // Sovereignty Check: Only Hub Commander or Admin can Dissolve
+    const isAdmin = (await User.findById(req.user.id)).role === 'admin';
+    const isOwner = community.creator.toString() === req.user.id;
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ msg: 'Dissolution Denied: Only the Hub Commander can deactivate this territory.' });
+    }
+
+    // 1. Purge all Broadcasts (Posts) in this territory
+    await Post.deleteMany({ community: req.params.id });
+
+    // 2. Remove reference from all Users who joined
+    await User.updateMany(
+      { joinedCommunities: req.params.id },
+      { $pull: { joinedCommunities: req.params.id } }
+    );
+
+    // 3. Dissolve the Community structure itself
+    await Community.findByIdAndDelete(req.params.id);
+
+    res.json({ msg: 'Territory Dissolved. Structural records purged from the Imperial Network.' });
+  } catch (err) {
+    console.error("Hub Dissolution Error:", err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/communities/posts/:id/comment
 // @desc    Add a comment to a post
 router.post('/posts/:id/comment', auth, async (req, res) => {

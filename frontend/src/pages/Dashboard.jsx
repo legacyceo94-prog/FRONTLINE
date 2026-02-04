@@ -100,6 +100,35 @@ export default function Dashboard() {
     }
   };
 
+  const handleDeleteHub = async (hubId) => {
+     if (!window.confirm("Dissolution Protocol: Are you certain you want to purge this community and all its broadcasts from the network?")) return;
+     
+     try {
+        await api.delete(`/api/communities/${hubId}`);
+        setMyHubs(prev => prev.filter(h => h._id !== hubId));
+        // Vanguard Sync: Implicit through state update and global re-fetch on next access
+     } catch (err) {
+        alert(err.response?.data?.msg || "Dissolution Failed.");
+     }
+  };
+
+  const handleDeepWipeAccount = async () => {
+    const confirmation = window.confirm("IMPERIAL DEEP WIPE: This will permanently eradicate your identity, listed assets, and all structural records from the Frontline Network. This action is IRREVERSIBLE. Proceed?");
+    if (!confirmation) return;
+    
+    try {
+      const userId = localStorage.getItem('userId');
+      await api.delete(`/api/users/${userId}`);
+      
+      // Post-Eradication Protocol
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = '/';
+    } catch (err) {
+      alert(err.response?.data?.msg || "Eradication Failed.");
+    }
+  };
+
   const handleCreateHub = async (e) => {
     e.preventDefault();
     setCreating(true);
@@ -348,8 +377,32 @@ export default function Dashboard() {
                          {user?.businessType === 'product' ? 'Inventory' : 'Assets'}
                        </button>
                     </div>
-                  </div>
-               </div>
+                 </div>
+              </div>
+
+              {/* Security & System Protocols */}
+              <div className="mt-12 p-10 bg-white dark:bg-slate-900 rounded-[3rem] border border-red-500/10 shadow-2xl">
+                 <div className="flex items-center gap-3 mb-8 text-red-500">
+                    <ShieldCheckIcon className="w-6 h-6" />
+                    <h3 className="text-xl font-black uppercase tracking-tighter italic">Security Console</h3>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                       <p className="text-slate-900 dark:text-white font-black uppercase tracking-widest text-xs mb-2 italic">Deep Wipe Protocol</p>
+                       <p className="text-[11px] text-slate-500 italic leading-relaxed">
+                          Initialize a full data purge. This will eradicate your broadcasts, listed assets, and community memberships from the Vanguard directory.
+                       </p>
+                    </div>
+                    <div className="flex md:justify-end">
+                       <button 
+                         onClick={handleDeepWipeAccount}
+                         className="px-8 py-4 bg-red-600/10 text-red-600 border border-red-600/20 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-xl shadow-red-500/10 active:scale-95"
+                       >
+                          Initialize Account Eradication
+                       </button>
+                    </div>
+                 </div>
+              </div>
             </div>
           </div>
 
@@ -432,9 +485,23 @@ export default function Dashboard() {
                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Member / Admin</span>
                           </div>
                        </div>
-                       <Link to={`/communities/${hub._id}`} className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 text-slate-300 group-hover:text-blue-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-all">
-                          <ArrowRightIcon className="w-5 h-5" />
-                       </Link>
+                       <div className="flex gap-2">
+                         {hub.creator === localStorage.getItem('userId') && (
+                           <button 
+                             onClick={(e) => {
+                               e.preventDefault();
+                               handleDeleteHub(hub._id);
+                             }}
+                             className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 text-slate-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all opacity-0 group-hover:opacity-100"
+                             title="Dissolve Hub"
+                           >
+                              <XMarkIcon className="w-5 h-5" />
+                           </button>
+                         )}
+                         <Link to={`/communities/${hub._id}`} className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 text-slate-300 group-hover:text-blue-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 transition-all">
+                            <ArrowRightIcon className="w-5 h-5" />
+                         </Link>
+                       </div>
                     </div>
                   ))}
                 </div>
