@@ -216,68 +216,91 @@ export default function CommunityFeed() {
         </div>
       </div>
 
-      {/* CREATE POST MODAL */}
+      {/* INITIATE BROADCAST MODAL (The Mission Terminal) */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[60] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-[80] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setIsModalOpen(false)}></div>
+            <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-md transition-opacity" onClick={() => setIsModalOpen(false)}></div>
 
-            <div className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
-              <div className="bg-white dark:bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg leading-6 font-medium text-slate-900 dark:text-white" id="modal-title">Create Post</h3>
-                  <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-500"><XMarkIcon className="w-6 h-6" /></button>
+            <div className="inline-block align-bottom bg-white dark:bg-slate-900 rounded-[3rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl w-full border border-white/10">
+              <div className="px-8 pt-10 pb-4">
+                <div className="flex justify-between items-center mb-8">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                       <RocketLaunchIcon className="w-3 h-3 text-blue-500" />
+                       <span className="text-[10px] font-black uppercase text-blue-500 tracking-widest">Protocol Override</span>
+                    </div>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic" id="modal-title">Initiate Broadcast</h3>
+                  </div>
+                  <button onClick={() => setIsModalOpen(false)} className="p-3 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 transition-colors"><XMarkIcon className="w-6 h-6" /></button>
                 </div>
                 
-                <form id="post-form" onSubmit={handlePostSubmit} className="space-y-4">
-                  <input 
-                    type="text" 
-                    placeholder="Title (e.g. Selling AutoCAD License)" 
-                    className="w-full px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                    value={newPost.title}
-                    onChange={e => setNewPost({...newPost, title: e.target.value})}
-                    required
-                  />
-                  <textarea 
-                    rows={4} 
-                    placeholder="What's on your mind? Describe your service or question..." 
-                    className="w-full px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                    value={newPost.content}
-                    onChange={e => setNewPost({...newPost, content: e.target.value})}
-                    required
-                  />
+                <form id="post-form" onSubmit={handlePostSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1 italic">Mission Title</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Verified AutoCAD Activation" 
+                      className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
+                      value={newPost.title}
+                      onChange={e => setNewPost({...newPost, title: e.target.value})}
+                      required
+                    />
+                  </div>
 
-                  <div className="flex gap-4">
-                    <select 
-                      className="w-1/2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                      value={newPost.type}
-                      onChange={e => setNewPost({...newPost, type: e.target.value})}
-                    >
-                      <option value="discussion">Broadcast (Discussion)</option>
-                      {localStorage.getItem('role') === 'seller' && (
-                        <>
-                          <option value="service">Service Asset (Proof of Work)</option>
-                          <option value="product">Retail Asset (Listing)</option>
-                        </>
-                      )}
-                    </select>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1 italic">Intelligence (Content)</label>
+                    <textarea 
+                      rows={4} 
+                      placeholder="Provide proof of work or broadcast your requirement..." 
+                      className="w-full px-6 py-4 rounded-[2rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold placeholder:italic resize-none"
+                      value={newPost.content}
+                      onChange={e => setNewPost({...newPost, content: e.target.value})}
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Asset Identity</label>
+                      <select 
+                        className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold"
+                        value={newPost.type}
+                        onChange={e => setNewPost({...newPost, type: e.target.value})}
+                      >
+                        <option value="discussion">Discussion Broadcast</option>
+                        {localStorage.getItem('role') === 'seller' && (
+                          <>
+                            <option value="service">Service Asset (Proof)</option>
+                            <option value="product">Retail Asset (SKU)</option>
+                          </>
+                        )}
+                      </select>
+                    </div>
                     {newPost.type !== 'discussion' && (
-                       <input 
-                        type="number" 
-                        placeholder="Price (KES)" 
-                        className="w-1/2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700 border-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                        value={newPost.price}
-                        onChange={e => setNewPost({...newPost, price: e.target.value})}
-                      />
+                      <div className="space-y-2 animate-in zoom-in-95 duration-300">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 ml-1">Valuation (KES)</label>
+                        <input 
+                          type="number" 
+                          placeholder="0.00" 
+                          className="w-full px-6 py-4 rounded-[1.5rem] bg-blue-500/5 dark:bg-blue-500/10 border border-blue-500/20 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold text-blue-500"
+                          value={newPost.price}
+                          onChange={e => setNewPost({...newPost, price: e.target.value})}
+                        />
+                      </div>
                     )}
                   </div>
 
-                  <div>
-                    <label className="w-full flex items-center gap-3 px-4 py-2 bg-slate-50 dark:bg-slate-700 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 transition-all">
-                      <PhotoIcon className="h-5 w-5 text-slate-400" />
-                      <span className="text-sm text-slate-500">
-                        {newPost.mediaUrl ? 'Image Selected ✓' : 'Add Image'}
-                      </span>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Visual Evidence</label>
+                    <label className="w-full flex items-center justify-between px-6 py-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-[1.5rem] cursor-pointer hover:bg-blue-500 hover:text-white transition-all group">
+                      <div className="flex items-center gap-3">
+                         <PhotoIcon className="h-5 w-5 text-slate-400 group-hover:text-white transition-colors" />
+                         <span className="text-xs font-bold uppercase tracking-widest truncate">
+                           {newPost.mediaUrl ? 'Evidence Locked ✓' : 'Attach Proof'}
+                         </span>
+                      </div>
+                      <div className="px-3 py-1 bg-slate-200 dark:bg-white/10 rounded-full text-[8px] font-black uppercase tracking-tighter">Required</div>
                       <input 
                         type="file" 
                         accept="image/*"
@@ -297,21 +320,21 @@ export default function CommunityFeed() {
                   </div>
                 </form>
               </div>
-              <div className="bg-slate-50 dark:bg-slate-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="bg-slate-50 dark:bg-slate-950 px-8 py-8 flex flex-col gap-4 border-t border-white/5">
                 <button 
                   type="submit" 
                   form="post-form"
                   disabled={posting}
-                  className="w-full inline-flex justify-center rounded-full border border-transparent shadow-sm px-6 py-2 bg-blue-600 text-xs font-black uppercase tracking-widest text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto disabled:opacity-50 transition-all"
+                  className="w-full py-5 bg-gradient-to-r from-blue-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-full hover:scale-[1.02] active:scale-98 transition-all shadow-2xl shadow-blue-500/20 disabled:opacity-50"
                 >
-                  {posting ? 'SYNCHRONIZING...' : 'BROADCAST'}
+                  {posting ? 'SYNCHRONIZING...' : 'INJECT BROADCAST'}
                 </button>
                 <button 
                   type="button" 
                   onClick={() => setIsModalOpen(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-full border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-800 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-red-500 transition-colors"
                 >
-                  Cancel
+                  Abort Mission
                 </button>
               </div>
             </div>
