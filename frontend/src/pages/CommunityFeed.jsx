@@ -160,26 +160,32 @@ export default function CommunityFeed() {
               </label>
             )}
         </div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-12 relative z-10">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-slate-700 flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4">
-             <div className="text-center sm:text-left">
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{community?.name}</h1>
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-slate-500 dark:text-slate-400 text-sm mt-1">
-                  <div className="flex items-center gap-1.5">
-                    <UserGroupIcon className="w-4 h-4" />
-                    <span>{community?.members?.length || 0} Synced Members</span>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-16 relative z-10 animate-in slide-in-from-bottom-6 duration-700">
+          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-[3rem] p-8 md:p-10 shadow-2xl border border-slate-100 dark:border-white/10 flex flex-col md:flex-row items-center md:items-end justify-between gap-8">
+             <div className="text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                   <div className="w-6 h-[2px] bg-blue-600"></div>
+                   <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 italic">Structural Hub</span>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">{community?.name}</h1>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 text-slate-500 dark:text-slate-400 text-sm mt-6">
+                  <div className="flex items-center gap-2.5 bg-slate-50 dark:bg-slate-950 px-4 py-2 rounded-full border border-slate-100 dark:border-white/5">
+                    <UserGroupIcon className="w-4 h-4 text-blue-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">{community?.members?.length || 0} Synced Members</span>
                   </div>
                   {community?.creator && (
-                    <Link to={`/profile/${community.creator._id || community.creator}`} className="flex items-center gap-1.5 hover:text-blue-500 transition-colors">
-                      <CheckBadgeIcon className="w-4 h-4 text-blue-500" />
-                      <span>Founded by <span className="font-semibold uppercase">{community.creator.username || 'Seller'}</span></span>
+                    <Link to={`/profile/${community.creator._id || community.creator}`} className="flex items-center gap-2.5 group/creator">
+                      <div className="w-8 h-8 rounded-full bg-slate-950 flex items-center justify-center border border-white/10 group-hover:border-blue-500 transition-colors">
+                         <CheckBadgeIcon className="w-4 h-4 text-blue-500" />
+                      </div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-blue-500 transition-colors">Commander <span className="text-slate-900 dark:text-white italic">{community.creator.username || 'Seller'}</span></span>
                     </Link>
                   )}
                 </div>
               </div>
               <button 
                 onClick={handleJoin}
-                className={`px-6 py-2.5 font-black uppercase tracking-widest text-[10px] rounded-full shadow-lg transition-all ${
+                className={`px-10 py-5 font-black uppercase tracking-[0.2em] text-[10px] rounded-full shadow-2xl transition-all active:scale-95 ${
                   isMember 
                   ? 'bg-blue-600/10 text-blue-600 border border-blue-600/20 shadow-none' 
                   : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/30'
@@ -187,7 +193,7 @@ export default function CommunityFeed() {
               >
                 {isMember 
                   ? (localStorage.getItem('role') === 'seller' ? 'Authenticated Seller' : 'Verified Buyer') 
-                  : 'Join Community'}
+                  : 'Join Territory'}
               </button>
           </div>
         </div>
