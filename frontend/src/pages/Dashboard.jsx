@@ -18,7 +18,8 @@ import {
   Square3Stack3DIcon,
   StarIcon,
   BuildingStorefrontIcon,
-  CommandLineIcon
+  CommandLineIcon,
+  CubeIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
