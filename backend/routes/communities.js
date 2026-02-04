@@ -316,4 +316,35 @@ router.delete('/posts/:id', auth, async (req, res) => {
   }
 });
 
+// @route   DELETE api/communities/posts/:postId/comment/:commentId
+// @desc    Purge a structural comment
+router.delete('/posts/:postId/comment/:commentId', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (!post) return res.status(404).json({ msg: 'Broadcast not found.' });
+
+    const comment = post.comments.id(req.params.commentId);
+    if (!comment) return res.status(404).json({ msg: 'Comment not found.' });
+
+    const community = await Community.findById(post.community);
+    
+    // Sovereignty Check: Comment Author, Hub Commander, or Admin
+    const isAdmin = (await User.findById(req.user.id)).role === 'admin';
+    const isCommentAuthor = comment.author.toString() === req.user.id;
+    const isCommander = community?.creator.toString() === req.user.id;
+
+    if (!isCommentAuthor && !isCommander && !isAdmin) {
+      return res.status(403).json({ msg: 'Moderation Denied: Insufficient sovereignty to purge this comment.' });
+    }
+
+    post.comments = post.comments.filter(c => c._id.toString() !== req.params.commentId);
+    await post.save();
+
+    res.json({ msg: 'Comment Purged. Pulse normalized.' });
+  } catch (err) {
+    console.error("Comment Purge Error:", err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

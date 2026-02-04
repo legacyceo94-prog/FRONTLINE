@@ -32,6 +32,7 @@ export default function Vanguard() {
 
   const [frictionPoints, setFrictionPoints] = useState([]);
   const [recentSyncs, setRecentSyncs] = useState([]);
+  const [recentComments, setRecentComments] = useState([]);
   const [masterInventory, setMasterInventory] = useState([]);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -141,6 +142,7 @@ export default function Vanguard() {
         setBystanders(analyticsRes.data.bystanders || []);
         setFreshConverts(analyticsRes.data.freshConverts || []);
         setAllHubs(analyticsRes.data.allHubs || []);
+        setRecentComments(analyticsRes.data.recentComments || []);
 
         setFrictionPoints(analyticsRes.data.frictionPoints || []);
         setRecentSyncs(analyticsRes.data.recentSyncs || []);
@@ -231,6 +233,18 @@ export default function Vanguard() {
       alert("Identity Eradicated. Clean slate achieved.");
     } catch (err) {
       alert("Eradication Failed: " + (err.response?.data?.msg || "Unauthorized"));
+    }
+  };
+
+  const handlePurgeComment = async (postId, commentId) => {
+    if (!window.confirm("Imperial Pulse Moderation: Purge this structural comment from the broadcast?")) return;
+    try {
+      await api.delete(`/api/communities/posts/${postId}/comment/${commentId}`);
+      setRecentComments(prev => prev.filter(c => c._id !== commentId));
+      setStats(prev => ({ ...prev, conversations: prev.conversations - 1 }));
+      setLogs(prev => [{ t: 'SECURITY', m: `Imperial Moderation: Comment purged from network stream. Pulse normalized.`, d: new Date() }, ...prev]);
+    } catch (err) {
+      alert("Moderation Failed: " + (err.response?.data?.msg || "Unauthorized"));
     }
   };
 
@@ -668,18 +682,43 @@ export default function Vanguard() {
               </button>
             </div>
 
-            {/* Conversation monitor */}
+            {/* Conversation monitor (Pulse Syncs) */}
             <div className="bg-white/5 rounded-[2.5rem] border border-white/5 p-8">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
                   <ChatBubbleBottomCenterIcon className="w-6 h-6 text-blue-500" />
                   <h3 className="text-lg font-black text-white uppercase tracking-tighter italic">Pulse Syncs</h3>
                 </div>
-                <span className="text-xs font-black text-blue-600">{stats.conversations} Active</span>
+                <span className="text-xs font-black text-blue-600">{stats.conversations} Comments</span>
               </div>
-              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic mb-6 leading-relaxed">
-                Aggregated chat volume across all territories is stable. Community marketing engagement is up.
-              </p>
+              
+              <div className="space-y-4 mb-8 max-h-80 overflow-y-auto custom-scrollbar pr-2">
+                {recentComments.length === 0 ? (
+                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic leading-relaxed">
+                    Aggregated chat volume across all territories is stable. No recent activity.
+                  </p>
+                ) : (
+                  recentComments.map((c, i) => (
+                    <div key={i} className="p-4 bg-white/5 rounded-2xl border border-white/5 group">
+                       <div className="flex items-center justify-between mb-2">
+                          <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest">@{c.author}</span>
+                          <button 
+                            onClick={() => handlePurgeComment(c.postId, c._id)}
+                            className="text-[8px] font-black text-red-500 hover:text-white uppercase transition-colors opacity-0 group-hover:opacity-100"
+                          >
+                            Purge
+                          </button>
+                       </div>
+                       <p className="text-[10px] text-white font-medium italic mb-2">"{c.text}"</p>
+                       <div className="flex items-center justify-between text-[8px] text-slate-500 uppercase tracking-tighter">
+                          <span>Hub: {c.hub}</span>
+                          <span>{new Date(c.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                       </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
               <div className="w-full h-1 bg-slate-900 rounded-full overflow-hidden">
                 <div className="h-full bg-blue-600 w-3/4 animate-pulse"></div>
               </div>

@@ -333,8 +333,22 @@ router.get('/vanguard/analytics', async (req, res) => {
     const totalHandshakes = users.reduce((acc, user) => acc + (user.ratings?.length || 0), 0) + connectionsCount;
 
     // REAL MATH: Pulse Conversations (All Post Comments)
-    const allPosts = await Post.find();
+    const allPosts = await Post.find().populate('comments.author', 'username').populate('community', 'name');
     const totalConversations = allPosts.reduce((acc, post) => acc + (post.comments?.length || 0), 0);
+    
+    // Extract last 10 comments globally for moderation
+    const recentComments = allPosts.reduce((acc, post) => {
+      const pComments = post.comments.map(c => ({
+        _id: c._id,
+        postId: post._id,
+        postTitle: post.title,
+        text: c.text,
+        author: c.author?.username,
+        date: c.createdAt,
+        hub: post.community?.name
+      }));
+      return [...acc, ...pComments];
+    }, []).sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
 
     res.json({
       serviceCommanders,
@@ -347,6 +361,7 @@ router.get('/vanguard/analytics', async (req, res) => {
       allHubs: communities,
       totalHandshakes,
       totalConversations,
+      recentComments,
       recentSyncs: recentConnections
     });
   } catch (err) {
