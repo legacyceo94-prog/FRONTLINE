@@ -159,9 +159,13 @@ router.patch('/:id', auth, async (req, res) => {
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {
   try {
-    // Verify the user is deleting their own account
-    if (req.user.id !== req.params.id) {
-      return res.status(403).json({ msg: 'Not authorized to delete this account' });
+    // Sovereignty Check: Owner or Imperial Admin
+    const requestingUser = await User.findById(req.user.id);
+    const isAdmin = requestingUser.role === 'admin';
+    const isOwner = req.user.id === req.params.id;
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ msg: 'Deep Wipe Denied: Insufficient clearance to eradicate this identity.' });
     }
 
     const user = await User.findById(req.params.id);
@@ -262,6 +266,7 @@ router.get('/vanguard/analytics', async (req, res) => {
     
     // 1. Group Commanders (Sellers) by Division
     const serviceCommanders = users.filter(u => u.role === 'seller' && u.businessType === 'service').map(u => ({
+      id: u._id,
       username: u.username,
       whatsapp: u.sellerProfile?.phone || 'No Sync',
       email: u.email,
@@ -270,6 +275,7 @@ router.get('/vanguard/analytics', async (req, res) => {
     }));
 
     const merchantCommanders = users.filter(u => u.role === 'seller' && u.businessType === 'product').map(u => ({
+      id: u._id,
       username: u.username,
       whatsapp: u.sellerProfile?.phone || 'No Sync',
       email: u.email,
@@ -279,6 +285,7 @@ router.get('/vanguard/analytics', async (req, res) => {
 
     // 2. Identify the Audience (Buyers)
     const bystanders = users.filter(u => u.role === 'user' || u.role === 'buyer').map(u => ({
+      id: u._id,
       username: u.username,
       email: u.email,
       joined: u.createdAt
@@ -290,6 +297,7 @@ router.get('/vanguard/analytics', async (req, res) => {
     
     // Logic: Users who are sellers AND (upgraded recently OR created account recently if no upgrade tag)
     const freshConverts = users.filter(u => u.role === 'seller' && new Date(u.upgradedAt || u.createdAt) > sevenDaysAgo).map(u => ({
+      id: u._id,
       username: u.username,
       type: u.businessType,
       email: u.email,

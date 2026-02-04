@@ -206,6 +206,23 @@ export default function Vanguard() {
     }
   };
 
+  const handleEradicateUser = async (userId) => {
+    if (!window.confirm("Imperial Deep Wipe: Permanently eradicate this identity and all its structural records (posts, hubs, listings) from the network? This is IRREVERSIBLE.")) return;
+    try {
+      await api.delete(`/api/users/${userId}`);
+      
+      // Update local state to reflect the erasure
+      setMerchantCommanders(prev => prev.filter(u => u.id !== userId));
+      setServiceCommanders(prev => prev.filter(u => u.id !== userId));
+      setBystanders(prev => prev.filter(u => u.id !== userId));
+      setFreshConverts(prev => prev.filter(u => u.id !== userId));
+      
+      alert("Identity Eradicated. Clean slate achieved.");
+    } catch (err) {
+      alert("Eradication Failed: " + (err.response?.data?.msg || "Unauthorized"));
+    }
+  };
+
   if (loading) return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center">
       <div className="w-16 h-16 border-t-2 border-blue-500 rounded-full animate-spin mb-6"></div>
@@ -326,6 +343,7 @@ export default function Vanguard() {
                         {activePersonnelTab === 'targets' ? 'Conversion Type' : 'Status'}
                       </th>
                       <th className="pb-4 pt-4 px-4">Contact Protocol</th>
+                      <th className="pb-4 pt-4 px-4">Identity Purge</th>
                     </tr>
                   </thead>
                   <tbody className="text-xs font-bold uppercase tracking-tight italic">
@@ -336,6 +354,14 @@ export default function Vanguard() {
                         <td className="py-6 px-4 text-blue-500">{cmd.trust}% Verification</td>
                         <td className="py-6 px-4"><span className="px-2 py-1 bg-blue-500/10 text-blue-500 rounded text-[9px] font-black uppercase">Active Stock</span></td>
                         <td className="py-6 px-4 text-slate-500 font-mono">{cmd.whatsapp}</td>
+                        <td className="py-6 px-4">
+                           <button 
+                             onClick={() => handleEradicateUser(cmd.id)}
+                             className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
+                           >
+                             Eradicate
+                           </button>
+                        </td>
                       </tr>
                     ))}
 
@@ -346,6 +372,14 @@ export default function Vanguard() {
                         <td className="py-6 px-4 text-purple-500">{cmd.trust}% Competence</td>
                         <td className="py-6 px-4"><span className="px-2 py-1 bg-purple-500/10 text-purple-500 rounded text-[9px] font-black uppercase">On Duty</span></td>
                         <td className="py-6 px-4 text-slate-500 font-mono">{cmd.whatsapp}</td>
+                        <td className="py-6 px-4">
+                           <button 
+                             onClick={() => handleEradicateUser(cmd.id)}
+                             className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
+                           >
+                             Eradicate
+                           </button>
+                        </td>
                       </tr>
                     ))}
 
@@ -356,6 +390,14 @@ export default function Vanguard() {
                         <td className="py-6 px-4 text-slate-500">{new Date(user.joined).toLocaleDateString()}</td>
                         <td className="py-6 px-4"><span className="px-2 py-1 bg-white/5 text-slate-500 rounded text-[9px] font-black uppercase">Consumer</span></td>
                         <td className="py-6 px-4 text-slate-600">{user.email}</td>
+                        <td className="py-6 px-4">
+                           <button 
+                             onClick={() => handleEradicateUser(user.id)}
+                             className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
+                           >
+                             Eradicate
+                           </button>
+                        </td>
                       </tr>
                     ))}
 
@@ -370,13 +412,22 @@ export default function Vanguard() {
                            </span>
                         </td>
                         <td className="py-6 px-4 text-slate-500">{user.email}</td>
+                        <td className="py-6 px-4">
+                           <button 
+                             onClick={() => handleEradicateUser(user.id)}
+                             className="px-3 py-1.5 bg-red-600/10 text-red-500 hover:bg-red-600 hover:text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
+                           >
+                             Eradicate
+                           </button>
+                        </td>
                       </tr>
                     ))}
 
                     {/* EMPTY STATES */}
-                    {activePersonnelTab === 'merchants' && merchantCommanders.length === 0 && <tr><td colSpan="4" className="py-10 text-center text-slate-600">No Merchants Deployed.</td></tr>}
-                    {activePersonnelTab === 'service' && serviceCommanders.length === 0 && <tr><td colSpan="4" className="py-10 text-center text-slate-600">No Service Bureaus Active.</td></tr>}
-                    {activePersonnelTab === 'targets' && freshConverts.length === 0 && <tr><td colSpan="4" className="py-10 text-center text-slate-600">No Recent Conversions Detected.</td></tr>}
+                    {activePersonnelTab === 'merchants' && merchantCommanders.length === 0 && <tr><td colSpan="5" className="py-10 text-center text-slate-600">No Merchants Deployed.</td></tr>}
+                    {activePersonnelTab === 'service' && serviceCommanders.length === 0 && <tr><td colSpan="5" className="py-10 text-center text-slate-600">No Service Bureaus Active.</td></tr>}
+                    {activePersonnelTab === 'targets' && freshConverts.length === 0 && <tr><td colSpan="5" className="py-10 text-center text-slate-600">No Recent Conversions Detected.</td></tr>}
+                    {activePersonnelTab === 'audience' && bystanders.length === 0 && <tr><td colSpan="5" className="py-10 text-center text-slate-600">No Audience Detected.</td></tr>}
                   </tbody>
                 </table>
               </div>
