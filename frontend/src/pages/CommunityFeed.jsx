@@ -13,7 +13,7 @@ export default function CommunityFeed() {
   
   const [isMember, setIsMember] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newPost, setNewPost] = useState({ title: '', content: '', type: 'discussion', price: '', mediaUrl: '' });
+  const [newPost, setNewPost] = useState({ title: '', content: '', type: 'discussion', price: '', mediaUrl: '', tier: 'standard', category: '' });
   const [posting, setPosting] = useState(false);
 
   useEffect(() => {
@@ -81,6 +81,8 @@ export default function CommunityFeed() {
         content: newPost.content,
         type: newPost.type,
         price: newPost.price,
+        tier: newPost.tier,
+        category: newPost.category,
         media: newPost.mediaUrl ? [newPost.mediaUrl] : []
       };
 
@@ -91,7 +93,7 @@ export default function CommunityFeed() {
       // Add new post to top of list
       setPosts([res.data, ...posts]);
       setIsModalOpen(false);
-      setNewPost({ title: '', content: '', type: 'discussion', price: '', mediaUrl: '' });
+      setNewPost({ title: '', content: '', type: 'discussion', price: '', mediaUrl: '', tier: 'standard', category: '' });
     } catch (err) {
       console.error(err);
       alert("Failed to post. ensure you are logged in.");
@@ -258,6 +260,31 @@ export default function CommunityFeed() {
                       onChange={e => setNewPost({...newPost, content: e.target.value})}
                       required
                     />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1 italic">Asset Tier</label>
+                       <select 
+                         className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold"
+                         value={newPost.tier}
+                         onChange={e => setNewPost({...newPost, tier: e.target.value})}
+                       >
+                         <option value="standard">Standard Layer</option>
+                         <option value="premium">Premium Protocol</option>
+                         <option value="elite">Elite Archive</option>
+                       </select>
+                    </div>
+                    <div className="space-y-2">
+                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1 italic">Domain Tag (Uniqueness)</label>
+                       <input 
+                         type="text" 
+                         placeholder="e.g. AutoCAD / Branding / Strategy" 
+                         className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all font-bold placeholder:italic"
+                         value={newPost.category}
+                         onChange={e => setNewPost({...newPost, category: e.target.value})}
+                       />
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -117,17 +117,19 @@ router.post('/:id/posts', auth, async (req, res) => {
       return res.status(403).json({ msg: 'Broadcast Restricted: Only verified Sellers can pilot new posts in this territory.' });
     }
 
-    const { title, content, type, price, media } = req.body; // media is array of URLs
-
-    const newPost = new Post({
-      title,
-      content,
-      type: type || 'discussion',
-      price: price ? { amount: price } : undefined, // simple price structure for now
-      media,
-      community: req.params.id,
-      author: req.user.id
-    });
+    const { title, content, type, price, media, tier, category } = req.body; // media is array of URLs
+ 
+     const newPost = new Post({
+       title,
+       content,
+       type: type || 'discussion',
+       price: price ? { amount: price } : undefined, // simple price structure for now
+       media,
+       tier: tier || 'standard',
+       category: category || 'General',
+       community: req.params.id,
+       author: req.user.id
+     });
 
     const post = await newPost.save();
 

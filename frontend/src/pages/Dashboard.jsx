@@ -726,9 +726,15 @@ export default function Dashboard() {
                             <div className="flex-1 min-w-0">
                                <h6 className="font-bold text-slate-900 dark:text-white truncate uppercase tracking-tight">{post.title}</h6>
                                <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Type: {post.type}</span>
-                                  <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
-                                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{new Date(post.createdAt).toLocaleDateString()}</span>
+                                  <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${post.tier === 'elite' ? 'bg-purple-600 text-white' : post.tier === 'premium' ? 'bg-amber-600 text-white' : 'bg-blue-600/10 text-blue-600'}`}>
+                                    {post.tier || 'Standard'}
+                                  </span>
+                                  {post.price?.amount && (
+                                    <>
+                                      <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
+                                      <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">KES {post.price.amount.toLocaleString()}</span>
+                                    </>
+                                  )}
                                </div>
                             </div>
                             <button className="p-2 text-slate-300 hover:text-red-500 transition-colors">

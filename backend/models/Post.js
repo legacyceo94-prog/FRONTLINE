@@ -36,6 +36,20 @@ const PostSchema = new mongoose.Schema({
       default: 'KES'
     }
   },
+  // Professional Metadata Layers (Expertise Function)
+  isVerifiedAsset: {
+    type: Boolean,
+    default: false
+  },
+  category: {
+    type: String,
+    index: true
+  },
+  tier: {
+    type: String,
+    enum: ['standard', 'premium', 'elite'],
+    default: 'standard'
+  },
   createdAt: {
     type: Date,
     default: Date.now

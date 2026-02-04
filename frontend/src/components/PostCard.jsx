@@ -67,12 +67,13 @@ export default function PostCard({ post }) {
               
               {/* Info Overlay (Glass) */}
               <div className="absolute top-6 left-6 flex flex-col gap-2">
-                 <div className="backdrop-blur-xl bg-blue-600/80 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-2xl border border-white/20">
-                    {post.type === 'discussion' ? 'Broadcast' : post.type === 'service' ? 'Professional Proof' : 'Retail Asset'}
-                 </div>
-                 {post.price && (
+                  <div className={`backdrop-blur-xl ${post.tier === 'elite' ? 'bg-purple-600/80' : post.tier === 'premium' ? 'bg-amber-600/80' : 'bg-blue-600/80'} text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-2xl border border-white/20 flex items-center gap-1.5`}>
+                     <RocketLaunchIcon className="w-2.5 h-2.5" />
+                     {post.tier === 'elite' ? 'Elite Archive' : post.tier === 'premium' ? 'Premium Protocol' : 'Standard Proof'}
+                  </div>
+                  {post.price?.amount && (
                    <div className="backdrop-blur-xl bg-black/60 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl border border-white/10">
-                      KES {post.price.toLocaleString()}
+                      KES {(Number(post.price.amount)).toLocaleString()}
                    </div>
                  )}
               </div>
@@ -100,7 +101,7 @@ export default function PostCard({ post }) {
                 <div className="flex items-center gap-2">
                    <div className="w-4 h-[1.5px] bg-blue-500"></div>
                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic leading-none truncate">
-                      @{post.author?.username} in {post.community?.name || 'Global Network'}
+                      @{post.author?.username} in {post.community?.name || 'Global Network'} • {post.category || 'Expert Proof'}
                    </span>
                 </div>
              </div>
@@ -109,6 +110,10 @@ export default function PostCard({ post }) {
                 <StarSolidIcon className="w-3 h-3 text-blue-500" />
                 <span className="text-[10px] font-black text-slate-900 dark:text-white">{avgRating?.toFixed(1)}</span>
                 <span className="text-[10px] font-black text-slate-400">({ratingCount})</span>
+                {post.author?.trustScore && (
+                  <div className="w-[1.5px] h-3 bg-slate-200 mx-1"></div>
+                )}
+                <span className="text-[8px] font-black text-blue-500 uppercase">Rank: {post.author?.trustScore > 80 ? 'Elite' : post.author?.trustScore > 50 ? 'Prime' : 'Expert'}</span>
              </div>
           </div>
           <p className="text-slate-500 dark:text-slate-400 whitespace-pre-wrap text-lg leading-relaxed font-medium italic mb-8">
@@ -163,11 +168,23 @@ export default function PostCard({ post }) {
            </button>
            {isFlyer && (
              <button 
-               onClick={() => {
+               onClick={async () => {
                   const phone = post.author?.sellerProfile?.phone || '';
-                  if (!phone) return;
+                  if (!phone) return alert('Protocol Error: Seller has no sync phone.');
+                  
+                  // FUNCTION FIRST: Log the Sync Handshake in the database
+                  try {
+                    await api.post('/api/connections', {
+                      sellerId: post.author._id,
+                      itemId: post._id,
+                      purpose: `Interest in ${post.title} [Broadcast Asset]`
+                    });
+                  } catch (e) {
+                    console.error("Handshake Sync Failed", e);
+                  }
+
                   const cleanPhone = phone.replace(/\D/g, '').replace(/^0/, '254');
-                  const message = `Hi, I'm interested in "${post.title}" on Frontline. Is it available?`;
+                  const message = `IMPERIAL SYNC: I am interested in your broadcast asset "${post.title}" on Frontline. Initiative Requesting Handshake.`;
                   const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
                   window.open(url, '_blank');
                }}
