@@ -640,21 +640,56 @@ export default function Dashboard() {
                       <div className="text-blue-500/50 mb-4 flex items-center gap-2">
                          <span className="animate-pulse">●</span> LIVE_RECEPTION_ACTIVE
                       </div>
-                      <div className="space-y-2">
-                          {[
-                             ...(myPosts || []).map(p => ({ t: 'BROADCAST', msg: `Hub proof [${p.title}] live in ${p.community?.name || 'Network'}.`, d: p.createdAt })),
-                             ...(myListings || []).map(l => ({ t: 'ASSET', msg: `Marketplace Listing [${l.title}] verified.`, d: l.createdAt })),
-                             ...(user?.ratings || []).map(r => ({ t: 'FEEDBACK', msg: `Received ${r.stars}★ reception from client channel.`, d: r.createdAt })),
-                             ...(myHubs || []).map(h => ({ t: 'PROTOCOL', msg: `Hub [${h.name}] established on the network.`, d: h.createdAt || new Date() })),
-                             { t: 'SYSTEM', msg: `Network Trust: ${user?.trustScore || 0}% Authority Sync Complete.`, d: new Date() }
-                          ].sort((a,b) => new Date(b.d) - new Date(a.d)).map((log, i) => (
-                            <div key={i} className="flex gap-3 text-slate-400 hover:text-white transition-colors">
-                               <span className="text-slate-600">[{new Date(log.d).toLocaleTimeString()}]</span>
-                               <span className="text-blue-500 font-bold">{log.t}:</span>
-                               <span className="italic">{log.msg}</span>
-                            </div>
-                         ))}
-                      </div>
+                       <div className="space-y-3">
+                          {(() => {
+                             const activities = [
+                                ...(myPosts || []).map(p => ({ 
+                                   t: 'BROADCAST', 
+                                   msg: `Hub proof [${p.title}] live in ${p.community?.name || 'Network'}.`, 
+                                   d: p.createdAt,
+                                   code: 'BRD-77'
+                                })),
+                                ...(myListings || []).map(l => ({ 
+                                   t: 'ASSET', 
+                                   msg: `Marketplace Listing [${l.title}] verified.`, 
+                                   d: l.createdAt,
+                                   code: 'AST-99' 
+                                })),
+                                ...(user?.ratings || []).map(r => ({ 
+                                   t: 'RECEPTION', 
+                                   msg: `Received ${r.stars}★ from ${r.author?.username || 'Client'}.`, 
+                                   d: r.createdAt,
+                                   code: 'FDB-22' 
+                                })),
+                                ...(myHubs || []).map(h => ({ 
+                                   t: 'TERRITORY', 
+                                   msg: `Hub [${h.name}] established on the network.`, 
+                                   d: h.createdAt || new Date(),
+                                   code: 'HUB-01'
+                                })),
+                                ...(myConnections || []).map(c => ({ 
+                                   t: 'HANDSHAKE', 
+                                   msg: `Protocol sync initiated by @${c.buyer?.username}.`, 
+                                   d: c.createdAt,
+                                   code: 'SNC-88' 
+                                })),
+                                { t: 'SYSTEM', msg: `Network Trust: ${user?.trustScore || 0}% Authority Sync Complete.`, d: new Date(), code: 'SYS-00' }
+                             ].sort((a,b) => new Date(b.d) - new Date(a.d));
+
+                             if (activities.length <= 1) return (
+                                <div className="text-slate-500 italic text-[10px]">Initialize operations to populate the Imperial Log Matrix.</div>
+                             );
+
+                             return activities.map((log, i) => (
+                               <div key={i} className="flex gap-4 p-2 rounded hover:bg-white/5 transition-colors group">
+                                  <span className="text-slate-600 font-bold w-16 shrink-0">[{new Date(log.d).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}]</span>
+                                  <span className="text-blue-500 font-black w-20 shrink-0 tracking-widest">{log.code}</span>
+                                  <span className="text-slate-400 font-bold w-24 shrink-0 hidden sm:block">{log.t}</span>
+                                  <span className="text-slate-300 italic group-hover:text-white transition-colors truncate">{log.msg}</span>
+                               </div>
+                             ));
+                          })()}
+                       </div>
                    </div>
                 </div>
              </div>
