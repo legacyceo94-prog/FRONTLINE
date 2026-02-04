@@ -9,6 +9,7 @@ export default function Profile() {
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [listings, setListings] = useState([]);
   const [activeTab, setActiveTab] = useState('timeline');
   const [loading, setLoading] = useState(true);
   const [hoverRating, setHoverRating] = useState(0);
@@ -48,6 +49,9 @@ export default function Profile() {
 
         const postsRes = await api.get(`/api/users/${id}/posts`);
         setPosts(postsRes.data);
+
+        const coursesRes = await api.get(`/api/courses?seller=${id}`);
+        setListings(coursesRes.data);
       } catch (err) {
         console.error("Failed to load profile", err);
       } finally {
@@ -255,8 +259,8 @@ export default function Profile() {
 
             {activeTab === 'portfolio' && (
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                   {posts.filter(p => p.type === 'product' || p.type === 'service').length > 0 ? (
-                    posts.filter(p => p.type === 'product' || p.type === 'service').map((post) => (
+                   {listings.length > 0 ? (
+                    listings.map((post) => (
                       <div 
                         key={post._id} 
                         onClick={() => setSelectedListing({ ...post, seller: profile })}

@@ -167,7 +167,7 @@ export default function Dashboard() {
                <span className="px-3 py-1 bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-md">Chapter One: The Foundation</span>
             </div>
             <h1 className="text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">
-              {user?.businessType === 'product' ? 'My Dashboard' : 'My Dashboard'}
+              {user?.businessType === 'product' ? 'Store Dashboard' : 'Professional Dashboard'}
             </h1>
             <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-2xl text-lg">
               {user?.businessType === 'product' 
@@ -472,7 +472,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex flex-col">
                     <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Recent Activity</h3>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Latest feedback</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Latest Feedback</span>
                   </div>
                   <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shadow-sm border border-blue-100 dark:border-blue-900/50">
                     <StarIconSolid className="w-5 h-5" />
