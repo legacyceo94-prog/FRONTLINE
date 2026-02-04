@@ -93,13 +93,16 @@ function Home() {
                 </div>
 
                 <div className="space-y-4 pt-6 border-t border-slate-100 dark:border-white/5">
-                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-400">
+                   <div className="flex justify-between items-end text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
                       <span>Trust Score</span>
-                      <span className="text-blue-600">{user?.trustScore || 85}%</span>
+                      <span className={user?.trustScore > 0 ? "text-blue-500" : "text-slate-600"}>{user?.trustScore || 0}%</span>
                    </div>
-                   <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-950 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-600 rounded-full" style={{ width: `${user?.trustScore || 85}%` }}></div>
+                   <div className="w-full h-2 bg-slate-200 dark:bg-black rounded-full overflow-hidden border border-slate-100 dark:border-white/5">
+                      <div className={`h-full rounded-full transition-all duration-1000 ${user?.trustScore > 0 ? 'bg-blue-600' : 'bg-transparent'}`} style={{ width: `${Math.max(user?.trustScore || 0, 0)}%` }}></div>
                     </div>
+                    {(!user?.trustScore || user.trustScore === 0) && (
+                      <p className="text-[9px] text-slate-500 text-center mt-2 italic">Complete profile to initiate score.</p>
+                    )}
                  </div>
 
                 <div className="mt-10">
