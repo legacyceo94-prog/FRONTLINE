@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { UserGroupIcon, ArrowLeftIcon, PencilSquareIcon, XMarkIcon, PhotoIcon, CameraIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
+import { UserGroupIcon, ArrowLeftIcon, PencilSquareIcon, XMarkIcon, PhotoIcon, CameraIcon, CheckBadgeIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 import PostCard from '../components/PostCard';
 
 export default function CommunityFeed() {
