@@ -9,14 +9,15 @@ import {
   BoltIcon,
   CheckBadgeIcon,
   UserIcon,
-  ChatBubbleLeftRightIcon
+  ChatBubbleLeftRightIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline';
 import api from '../utils/api';
 
 export default function DossierModal({ isOpen, onClose, course }) {
   const navigate = useNavigate();
   const [purpose, setPurpose] = useState('Inquiry');
-  const [step, setStep] = useState(1); // 1: Dossier, 2: Syncing, 3: Contact Ready
+  const [step, setStep] = useState(1);
   
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   const isAuth = !!token;
@@ -53,215 +54,224 @@ export default function DossierModal({ isOpen, onClose, course }) {
   const flyerImage = course.media?.flyerImage;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-6 bg-slate-950/90 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="bg-slate-900 w-full max-w-5xl max-h-[95vh] rounded-[1.5rem] md:rounded-[3rem] border border-white/10 overflow-hidden shadow-2xl flex flex-col relative">
+    <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/80 backdrop-blur-xl animate-in fade-in duration-300">
+      
+      {/* Full-Screen Mobile / Centered Desktop */}
+      <div className="bg-gradient-to-b from-slate-900 via-slate-900 to-black w-full md:max-w-2xl max-h-[100vh] md:max-h-[90vh] md:rounded-[2rem] border-t md:border border-white/10 overflow-hidden shadow-2xl flex flex-col relative">
         
-        {/* Close Button - positioned relative to modal container */}
+        {/* Close Button */}
         <button 
           onClick={onClose} 
-          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 md:p-3 bg-black/70 hover:bg-white/10 rounded-full transition-colors"
+          className="absolute top-4 right-4 z-30 p-2.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors backdrop-blur-md"
         >
-          <XMarkIcon className="w-5 h-5 md:w-6 md:h-6 text-white" />
+          <XMarkIcon className="w-5 h-5 text-white" />
         </button>
 
         {step === 1 && (
-          <div className="flex flex-col lg:flex-row overflow-y-auto max-h-[95vh]">
-            {/* LEFT: Visual Impact */}
-            <div className="lg:w-1/2 h-48 md:h-64 lg:h-auto lg:min-h-[600px] bg-slate-800 flex-shrink-0 relative">
+          <div className="flex flex-col overflow-y-auto">
+            
+            {/* HERO IMAGE SECTION */}
+            <div className="relative h-56 md:h-72 flex-shrink-0 overflow-hidden">
               {flyerImage ? (
-                <img 
-                  src={flyerImage} 
-                  alt={course.title} 
-                  className="w-full h-full object-cover"
-                />
+                <>
+                  <img 
+                    src={flyerImage} 
+                    alt={course.title} 
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Gradient Overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" />
+                </>
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-slate-600">
-                  {isService ? <RocketLaunchIcon className="w-16 h-16 md:w-20 md:h-20 opacity-30" /> : <CubeIcon className="w-16 h-16 md:w-20 md:h-20 opacity-30" />}
-                  <span className="text-[10px] font-black uppercase tracking-widest mt-4">No Visual Uplink</span>
+                <div className="w-full h-full bg-gradient-to-br from-blue-900/50 to-slate-900 flex flex-col items-center justify-center">
+                  {isService ? <RocketLaunchIcon className="w-16 h-16 text-blue-500/30" /> : <CubeIcon className="w-16 h-16 text-blue-500/30" />}
                 </div>
               )}
-              {/* Type Badge */}
-              <div className="absolute top-4 left-4 px-3 py-1.5 md:px-4 md:py-2 bg-blue-600/90 backdrop-blur-md text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest rounded-full flex items-center gap-2 shadow-lg">
-                {isService ? <RocketLaunchIcon className="w-3 h-3 md:w-4 md:h-4" /> : <CubeIcon className="w-3 h-3 md:w-4 md:h-4" />}
-                {isService ? 'Service' : 'Product'}
+              
+              {/* Floating Badges on Image */}
+              <div className="absolute top-4 left-4 flex gap-2">
+                <div className="px-3 py-1.5 bg-blue-600 text-[9px] font-black text-white uppercase tracking-widest rounded-full flex items-center gap-1.5 shadow-lg shadow-blue-500/30">
+                  {isService ? <RocketLaunchIcon className="w-3 h-3" /> : <CubeIcon className="w-3 h-3" />}
+                  {isService ? 'Service' : 'Product'}
+                </div>
+                <div className="px-3 py-1.5 bg-white/10 backdrop-blur-md text-[9px] font-black text-white uppercase tracking-widest rounded-full">
+                  {course.category}
+                </div>
               </div>
-            </div>
 
-            {/* RIGHT: Technical Specs - scrollable on all devices */}
-            <div className="lg:w-1/2 p-6 md:p-10 flex flex-col">
-              {/* Header */}
-              <div className="mb-6 md:mb-8">
-                <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">{course.category}</span>
-                <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter italic leading-tight mt-2">
+              {/* Title Overlay on Image */}
+              <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight leading-tight drop-shadow-lg">
                   {course.title}
                 </h2>
               </div>
+            </div>
 
-              {/* Seller Info */}
-              <Link to={`/profile/${course.seller?._id}`} onClick={onClose} className="flex items-center gap-3 mb-6 md:mb-8 group">
-                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 overflow-hidden ring-2 ring-transparent group-hover:ring-blue-500 transition-all">
+            {/* CONTENT SECTION */}
+            <div className="p-5 md:p-6 flex flex-col gap-5">
+              
+              {/* Seller Row */}
+              <Link to={`/profile/${course.seller?._id}`} onClick={onClose} className="flex items-center gap-3 group">
+                <div className="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center overflow-hidden ring-2 ring-white/10 group-hover:ring-blue-500 transition-all">
                   {course.seller?.profileImage ? (
                     <img src={course.seller.profileImage} alt={course.seller.username} className="w-full h-full object-cover" />
                   ) : (
-                    <UserIcon className="w-5 h-5" />
+                    <UserIcon className="w-5 h-5 text-slate-400" />
                   )}
                 </div>
-                <div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm font-black text-white uppercase tracking-tighter">@{course.seller?.username}</span>
+                <div className="flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm font-black text-white">@{course.seller?.username}</span>
                     {course.seller?.isVerified && <CheckBadgeIcon className="w-4 h-4 text-blue-500" />}
                   </div>
-                  <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Inventory Node</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Seller</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-black text-blue-500">
+                    {course.skuDetails?.price ? `KES ${course.skuDetails.price.toLocaleString()}` : 'TBD'}
+                  </span>
                 </div>
               </Link>
 
               {/* Description */}
-              <p className="text-xs md:text-sm text-slate-400 font-medium italic mb-6 md:mb-8 leading-relaxed">
-                {course.description}
-              </p>
+              {course.description && (
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  {course.description}
+                </p>
+              )}
 
-              {/* Dynamic Spec Sheet */}
-              <div className="bg-black/30 rounded-2xl p-4 md:p-6 mb-6 md:mb-8 border border-white/5">
-                <h4 className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4">
-                  {isService ? 'Service Blueprint' : 'Technical Specifications'}
-                </h4>
-
+              {/* SPEC CARDS */}
+              <div className="grid grid-cols-2 gap-3">
                 {isService ? (
-                  // --- SERVICE: Roadmap + Badges ---
-                  <div className="space-y-4">
-                    <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
-                      <div className="px-2.5 py-1.5 md:px-3 md:py-2 bg-slate-800 rounded-xl border border-white/5 flex items-center gap-2">
-                        <BoltIcon className="w-3 h-3 md:w-4 md:h-4 text-blue-500" />
-                        <span className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest">{course.skuDetails?.skillLevel || 'Intermediate'}</span>
-                      </div>
-                      <div className="px-2.5 py-1.5 md:px-3 md:py-2 bg-slate-800 rounded-xl border border-white/5 flex items-center gap-2">
-                        <ClockIcon className="w-3 h-3 md:w-4 md:h-4 text-blue-500" />
-                        <span className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest">{course.skuDetails?.duration || 'Flexible'}</span>
-                      </div>
+                  <>
+                    <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                      <BoltIcon className="w-5 h-5 text-blue-500 mb-2" />
+                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Level</span>
+                      <span className="text-sm font-black text-white">{course.skuDetails?.skillLevel || 'Intermediate'}</span>
                     </div>
-                    
-                    {course.skuDetails?.roadmap?.filter(s => s && s.trim()).length > 0 && (
-                      <div className="space-y-2 md:space-y-3">
-                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Delivery Roadmap</span>
-                        {course.skuDetails.roadmap.filter(s => s && s.trim()).map((roadmapStep, i) => (
-                          <div key={i} className="flex items-start gap-2 md:gap-3">
-                            <div className="w-5 h-5 md:w-6 md:h-6 rounded-lg bg-blue-600 flex items-center justify-center text-[9px] md:text-[10px] font-black text-white shrink-0">
-                              {i + 1}
-                            </div>
-                            <span className="text-xs md:text-sm text-white font-medium italic">{roadmapStep}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                    <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                      <ClockIcon className="w-5 h-5 text-blue-500 mb-2" />
+                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Duration</span>
+                      <span className="text-sm font-black text-white">{course.skuDetails?.duration || 'Flexible'}</span>
+                    </div>
+                  </>
                 ) : (
-                  // --- PRODUCT: Specs + Stock ---
-                  <div className="space-y-4">
-                    {/* Stock Indicator */}
-                    {course.skuDetails?.stockCount > 0 ? (
-                      <div className="px-3 py-2 md:px-4 md:py-3 bg-green-500/10 rounded-xl border border-green-500/20 flex items-center gap-2">
-                        <CubeIcon className="w-4 h-4 md:w-5 md:h-5 text-green-500" />
-                        <span className="text-xs md:text-sm font-black text-green-500 uppercase tracking-tight">
-                          {course.skuDetails.stockCount <= 5 ? `Only ${course.skuDetails.stockCount} Left!` : `${course.skuDetails.stockCount} In Stock`}
-                        </span>
-                      </div>
-                    ) : (
-                      <div className="px-3 py-2 md:px-4 md:py-3 bg-red-500/10 rounded-xl border border-red-500/20 flex items-center gap-2">
-                        <CubeIcon className="w-4 h-4 md:w-5 md:h-5 text-red-500" />
-                        <span className="text-xs md:text-sm font-black text-red-500 uppercase tracking-tight">
-                          Out of Stock
-                        </span>
-                      </div>
-                    )}
-
-                    {course.skuDetails?.specifications?.filter(s => s.key && s.key.trim()).length > 0 && (
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Hardware Specs</span>
-                        <div className="grid grid-cols-2 gap-2">
-                          {course.skuDetails.specifications.filter(s => s.key && s.key.trim()).map((spec, i) => (
-                            <div key={i} className="p-2 md:p-3 bg-slate-800 rounded-xl border border-white/5">
-                              <span className="text-[8px] md:text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1">{spec.key}</span>
-                              <span className="text-xs md:text-sm font-black text-white uppercase tracking-tight">{spec.value || '-'}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <>
+                    <div className={`p-4 rounded-2xl border ${course.skuDetails?.stockCount > 0 ? 'bg-green-500/10 border-green-500/20' : 'bg-red-500/10 border-red-500/20'}`}>
+                      <CubeIcon className={`w-5 h-5 mb-2 ${course.skuDetails?.stockCount > 0 ? 'text-green-500' : 'text-red-500'}`} />
+                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Stock</span>
+                      <span className={`text-sm font-black ${course.skuDetails?.stockCount > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                        {course.skuDetails?.stockCount > 0 ? `${course.skuDetails.stockCount} Available` : 'Out of Stock'}
+                      </span>
+                    </div>
+                    <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                      <SparklesIcon className="w-5 h-5 text-blue-500 mb-2" />
+                      <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Condition</span>
+                      <span className="text-sm font-black text-white">New</span>
+                    </div>
+                  </>
                 )}
               </div>
 
-              {/* Community Bridge (Bottomline) */}
-              <div className="p-3 md:p-4 bg-blue-500/5 rounded-xl border-l-4 border-blue-600 mb-6 md:mb-8">
-                <p className="text-[9px] md:text-[10px] font-bold text-slate-400 italic leading-relaxed">
-                  <span className="text-white font-black">Static specs are just the foundation.</span> Follow the pulse and see live deployments in our <span className="text-blue-500 font-black uppercase">Community Hubs</span>.
-                </p>
-                <Link to="/communities" onClick={onClose} className="text-[9px] md:text-[10px] font-black text-blue-500 uppercase tracking-widest mt-2 inline-block hover:underline">
-                  Enter the Pulse →
-                </Link>
-              </div>
-
-              {/* Price & Sync Action */}
-              <div className="mt-auto pt-4 md:pt-6 border-t border-white/5">
-                <div className="flex items-center justify-between mb-4 md:mb-6">
-                  <span className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest">Investment</span>
-                  <span className="text-2xl md:text-3xl font-black text-blue-500 tracking-tighter italic">
-                    {course.skuDetails?.price ? `KES ${course.skuDetails.price.toLocaleString()}` : 'NEGOTIABLE'}
-                  </span>
-                </div>
-
-                {/* Purpose Selector */}
-                <div className="mb-4 md:mb-6">
-                  <label className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 md:mb-3">Protocol Purpose</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {['Inquiry', 'Purchase', 'Support', 'Custom'].map(p => (
-                      <button 
-                        key={p}
-                        onClick={() => setPurpose(p)}
-                        className={`px-3 py-2 md:px-4 md:py-3 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all border ${purpose === p ? 'bg-blue-600 border-blue-600 text-white shadow-lg' : 'bg-slate-800 border-white/5 text-slate-400 hover:text-white'}`}
-                      >
-                        {p}
-                      </button>
+              {/* Roadmap for Services */}
+              {isService && course.skuDetails?.roadmap?.filter(s => s && s.trim()).length > 0 && (
+                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                  <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest block mb-3">Delivery Process</span>
+                  <div className="space-y-2">
+                    {course.skuDetails.roadmap.filter(s => s && s.trim()).map((roadmapStep, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-black text-white shrink-0">
+                          {i + 1}
+                        </div>
+                        <span className="text-sm text-white">{roadmapStep}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
+              )}
 
-                <button 
-                  onClick={handleSync}
-                  className="w-full py-4 md:py-5 bg-white text-slate-900 rounded-2xl text-[10px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] hover:bg-blue-500 hover:text-white transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2 md:gap-3 mb-20 md:mb-4"
-                >
-                  <ShieldCheckIcon className="w-4 h-4 md:w-5 md:h-5" />
-                  Authenticate Handshake
-                </button>
+              {/* Specifications for Products */}
+              {!isService && course.skuDetails?.specifications?.filter(s => s.key && s.key.trim()).length > 0 && (
+                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                  <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest block mb-3">Specifications</span>
+                  <div className="grid grid-cols-2 gap-2">
+                    {course.skuDetails.specifications.filter(s => s.key && s.key.trim()).map((spec, i) => (
+                      <div key={i} className="flex flex-col">
+                        <span className="text-[9px] font-bold text-slate-500 uppercase">{spec.key}</span>
+                        <span className="text-sm font-bold text-white">{spec.value || '-'}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Community Bridge */}
+              <div className="p-4 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-2xl border border-blue-500/20 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+                  <SparklesIcon className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    See live reviews and updates in our <span className="text-blue-400 font-bold">Community Hubs</span>.
+                  </p>
+                </div>
+                <Link to="/communities" onClick={onClose} className="text-[9px] font-black text-blue-500 uppercase tracking-widest hover:underline shrink-0">
+                  View →
+                </Link>
               </div>
+
+              {/* Purpose Selector */}
+              <div>
+                <label className="block text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Your Intent</label>
+                <div className="grid grid-cols-4 gap-2">
+                  {['Inquiry', 'Purchase', 'Support', 'Custom'].map(p => (
+                    <button 
+                      key={p}
+                      onClick={() => setPurpose(p)}
+                      className={`py-2.5 rounded-xl text-[9px] font-black uppercase tracking-wide transition-all ${purpose === p ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' : 'bg-white/5 text-slate-400 hover:bg-white/10'}`}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <button 
+                onClick={handleSync}
+                className="w-full py-4 bg-white text-black rounded-2xl text-sm font-black uppercase tracking-wide hover:bg-blue-500 hover:text-white transition-all shadow-xl flex items-center justify-center gap-2 mb-16 md:mb-0"
+              >
+                <ShieldCheckIcon className="w-5 h-5" />
+                Connect with Seller
+              </button>
             </div>
           </div>
         )}
 
         {step === 2 && (
           <div className="py-32 text-center animate-in zoom-in-95 duration-500">
-             <div className="w-16 h-16 border-t-2 border-blue-500 rounded-full animate-spin mx-auto mb-8"></div>
-             <h4 className="text-[10px] font-black text-blue-500 uppercase tracking-[0.5em] animate-pulse">Logging Handshake Protocol...</h4>
-             <p className="text-xs text-slate-500 italic mt-4">Structural records update in progress.</p>
+             <div className="w-14 h-14 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+             <h4 className="text-sm font-black text-white uppercase tracking-widest">Connecting...</h4>
+             <p className="text-xs text-slate-500 mt-2">Logging handshake protocol</p>
           </div>
         )}
 
         {step === 3 && (
-          <div className="py-24 px-10 text-center animate-in fade-in slide-in-from-bottom-4">
-             <div className="w-20 h-20 bg-green-500/10 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
-                <ShieldCheckIcon className="w-10 h-10 text-green-500" />
+          <div className="py-20 px-8 text-center animate-in fade-in slide-in-from-bottom-4">
+             <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <ShieldCheckIcon className="w-8 h-8 text-green-500" />
              </div>
-             <h4 className="text-2xl font-black text-white uppercase tracking-tighter italic mb-2">Protocol Verified.</h4>
-             <p className="text-xs text-slate-500 italic mb-10">Connectivity established via Imperial Network Sync.</p>
+             <h4 className="text-xl font-black text-white uppercase tracking-tight mb-2">Connection Verified</h4>
+             <p className="text-sm text-slate-400 mb-8">You can now contact the seller directly.</p>
              
              <a 
-               href={`https://wa.me/${course.seller?.sellerProfile?.phone?.replace(/\D/g, '')?.replace(/^0/, '254')}?text=${encodeURIComponent(`Sync Protocol Verified [${purpose}]: Checking on "${course.title}" status.`)}`}
+               href={`https://wa.me/${course.seller?.sellerProfile?.phone?.replace(/\D/g, '')?.replace(/^0/, '254')}?text=${encodeURIComponent(`Hi! I'm interested in "${course.title}" [${purpose}]`)}`}
                target="_blank"
                rel="noreferrer"
-               className="inline-flex items-center gap-3 px-10 py-5 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-green-500/20 active:scale-95"
+               className="inline-flex items-center gap-3 px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl text-sm font-black uppercase tracking-wide transition-all shadow-xl shadow-green-500/20"
              >
                <ChatBubbleLeftRightIcon className="w-5 h-5" />
-               Launch Live Connection
+               Open WhatsApp
              </a>
           </div>
         )}
