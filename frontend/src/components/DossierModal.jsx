@@ -140,10 +140,10 @@ export default function DossierModal({ isOpen, onClose, course }) {
                       </div>
                     </div>
                     
-                    {course.skuDetails?.roadmap?.length > 0 && (
+                    {course.skuDetails?.roadmap?.filter(s => s && s.trim()).length > 0 && (
                       <div className="space-y-2 md:space-y-3">
                         <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Delivery Roadmap</span>
-                        {course.skuDetails.roadmap.map((roadmapStep, i) => (
+                        {course.skuDetails.roadmap.filter(s => s && s.trim()).map((roadmapStep, i) => (
                           <div key={i} className="flex items-start gap-2 md:gap-3">
                             <div className="w-5 h-5 md:w-6 md:h-6 rounded-lg bg-blue-600 flex items-center justify-center text-[9px] md:text-[10px] font-black text-white shrink-0">
                               {i + 1}
@@ -157,23 +157,31 @@ export default function DossierModal({ isOpen, onClose, course }) {
                 ) : (
                   // --- PRODUCT: Specs + Stock ---
                   <div className="space-y-4">
-                    {course.skuDetails?.stockCount > 0 && (
+                    {/* Stock Indicator */}
+                    {course.skuDetails?.stockCount > 0 ? (
                       <div className="px-3 py-2 md:px-4 md:py-3 bg-green-500/10 rounded-xl border border-green-500/20 flex items-center gap-2">
                         <CubeIcon className="w-4 h-4 md:w-5 md:h-5 text-green-500" />
                         <span className="text-xs md:text-sm font-black text-green-500 uppercase tracking-tight">
                           {course.skuDetails.stockCount <= 5 ? `Only ${course.skuDetails.stockCount} Left!` : `${course.skuDetails.stockCount} In Stock`}
                         </span>
                       </div>
+                    ) : (
+                      <div className="px-3 py-2 md:px-4 md:py-3 bg-red-500/10 rounded-xl border border-red-500/20 flex items-center gap-2">
+                        <CubeIcon className="w-4 h-4 md:w-5 md:h-5 text-red-500" />
+                        <span className="text-xs md:text-sm font-black text-red-500 uppercase tracking-tight">
+                          Out of Stock
+                        </span>
+                      </div>
                     )}
 
-                    {course.skuDetails?.specifications?.length > 0 && (
+                    {course.skuDetails?.specifications?.filter(s => s.key && s.key.trim()).length > 0 && (
                       <div className="space-y-2">
                         <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Hardware Specs</span>
                         <div className="grid grid-cols-2 gap-2">
-                          {course.skuDetails.specifications.map((spec, i) => (
+                          {course.skuDetails.specifications.filter(s => s.key && s.key.trim()).map((spec, i) => (
                             <div key={i} className="p-2 md:p-3 bg-slate-800 rounded-xl border border-white/5">
                               <span className="text-[8px] md:text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1">{spec.key}</span>
-                              <span className="text-xs md:text-sm font-black text-white uppercase tracking-tight">{spec.value}</span>
+                              <span className="text-xs md:text-sm font-black text-white uppercase tracking-tight">{spec.value || '-'}</span>
                             </div>
                           ))}
                         </div>
