@@ -228,7 +228,7 @@ export default function DossierModal({ isOpen, onClose, course }) {
 
                 <button 
                   onClick={handleSync}
-                  className="w-full py-4 md:py-5 bg-white text-slate-900 rounded-2xl text-[10px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] hover:bg-blue-500 hover:text-white transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2 md:gap-3 mb-4"
+                  className="w-full py-4 md:py-5 bg-white text-slate-900 rounded-2xl text-[10px] md:text-[11px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] hover:bg-blue-500 hover:text-white transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2 md:gap-3 mb-20 md:mb-4"
                 >
                   <ShieldCheckIcon className="w-4 h-4 md:w-5 md:h-5" />
                   Authenticate Handshake
