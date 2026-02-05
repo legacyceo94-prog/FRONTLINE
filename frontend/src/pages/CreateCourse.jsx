@@ -11,10 +11,14 @@ export default function CreateCourse() {
     description: '',
     category: 'Engineering',
     price: '',
+    // Service Specs
     duration: '',
-    skillLevel: 'All Levels',
-    flyerImage: '',
-    curriculum: ''
+    skillLevel: 'Intermediate',
+    roadmap: '', // Newline-separated steps
+    // Product Specs
+    stockCount: '',
+    specifications: '', // Newline-separated key:value pairs
+    flyerImage: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -59,10 +63,29 @@ export default function CreateCourse() {
         }
       };
 
+      const isProduct = user?.businessType === 'product';
+      
+      // Parse roadmap (Services) or specifications (Products)
+      const roadmapArray = formData.roadmap.split('\n').filter(item => item.trim() !== '');
+      const specificationsArray = formData.specifications.split('\n').filter(item => item.trim() !== '').map(line => {
+        const [key, ...rest] = line.split(':');
+        return { key: key?.trim() || '', value: rest.join(':')?.trim() || '' };
+      });
+
       const payload = {
-        ...formData,
-        type: user?.businessType || 'service',
-        curriculum: formData.curriculum.split('\n').filter(item => item.trim() !== '') 
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        type: isProduct ? 'product' : 'service',
+        price: formData.price,
+        flyerImage: formData.flyerImage,
+        // Service-specific
+        duration: formData.duration,
+        skillLevel: formData.skillLevel,
+        roadmap: roadmapArray,
+        // Product-specific 
+        stockCount: parseInt(formData.stockCount) || 0,
+        specifications: specificationsArray
       };
 
       await api.post(`/api/courses`, payload, config);
@@ -151,10 +174,10 @@ export default function CreateCourse() {
                     value={formData.skillLevel}
                     onChange={handleChange}
                   >
-                    <option>All Levels</option>
                     <option>Beginner</option>
                     <option>Intermediate</option>
                     <option>Advanced</option>
+                    <option>Elite</option>
                   </select>
                 </div>
               )}
@@ -176,15 +199,15 @@ export default function CreateCourse() {
               </div>
                <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">
-                  {user?.businessType === 'product' ? 'Stock' : 'Duration'}
+                  {user?.businessType === 'product' ? 'Stock Count' : 'Duration'}
                 </label>
                 <input
-                  type="text"
-                  name="duration"
+                  type={user?.businessType === 'product' ? 'number' : 'text'}
+                  name={user?.businessType === 'product' ? 'stockCount' : 'duration'}
                   required
                   className="block w-full rounded-2xl border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-5 px-6 font-bold italic"
-                  placeholder={user?.businessType === 'product' ? "e.g. 5 Units in Stock" : "e.g. 4 Week Engagement"}
-                  value={formData.duration}
+                  placeholder={user?.businessType === 'product' ? "e.g. 10" : "e.g. 4 Weeks"}
+                  value={user?.businessType === 'product' ? formData.stockCount : formData.duration}
                   onChange={handleChange}
                 />
               </div>
@@ -207,14 +230,14 @@ export default function CreateCourse() {
             {/* Specifications Matrix */}
             <div>
               <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">
-                {user?.businessType === 'product' ? 'Specs' : 'Roadmap'} (One per line)
+                {user?.businessType === 'product' ? 'Specifications (key: value, one per line)' : 'Roadmap (one step per line)'}
               </label>
               <textarea
-                name="curriculum"
+                name={user?.businessType === 'product' ? 'specifications' : 'roadmap'}
                 rows={4}
                 className="block w-full rounded-[2rem] border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white shadow-inner focus:ring-2 focus:ring-blue-500/30 transition-all py-6 px-8 font-medium italic leading-relaxed"
-                placeholder={user?.businessType === 'product' ? "Performance: High Efficiency&#10;Material: Sustainable Poly&#10;Origin: Nairobi Hub" : "Phase 1: Initial Handshake&#10;Phase 2: Depth Analysis&#10;Phase 3: Final Deployment"}
-                value={formData.curriculum}
+                placeholder={user?.businessType === 'product' ? "Material: Carbon Fiber\nWeight: 2.5kg\nOrigin: Nairobi" : "Phase 1: Initial Consultation\nPhase 2: Depth Analysis\nPhase 3: Final Delivery"}
+                value={user?.businessType === 'product' ? formData.specifications : formData.roadmap}
                 onChange={handleChange}
               />
             </div>

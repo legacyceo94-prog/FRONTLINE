@@ -21,29 +21,37 @@ const CourseSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['Engineering', 'Design', 'Technology', 'Business', 'Other'], // As requested
+    enum: ['Engineering', 'Design', 'Technology', 'Business', 'Other'],
     required: true
   },
   skuDetails: {
     price: Number,
     currency: { type: String, default: 'KES' },
+    // --- SERVICE SPECS ---
     duration: String, // e.g. "4 Weeks", "10 Hours"
     skillLevel: {
       type: String,
-      enum: ['Beginner', 'Intermediate', 'Advanced', 'All Levels'],
-      default: 'All Levels'
-    }
+      enum: ['Beginner', 'Intermediate', 'Advanced', 'Elite'],
+      default: 'Intermediate'
+    },
+    roadmap: [String], // Steps in the delivery process (1. Audit, 2. Design, etc.)
+    // --- PRODUCT SPECS ---
+    stockCount: { type: Number, default: 0 }, // Inventory Pulse
+    specifications: [{ // Technical Ledger (e.g., Material: Carbon)
+      key: String,
+      value: String
+    }]
   },
   media: {
-    flyerImage: String, // The specific flyer with pricing
-    sampleWork: [String] // Array of images/videos
+    flyerImage: String,
+    sampleWork: [String]
   },
-  curriculum: [String], // List of topics covered
+  curriculum: [String],
   
   // ANALYTICS
   analytics: {
     views: { type: Number, default: 0 },
-    contactClicks: { type: Number, default: 0 } // "How many clicked contact"
+    contactClicks: { type: Number, default: 0 }
   },
   
   createdAt: {

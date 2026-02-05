@@ -101,7 +101,20 @@ router.post('/:id/contact', async (req, res) => {
 // @access  Private (Seller only)
 router.post('/', auth, async (req, res) => {
   try {
-    const { title, description, category, price, duration, skillLevel, flyerImage, curriculum, type } = req.body;
+    const { 
+      title, 
+      description, 
+      category, 
+      price, 
+      duration, 
+      skillLevel, 
+      flyerImage, 
+      type,
+      // New Dossier Fields
+      roadmap,        // Array of strings (for Services)
+      stockCount,     // Number (for Products)
+      specifications  // Array of {key, value} (for Products)
+    } = req.body;
 
     // Verify Role (Source of Truth check)
     const user = await User.findById(req.user.id);
@@ -113,17 +126,19 @@ router.post('/', auth, async (req, res) => {
       seller: req.user.id,
       title,
       description,
-      type, // Divergent identity
+      type,
       category,
       skuDetails: {
         price,
         duration,
-        skillLevel
+        skillLevel,
+        roadmap: roadmap || [],
+        stockCount: stockCount || 0,
+        specifications: specifications || []
       },
       media: {
         flyerImage
-      },
-      curriculum
+      }
     });
 
     const course = await newCourse.save();

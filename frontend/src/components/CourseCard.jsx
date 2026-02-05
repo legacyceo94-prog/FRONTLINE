@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckBadgeIcon, RocketLaunchIcon, CubeIcon } from '@heroicons/react/24/solid';
 import { UserIcon, ClockIcon } from '@heroicons/react/24/outline';
-import SyncModal from './SyncModal';
+import DossierModal from './DossierModal';
 
 export default function CourseCard({ course }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -86,7 +86,7 @@ export default function CourseCard({ course }) {
            >
               <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
                  {course.type === 'product' ? <CubeIcon className="w-4 h-4" /> : <ClockIcon className="w-4 h-4" />}
-                 <span className="text-[10px] font-black uppercase tracking-widest">{course.type === 'product' ? 'In Stock' : (course.skuDetails?.duration || 'Flexible')}</span>
+                 <span className="text-[10px] font-black uppercase tracking-widest">{course.type === 'product' ? (course.skuDetails?.stockCount > 0 ? `${course.skuDetails.stockCount} In Stock` : 'In Stock') : (course.skuDetails?.duration || 'Flexible')}</span>
               </div>
               <div className="text-right">
                  <span className="text-xl md:text-2xl font-black text-blue-600 dark:text-blue-400 tracking-tighter italic">
@@ -95,17 +95,15 @@ export default function CourseCard({ course }) {
               </div>
            </div>
 
-           {course.seller?.sellerProfile?.phone && (
-             <button 
-               onClick={() => setModalOpen(true)}
-               className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-center text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-500/20 active:scale-95"
-             >
-               Sync Protocol
-             </button>
-           )}
+           <button 
+             onClick={() => setModalOpen(true)}
+             className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-center text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-500/20 active:scale-95"
+           >
+             View Dossier
+           </button>
         </div>
       </div>
-      <SyncModal 
+      <DossierModal 
         isOpen={modalOpen} 
         onClose={() => setModalOpen(false)} 
         course={course} 
