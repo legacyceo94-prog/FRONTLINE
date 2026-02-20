@@ -14,7 +14,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"]
 }));
 app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
 
 // Database Connection
 // TODO: Replace with your actual MongoDB connection string in .env file
